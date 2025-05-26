@@ -11,3 +11,6 @@ https://bastienozil17s-team.monday.com/boards/1972655373
 
 Lien Figma de hulefevre:
 https://www.figma.com/board/J5mfS50bj6evr6Hhp8gw5r/Welcome-to-FigJam?node-id=0-1&p=f
+
+Lien Trello:
+https://trello.com/b/cySSM2Mv/minishell
