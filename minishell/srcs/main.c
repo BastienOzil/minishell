@@ -1,3 +1,6 @@
 #include "../includes/minishell.h"
 
-// un main quoi
+int	main(int ac, char **av, char **env)
+{
+  return(0);
+}
