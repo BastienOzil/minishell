@@ -1,25 +1,5 @@
 #include "../includes/minishell.h"
 
-char	*ft_substr(char *s, int start, int len)
-{
-	char	*substr;
-	int		i;
-
-	if (!s)
-		return (NULL);
-	substr = malloc(len + 1);
-	if (!substr)
-		return (NULL);
-	i = 0;
-	while (i < len && s[start + i])
-	{
-		substr[i] = s[start + i];
-		i++;
-	}
-	substr[i] = '\0';
-	return (substr);
-}
-
 void	skip_spaces(t_lexer *lexer)
 {
 	while (lexer->input[lexer->i] && is_space(lexer->input[lexer->i]))
