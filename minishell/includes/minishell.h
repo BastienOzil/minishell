@@ -13,7 +13,7 @@
 #include <termios.h>
 #include <readline/readline.h>
 #include <readline/history.h>
-#include "../utils/libft.h"
+#include "../utils/libft/libft.h"
 
 typedef enum
 {
@@ -44,7 +44,7 @@ t_token *new_token(t_token_type type, char *value);
 t_token *get_next_token(t_lexer *lexer);
 int is_space(char c);
 int is_special(char c);
-char *ft_substr(char *s, int start, int len);
+//char *ft_substr(char *s, int start, int len);
 char *get_word(t_lexer *lexer);
 void skip_spaces(t_lexer *lexer);
 void free_tokens(t_token *tokens);

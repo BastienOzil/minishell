@@ -8,7 +8,9 @@ NAME = minishell
 
 CC = cc
 
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror #-fsanitize=adress -g3
+
+LFLAGS = -lreadline 
 
 SRC_DIR = srcs
 
@@ -27,11 +29,18 @@ LIBFT = $(LIBFT_DIR)/libft.a
 all: $(NAME)
 
 $(NAME): $(OBJS) $(LIBFT)
-	@$(CC) $(CFLAGS) $(OBJS) $(LIBFT) -o $(NAME)
-	@echo "$(GREEN)What the shell, it compile!"
+	@$(CC) $(CFLAGS) $(OBJS) $(LIBFT) -o $(NAME) $(LFLAGS)
+	echo "$(GREEN) _____ _               _     _         _   _                _          _ _ ";
+	echo "|  __ \ |             | |   (_)       | | | |              | |        | | |";
+	echo "| |  \/ |__   ___  ___| |_   _ _ __   | |_| |__   ___   ___| |__   ___| | |";
+	echo "| | __| '_ \ / _ \/ __| __| | | '_ \  | __| '_ \ / _ \ / __| '_ \ / _ \ | |";
+	echo "| |_\ \ | | | (_) \__ \ |_  | | | | | | |_| | | |  __/ \__ \ | | |  __/ | |";
+	echo " \____/_| |_|\___/|___/\__| |_|_| |_|  \__|_| |_|\___| |___/_| |_|\___|_|_|";
+	echo "                                                                           ";
+	echo "                                                                           $(RESET)";
 
 $(LIBFT):
-	make -C $(LIBFT_DIR) --no-print-directory
+	@make -s -C $(LIBFT_DIR) --no-print-directory
 
 $(OBJ_DIR):
 	@mkdir -p $(OBJ_DIR) --no-print-directory
@@ -44,11 +53,11 @@ $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c | $(OBJ_DIR)
 
 clean:
 	@rm -f $(OBJS)
-	make clean -C $(LIBFT_DIR)
+	@make clean -s -C $(LIBFT_DIR)
 
 fclean: clean
 	@rm -f $(NAME)
-	make fclean -C $(LIBFT_DIR)
+	@make fclean -s -C $(LIBFT_DIR)
 
 re: fclean all
 
