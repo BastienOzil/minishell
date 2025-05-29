@@ -21,7 +21,7 @@ typedef enum
     TOKEN_PIPE,         // | connecter la sortie standard d'une commande à l'entrée standard d'une autre
     TOKEN_INFILE,       // < redirection depuis un fichier
     TOKEN_OUTFILE,      // > efface le contenu puis le remplace
-    TOKEN_MERGE,       // >> ajoute le countenu a la fin du fichier
+    TOKEN_APPEND,       // >> ajoute le countenu a la fin du fichier
     TOKEN_HEREDOC,      // << écrire directement du texte dans le terminal
     TOKEN_EOF,          // retour d'erreur et sert de marqueur de fin (EOF = End Of File)
 } t_token_type;
@@ -38,6 +38,18 @@ typedef struct s_lexer
     char *input;
     int i;
 } t_lexer;
+
+// executor
+typedef struct s_cmd {
+	char **argv;
+	char *infile;
+	char *outfile;
+	int append;
+	struct s_cmd *next;
+} t_cmd;
+
+//executor.c
+void	execute_cmd(t_cmd *cmd, char **envp);
 
 // token & lexer
 t_token *new_token(t_token_type type, char *value);
