@@ -1,11 +1,13 @@
 #include "../includes/minishell.h"
 
+// ignore les espaces
 void	skip_spaces(t_lexer *lexer)
 {
 	while (lexer->input[lexer->i] && is_space(lexer->input[lexer->i]))
 		lexer->i++;
 }
 
+// lit un mot jusqu'au prochain espace ou caractère spécial
 char	*get_word(t_lexer *lexer)
 {
 	int	start;
@@ -17,6 +19,7 @@ char	*get_word(t_lexer *lexer)
 	return (ft_substr(lexer->input, start, lexer->i - start));
 }
 
+// cree un nouveau token
 t_token	*new_token(t_token_type type, char *value)
 {
 	t_token	*token;
@@ -30,35 +33,17 @@ t_token	*new_token(t_token_type type, char *value)
 	return (token);
 }
 
+// récupère le token suivant et envoi dans lexer_cmd.c
 t_token	*get_next_token(t_lexer *lexer)
 {
 	skip_spaces(lexer);
 	if (!lexer->input[lexer->i])
 		return (new_token(TOKEN_EOF, NULL));
 	if (lexer->input[lexer->i] == '|')
-	{
-		lexer->i++;
-		return (new_token(TOKEN_PIPE, ft_substr("|", 0, 1)));
-	}
+		return (handle_pipe(lexer));
 	if (lexer->input[lexer->i] == '<')
-	{
-		if (lexer->input[lexer->i + 1] == '<')
-		{
-			lexer->i += 2;
-			return (new_token(TOKEN_HEREDOC, ft_substr("<<", 0, 2)));
-		}
-		lexer->i++;
-		return (new_token(TOKEN_REDIR_IN, ft_substr("<", 0, 1)));
-	}
+		return (handle_input_redirection(lexer));
 	if (lexer->input[lexer->i] == '>')
-	{
-		if (lexer->input[lexer->i + 1] == '>')
-		{
-			lexer->i += 2;
-			return (new_token(TOKEN_APPEND, ft_substr(">>", 0, 2)));
-		}
-		lexer->i++;
-		return (new_token(TOKEN_REDIR_OUT, ft_substr(">", 0, 1)));
-	}
+		return (handle_output_redirection(lexer));
 	return (new_token(TOKEN_WORD, get_word(lexer)));
 }

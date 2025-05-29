@@ -18,7 +18,12 @@ OBJS_DIR = objs
 
 LIBFT_DIR = utils/libft
 
-SRCS = $(SRC_DIR)/main.c $(SRC_DIR)/lexer.c $(SRC_DIR)/cleanup.c $(SRC_DIR)/utils.c
+SRCS = $(SRC_DIR)/main.c \
+	$(SRC_DIR)/lexer.c \
+	$(SRC_DIR)/lexer_cmd.c \
+	$(SRC_DIR)/cleanup.c \
+	$(SRC_DIR)/print_token.c \
+	$(SRC_DIR)/utils.c \
 
 OBJS = $(SRCS:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
 

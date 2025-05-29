@@ -18,12 +18,12 @@
 typedef enum
 {
     TOKEN_WORD,         // mots/commandes/arguments
-    TOKEN_PIPE,         // |
-    TOKEN_REDIR_IN,     // <
-    TOKEN_REDIR_OUT,    // >
-    TOKEN_APPEND,       // >>
-    TOKEN_HEREDOC,      // <<
-    TOKEN_EOF,          // error
+    TOKEN_PIPE,         // | connecter la sortie standard d'une commande à l'entrée standard d'une autre
+    TOKEN_INFILE,       // < redirection depuis un fichier
+    TOKEN_OUTFILE,      // > efface le contenu puis le remplace
+    TOKEN_APPEND,       // >> ajoute le countenu a la fin du fichier
+    TOKEN_HEREDOC,      // << écrire directement du texte dans le terminal
+    TOKEN_EOF,          // retour d'erreur et sert de marqueur de fin (EOF = End Of File)
 } t_token_type;
 
 typedef struct s_token
@@ -44,13 +44,21 @@ t_token *new_token(t_token_type type, char *value);
 t_token *get_next_token(t_lexer *lexer);
 int is_space(char c);
 int is_special(char c);
-//char *ft_substr(char *s, int start, int len);
 char *get_word(t_lexer *lexer);
 void skip_spaces(t_lexer *lexer);
 void free_tokens(t_token *tokens);
 
+// lexer_cmd
+t_token	*handle_pipe(t_lexer *lexer);
+t_token	*handle_input_redirection(t_lexer *lexer);
+t_token	*handle_output_redirection(t_lexer *lexer);
+
+
 // utils
 int	is_special(char c);
 int	is_space(char c);
+
+//print_tokken
+void	print_token(t_token *token);
 
 #endif

@@ -1,21 +1,36 @@
 #include "../includes/minishell.h"
 
-void	print_token(t_token *token)
+// boucle de token
+void	handle_tokens(t_lexer *lexer)
 {
-	char	*types[] = {"WORD", "PIPE", "REDIR_IN", "REDIR_OUT", "APPEND",
-			"HEREDOC", "EOF"};
+	t_token	*token;
 
-	printf("Type: %s", types[token->type]);
-	if (token->value)
-		printf(", Value: '%s'", token->value);
-	printf("\n");
+	while (1)
+	{
+		token = get_next_token(lexer);
+		print_token(token);
+		if (token->type == TOKEN_EOF)
+		{
+			free_tokens(token);
+			break ;
+		}
+		free_tokens(token);
+	}
+}
+
+// traitement de la ligne
+void	handle_line(char *line)
+{
+	t_lexer	lexer;
+
+	lexer.input = line;
+	lexer.i = 0;
+	handle_tokens(&lexer);
 }
 
 int	main(void)
 {
 	char	*line;
-	t_lexer	lexer;
-	t_token	*token;
 
 	while (1)
 	{
@@ -24,19 +39,7 @@ int	main(void)
 			break ;
 		if (*line)
 			add_history(line);
-		lexer.input = line;
-		lexer.i = 0;
-		while (1)
-		{
-			token = get_next_token(&lexer);
-			print_token(token);
-			if (token->type == TOKEN_EOF)
-			{
-				free_tokens(token);
-				break ;
-			}
-			free_tokens(token);
-		}
+		handle_line(line);
 		free(line);
 	}
 	printf("exit\n");
