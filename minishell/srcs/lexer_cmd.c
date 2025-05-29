@@ -25,7 +25,7 @@ t_token	*handle_output_redirection(t_lexer *lexer)
 	if (lexer->input[lexer->i + 1] == '>')
 	{
 		lexer->i += 2;
-		return (new_token(TOKEN_MERGE, ft_substr(">>", 0, 2)));
+		return (new_token(TOKEN_APPEND, ft_substr(">>", 0, 2)));
 	}
 	lexer->i++;
 	return (new_token(TOKEN_OUTFILE, ft_substr(">", 0, 1)));
