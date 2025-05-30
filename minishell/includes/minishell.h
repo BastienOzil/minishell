@@ -15,17 +15,35 @@
 #include <readline/history.h>
 #include "../utils/libft/libft.h"
 
+// token type
 typedef enum
 {
-    TOKEN_WORD,         // mots/commandes/arguments
-    TOKEN_PIPE,         // | connecter la sortie standard d'une commande à l'entrée standard d'une autre
-    TOKEN_INFILE,       // < redirection depuis un fichier
-    TOKEN_OUTFILE,      // > efface le contenu puis le remplace
-    TOKEN_APPEND,       // >> ajoute le countenu a la fin du fichier
-    TOKEN_HEREDOC,      // << écrire directement du texte dans le terminal
-    TOKEN_EOF,          // retour d'erreur et sert de marqueur de fin (EOF = End Of File)
+    TOKEN_WORD,    // mots/commandes/arguments
+    TOKEN_PIPE,    // | connecter la sortie standard d'une commande à l'entrée standard d'une autre
+    TOKEN_INFILE,  // < redirection depuis un fichier
+    TOKEN_OUTFILE, // > efface le contenu puis le remplace
+    TOKEN_APPEND,  // >> ajoute le countenu a la fin du fichier
+    TOKEN_HEREDOC, // << écrire directement du texte dans le terminal
+    TOKEN_EOF,     // retour d'erreur et sert de marqueur de fin (EOF = End Of File)
 } t_token_type;
 
+// commande type
+typedef enum e_node_type
+{
+    NODE_COMMAND,
+    NODE_PIPELINE,
+    NODE_REDIR
+} t_node_type;
+
+// redirection
+typedef struct s_redir
+{
+    t_token_type type;
+    char *file;
+    struct s_redir *next;
+} t_redir;
+
+// token
 typedef struct s_token
 {
     t_token_type type;
@@ -33,6 +51,7 @@ typedef struct s_token
     struct s_token *next;
 } t_token;
 
+// lexer
 typedef struct s_lexer
 {
     char *input;
@@ -40,16 +59,34 @@ typedef struct s_lexer
 } t_lexer;
 
 // executor
-typedef struct s_cmd {
-	char **argv;
-	char *infile;
-	char *outfile;
-	int append;
-	struct s_cmd *next;
+typedef struct s_cmd
+{
+    char **argv;
+    char *infile;
+    char *outfile;
+    int append;
+    struct s_cmd *next;
 } t_cmd;
 
-//executor.c
-void	execute_cmd(t_cmd *cmd, char **envp);
+// parser
+typedef struct s_parser
+{
+    t_token *tokens;
+    t_token *current;
+} t_parser;
+
+// redirection order
+typedef struct s_ast_node
+{
+    t_node_type type;
+    char **args;
+    t_redir *redirs;
+    struct s_ast_node *left;
+    struct s_ast_node *right;
+} t_ast_node;
+
+// executor.c
+void execute_cmd(t_cmd *cmd, char **envp);
 
 // token & lexer
 t_token *new_token(t_token_type type, char *value);
@@ -58,19 +95,21 @@ int is_space(char c);
 int is_special(char c);
 char *get_word(t_lexer *lexer);
 void skip_spaces(t_lexer *lexer);
-void free_tokens(t_token *tokens);
 
 // lexer_cmd
-t_token	*handle_pipe(t_lexer *lexer);
-t_token	*handle_input_redirection(t_lexer *lexer);
-t_token	*handle_output_redirection(t_lexer *lexer);
-
+t_token *handle_pipe(t_lexer *lexer);
+t_token *handle_input_redirection(t_lexer *lexer);
+t_token *handle_output_redirection(t_lexer *lexer);
 
 // utils
-int	is_special(char c);
-int	is_space(char c);
+int is_special(char c);
+int is_space(char c);
 
-//print_tokken
-void	print_token(t_token *token);
+// cleanup
+void free_redir(t_redir *redir);
+void free_tokens(t_token *tokens);
+
+// print_tokken
+void print_token(t_token *token);
 
 #endif
