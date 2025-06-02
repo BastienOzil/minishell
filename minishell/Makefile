@@ -24,6 +24,7 @@ SRCS = $(SRC_DIR)/main.c \
 	$(SRC_DIR)/cleanup.c \
 	$(SRC_DIR)/print_token.c \
 	$(SRC_DIR)/utils.c \
+	$(SRC_DIR)/executor.c \
 
 OBJS = $(SRCS:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
 
