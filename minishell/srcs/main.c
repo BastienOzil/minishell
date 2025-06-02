@@ -45,3 +45,25 @@ int	main(void)
 	printf("exit\n");
 	return (0);
 }
+
+// int	main(int ac, char **av, char **envp)
+// {
+// 	t_cmd	cmd;
+
+// 	(void)ac;
+// 	(void)av;
+
+// 	cmd.argv = ft_split("/bin/ls -l", ' ');
+// 	cmd.infile = NULL;
+// 	cmd.outfile = NULL;
+// 	cmd.append = 0;
+// 	cmd.next = NULL;
+// 	execute_cmd(&cmd, envp);
+// 	free_array(cmd.argv); // à écrire si tu ne l’as pas
+
+// 	cmd.argv = ft_split("/bin/echo Hello world", ' ');
+// 	execute_cmd(&cmd, envp);
+// 	free_array(cmd.argv);
+
+// 	return (0);
+// }

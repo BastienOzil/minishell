@@ -26,3 +26,19 @@ void free_tokens(t_token *tokens)
 		free(tmp);
 	}
 }
+
+// libère un tableau de chaînes 
+void	free_array(char **arr)
+{
+	int	i;
+
+	if (!arr)
+		return ;
+	i = 0;
+	while (arr[i])
+	{
+		free(arr[i]);
+		i++;
+	}
+	free(arr);
+}

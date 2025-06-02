@@ -108,6 +108,7 @@ int is_space(char c);
 // cleanup
 void free_redir(t_redir *redir);
 void free_tokens(t_token *tokens);
+void free_array(char **arr);
 
 // print_tokken
 void print_token(t_token *token);
