@@ -15,7 +15,7 @@
 
 - [x] Implémenter la boucle de prompt avec readline
 - [x] Écrire le lexer (tokenisation de la commande)
-- [ ] Écrire le parser (construction des commandes à exécuter)
+- [x] Écrire le parser (construction des commandes à exécuter)
 - [ ] Gérer les quotes simples et doubles
 - [ ] Gérer les variables d'environnement ($, $?)
 - [ ] Commencer à stocker les redirections
