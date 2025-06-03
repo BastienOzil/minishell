@@ -37,16 +37,37 @@ LIBFT = $(LIBFT_DIR)/libft.a
 
 all: $(NAME)
 
+
+GHOST_ANIMATION = \
+	bash -c '\
+		lines=10; cols=110; \
+		for ((i=0; i<$$lines; i++)); do \
+			line=""; \
+			for ((j=0; j<$$cols; j++)); do \
+				char=$$(echo $$((RANDOM%2))); \
+				line="$$line$$char"; \
+			done; \
+			echo "$$line"; \
+			sleep 0.05; \
+		done; \
+	'
+
 $(NAME): $(OBJS) $(LIBFT)
 	@$(CC) $(CFLAGS) $(OBJS) $(LIBFT) -o $(NAME) $(LFLAGS)
-	echo "$(GREEN) _____ _               _     _         _   _                _          _ _ ";
-	echo "|  __ \ |             | |   (_)       | | | |              | |        | | |";
-	echo "| |  \/ |__   ___  ___| |_   _ _ __   | |_| |__   ___   ___| |__   ___| | |";
-	echo "| | __| '_ \ / _ \/ __| __| | | '_ \  | __| '_ \ / _ \ / __| '_ \ / _ \ | |";
-	echo "| |_\ \ | | | (_) \__ \ |_  | | | | | | |_| | | |  __/ \__ \ | | |  __/ | |";
-	echo " \____/_| |_|\___/|___/\__| |_|_| |_|  \__|_| |_|\___| |___/_| |_|\___|_|_|";
-	echo "                                                                           ";
-	echo "                                                                           $(RESET)";
+	@echo "$(GREEN)"
+	@$(GHOST_ANIMATION)
+
+
+
+# $(NAME): $(OBJS) $(LIBFT)
+# 	@$(CC) $(CFLAGS) $(OBJS) $(LIBFT) -o $(NAME) $(LFLAGS)
+# 	@echo "$(GREEN)";
+	@sleep 0.1; echo " ▗▄▄▖▗▖ ▗▖ ▗▄▖  ▗▄▄▖▗▄▄▄▖    ▗▄▄▄▖▗▖  ▗▖    ▗▄▄▄▖▗▖ ▗▖▗▄▄▄▖    ▗▖  ▗▖▗▄▄▄▖▗▖  ▗▖▗▄▄▄▖ ▗▄▄▖▗▖ ▗▖▗▄▄▄▖▗▖   ▗▖   ";
+	@sleep 0.1; echo "▐▌   ▐▌ ▐▌▐▌ ▐▌▐▌     █        █  ▐▛▚▖▐▌      █  ▐▌ ▐▌▐▌       ▐▛▚▞▜▌  █  ▐▛▚▖▐▌  █  ▐▌   ▐▌ ▐▌▐▌   ▐▌   ▐▌   ";
+	@sleep 0.1; echo "▐▌▝▜▌▐▛▀▜▌▐▌ ▐▌ ▝▀▚▖  █        █  ▐▌ ▝▜▌      █  ▐▛▀▜▌▐▛▀▀▘    ▐▌  ▐▌  █  ▐▌ ▝▜▌  █   ▝▀▚▖▐▛▀▜▌▐▛▀▀▘▐▌   ▐▌   ";
+	@sleep 0.1; echo "▝▚▄▞▘▐▌ ▐▌▝▚▄▞▘▗▄▄▞▘  █      ▗▄█▄▖▐▌  ▐▌      █  ▐▌ ▐▌▐▙▄▄▖    ▐▌  ▐▌▗▄█▄▖▐▌  ▐▌▗▄█▄▖▗▄▄▞▘▐▌ ▐▌▐▙▄▄▖▐▙▄▄▖▐▙▄▄▖";
+	@sleep 0.1; echo "                                                                                                              ";
+	@echo "$(RESET)"
 
 $(LIBFT):
 	@make -s -C $(LIBFT_DIR) --no-print-directory
