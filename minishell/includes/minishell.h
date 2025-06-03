@@ -88,6 +88,11 @@ typedef struct s_ast_node
 // executor.c
 void execute_cmd(t_cmd *cmd, char **envp);
 
+// parser
+t_ast_node *parse_command(t_parser *parser);
+t_ast_node *parse_pipeline(t_parser *parser);
+t_ast_node *parse(t_token *tokens);
+
 // token & lexer
 t_token *new_token(t_token_type type, char *value);
 t_token *get_next_token(t_lexer *lexer);
@@ -109,6 +114,11 @@ int is_space(char c);
 void free_redir(t_redir *redir);
 void free_tokens(t_token *tokens);
 void free_array(char **arr);
+
+// prompt
+void	ft_line(void);
+void	handle_line(char *line);
+void	handle_tokens(t_lexer *lexer);
 
 // print_tokken
 void print_token(t_token *token);
