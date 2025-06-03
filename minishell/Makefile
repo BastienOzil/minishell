@@ -18,7 +18,7 @@ OBJS_DIR = objs
 
 LIBFT_DIR = utils/libft
 
-# par ordre alphabetique 
+# par ordre alphabetique, sauf main
 SRCS = $(SRC_DIR)/main.c \
 	$(SRC_DIR)/cleanup.c \
 	$(SRC_DIR)/executor.c \
