@@ -38,20 +38,6 @@ LIBFT = $(LIBFT_DIR)/libft.a
 all: $(NAME)
 
 
-GHOST_ANIMATION = \
-	bash -c '\
-		lines=10; cols=110; \
-		for ((i=0; i<$$lines; i++)); do \
-			line=""; \
-			for ((j=0; j<$$cols; j++)); do \
-				char=$$(echo $$((RANDOM%2))); \
-				line="$$line$$char"; \
-			done; \
-			echo "$$line"; \
-			sleep 0.05; \
-		done; \
-	'
-
 $(NAME): $(OBJS) $(LIBFT)
 	@$(CC) $(CFLAGS) $(OBJS) $(LIBFT) -o $(NAME) $(LFLAGS)
 	@echo "$(GREEN)"
