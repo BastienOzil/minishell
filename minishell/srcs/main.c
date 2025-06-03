@@ -11,21 +11,15 @@
 // 	return (0);
 // }
 
-#include <sys/time.h>
-#include <sys/ioctl.h>
-
-
-
-
 #include <unistd.h>
 #include <sys/ioctl.h>
 #include <sys/time.h>
 #include <string.h>
-#include <stdlib.h>
 
 #define MAX_ROWS 100
 #define MAX_COLS 300
 
+// Retourne un chiffre pseudo-aléatoire entre 0 et 9
 static int	ft_random_digit(void)
 {
 	struct timeval	tv;
@@ -33,19 +27,52 @@ static int	ft_random_digit(void)
 	return (tv.tv_usec % 10);
 }
 
+// Convertit un entier en chaîne et retourne la longueur écrite
+static int	int_to_str(int n, char *str)
+{
+	int		len = 0;
+	int		temp = n;
+	char	reverse[10];
+
+	if (n == 0)
+	{
+		str[0] = '0';
+		return (1);
+	}
+	while (temp > 0)
+	{
+		reverse[len++] = (temp % 10) + '0';
+		temp /= 10;
+	}
+	for (int i = 0; i < len; i++)
+		str[i] = reverse[len - i - 1];
+	return (len);
+}
+
+// Affiche le curseur à la position (row, col) sans snprintf
 static void	move_cursor(int row, int col)
 {
 	char	buf[32];
-	int		len = snprintf(buf, sizeof(buf), "\033[%d;%dH", row, col);
-	write(1, buf, len);
+	int		i = 0;
+
+	buf[i++] = 27; // \033
+	buf[i++] = '[';
+	i += int_to_str(row, &buf[i]);
+	buf[i++] = ';';
+	i += int_to_str(col, &buf[i]);
+	buf[i++] = 'H';
+
+	write(1, buf, i);
 }
 
+// Vide l'écran
 static void	clear_screen(void)
 {
 	write(1, "\033[2J", 4);
 	move_cursor(1, 1);
 }
 
+// Affiche l'animation
 void	launch_animation(void)
 {
 	struct winsize w;
@@ -55,12 +82,12 @@ void	launch_animation(void)
 	const char *colors[] = {
 		"\033[1;32m", // vert clair
 		"\033[0;32m", // vert normal
-		"\033[2;32m"  // vert foncé
+		"\033[2;32m"  // vert foncé (optionnel)
 	};
 
 	char *title = " GHOST IN THE MINISHELL ";
 	int title_len = strlen(title);
-	int last_letter_index = -1; // pour synchroniser le son
+	int last_letter_index = -1;
 
 	ioctl(1, TIOCGWINSZ, &w);
 	int rows = (w.ws_row < MAX_ROWS) ? w.ws_row : MAX_ROWS;
@@ -72,13 +99,12 @@ void	launch_animation(void)
 
 	for (frame = 0; frame < 100; frame++)
 	{
-		int current_index = (frame / 3);
+		int current_index = frame / 3;
 		for (i = 0; i < rows - 1; i++)
 		{
 			move_cursor(i + 1, 1);
 			for (j = 0; j < cols; j++)
 			{
-				// Titre qui s’écrit progressivement
 				if (i == center_row && j >= center_col &&
 					j < center_col + current_index && j - center_col < title_len)
 				{
@@ -91,14 +117,12 @@ void	launch_animation(void)
 					}
 					continue;
 				}
-				// Réserve l’espace du titre à venir
 				if (i == center_row && j >= center_col &&
 					j < center_col + title_len)
 				{
 					write(1, " ", 1);
 					continue;
 				}
-				// Dégradé de vert
 				if (intensity[i][j] < 2)
 					intensity[i][j]++;
 				write(1, colors[intensity[i][j]], strlen(colors[intensity[i][j]]));
@@ -112,7 +136,6 @@ void	launch_animation(void)
 	move_cursor(rows, 1);
 	write(1, "\n", 1);
 }
-
 
 
 int    main(void)
