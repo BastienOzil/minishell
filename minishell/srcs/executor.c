@@ -12,14 +12,14 @@ void	execute_cmd(t_cmd *cmd, char **envp)
 	//si fork echoue
 	if (pid < 0)
 	{
-		perror("fork");
+		puppetmaster_perror("fork");
 		return ;
 	}
 	//cree processus enfant
 	if (pid == 0)
 	{
 		execve(cmd->argv[0], cmd->argv, envp);
-		perror("execve");
+		puppetmaster_perror("execve");
 		exit(EXIT_FAILURE);
 	}
 	else

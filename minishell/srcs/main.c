@@ -72,7 +72,21 @@ static void	clear_screen(void)
 	move_cursor(1, 1);
 }
 
-// Affiche l'animation
+void	slow_type_line_at(int row, int col, const char *str)
+{
+	move_cursor(row, col);
+	while (*str)
+	{
+		write(1, str, 1);
+		usleep(20000); // 20ms par lettre
+		str++;
+	}
+}
+
+
+
+
+//Affiche l'animation
 void	launch_animation(void)
 {
 	struct winsize w;
@@ -138,25 +152,87 @@ void	launch_animation(void)
 }
 
 
-int    main(void)
+
+// void	show_intro_prompt_effect(void)
+// {
+// 	move_cursor(1, 1);
+// 	write(1, "\033[2J", 4);
+// 	usleep(80000);
+// 	write(1, "\033[1;30m#\033[0m", 9);
+// 	usleep(80000);
+// 	write(1, "\033[1;37m.\033[0m", 9);
+// 	usleep(80000);
+// 	write(1, "\033[0;32m_\033[0m", 9);
+// 	usleep(100000);
+// 	write(1, "\n", 1); // aller à la ligne pour readline
+// }
+
+void	slow_type_prompt(const char *str)
 {
-    char    *line;
-
-    launch_animation(); 
-
-    while (1)
-    {
-        line = readline("\001\033[1;36m\002Ghost_in_the_minishell$ \001\033[0m\002");
-        if (!line)
-            break ;
-        if (*line)
-            add_history(line);
-        handle_line(line);
-        free(line);
-    }
-    printf("exit\n");
-    return (0);
+	while (*str)
+	{
+		write(1, str, 1);
+        write(1, "\a", 1);
+		//fflush(stdout);
+		usleep(60000); // ajuster la vitesse ici (en microsecondes)
+		str++;
+	}
 }
+
+int	main(void)
+{
+	char	*line;
+
+	launch_animation();
+
+	while (1)
+	{
+		write(1, "\033[1;32m", 7);
+		slow_type_prompt("[Puppet~master]> ");
+		write(1, "\033[0m", 4);
+
+		line = readline(""); 
+
+            int fd = open("fichier_qui_nexiste_pas.txt", O_RDONLY);
+    if (fd < 0)
+        puppetmaster_perror("open");
+
+
+		if (!line)
+			break;
+		if (*line)
+			add_history(line);
+		handle_line(line);
+		free(line);
+	}
+	printf("exit\n");
+	return (0);
+}
+
+
+
+
+
+// int    main(void)
+// {
+//     char    *line;
+
+//     launch_animation(); 
+
+//     while (1)
+//     {
+//         line = readline("\001\033[1;36m\002Ghost_in_the_minishell$ \001\033[0m\002");
+
+//         if (!line)
+//             break ;
+//         if (*line)
+//             add_history(line);
+//         handle_line(line);
+//         free(line);
+//     }
+//     printf("exit\n");
+//     return (0);
+// }
 
 // aurelia's main
 // int	main(int ac, char **av, char **envp)
@@ -180,3 +256,5 @@ int    main(void)
 
 // 	return (0);
 // }
+
+       

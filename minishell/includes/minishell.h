@@ -14,6 +14,9 @@
 #include <readline/readline.h>
 #include <readline/history.h>
 #include "../utils/libft/libft.h"
+#include <sys/time.h>
+
+
 
 // token type
 typedef enum
@@ -123,5 +126,9 @@ void	handle_tokens(t_lexer *lexer);
 
 // print_tokken
 void print_token(t_token *token);
+
+//error_messages.c
+void	    puppetmaster_perror(const char *context);
+int	        get_random_index(int max);
 
 #endif

@@ -27,6 +27,7 @@ SRCS = $(SRC_DIR)/main.c \
 	$(SRC_DIR)/print_token.c \
 	$(SRC_DIR)/prompt.c \
 	$(SRC_DIR)/utils.c \
+	$(SRC_DIR)/error_messages.c \
 	#$(SRC_DIR)/parser.c \#
 
 OBJS = $(SRCS:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
@@ -39,21 +40,11 @@ all: $(NAME)
 
 
 $(NAME): $(OBJS) $(LIBFT)
-	@$(CC) $(CFLAGS) $(OBJS) $(LIBFT) -o $(NAME) $(LFLAGS)
-	@echo "$(GREEN)"
-	@$(GHOST_ANIMATION)
-
-
-
-# $(NAME): $(OBJS) $(LIBFT)
-# 	@$(CC) $(CFLAGS) $(OBJS) $(LIBFT) -o $(NAME) $(LFLAGS)
-# 	@echo "$(GREEN)";
-	@sleep 0.1; echo " ▗▄▄▖▗▖ ▗▖ ▗▄▖  ▗▄▄▖▗▄▄▄▖    ▗▄▄▄▖▗▖  ▗▖    ▗▄▄▄▖▗▖ ▗▖▗▄▄▄▖    ▗▖  ▗▖▗▄▄▄▖▗▖  ▗▖▗▄▄▄▖ ▗▄▄▖▗▖ ▗▖▗▄▄▄▖▗▖   ▗▖   ";
-	@sleep 0.1; echo "▐▌   ▐▌ ▐▌▐▌ ▐▌▐▌     █        █  ▐▛▚▖▐▌      █  ▐▌ ▐▌▐▌       ▐▛▚▞▜▌  █  ▐▛▚▖▐▌  █  ▐▌   ▐▌ ▐▌▐▌   ▐▌   ▐▌   ";
-	@sleep 0.1; echo "▐▌▝▜▌▐▛▀▜▌▐▌ ▐▌ ▝▀▚▖  █        █  ▐▌ ▝▜▌      █  ▐▛▀▜▌▐▛▀▀▘    ▐▌  ▐▌  █  ▐▌ ▝▜▌  █   ▝▀▚▖▐▛▀▜▌▐▛▀▀▘▐▌   ▐▌   ";
-	@sleep 0.1; echo "▝▚▄▞▘▐▌ ▐▌▝▚▄▞▘▗▄▄▞▘  █      ▗▄█▄▖▐▌  ▐▌      █  ▐▌ ▐▌▐▙▄▄▖    ▐▌  ▐▌▗▄█▄▖▐▌  ▐▌▗▄█▄▖▗▄▄▞▘▐▌ ▐▌▐▙▄▄▖▐▙▄▄▖▐▙▄▄▖";
-	@sleep 0.1; echo "                                                                                                              ";
-	@echo "$(RESET)"
+	$(CC) $(CFLAGS) $(OBJS) $(LIBFT) -o $(NAME) $(LFLAGS)
+	echo "$(GREEN)"
+	echo "              /\\                     "
+	echo " G H O S T   /in\\   M I N I S H E L L"
+	echo "            / The\\                   "
 
 $(LIBFT):
 	@make -s -C $(LIBFT_DIR) --no-print-directory
