@@ -116,7 +116,8 @@ void free_tokens(t_token *tokens);
 void free_array(char **arr);
 
 // prompt
-void	ft_line(void);
+void	ft_run_tests(char **envp);
+void	ft_run_interactive(char **envp);
 void	handle_line(char *line);
 void	handle_tokens(t_lexer *lexer);
 
