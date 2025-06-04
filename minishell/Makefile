@@ -7,37 +7,28 @@ RESET = \033[0m
 NAME = minishell
 
 CC = cc
-
-CFLAGS = -Wall -Wextra -Werror #-fsanitize=adress -g3
-
+CFLAGS = -Wall -Wextra -Werror
 LFLAGS = -lreadline 
 
 SRC_DIR = srcs
-
-OBJS_DIR = objs
-
+OBJ_DIR = objs
 LIBFT_DIR = utils/libft
 
-# par ordre alphabetique, sauf main
 SRCS = $(SRC_DIR)/main.c \
+	$(SRC_DIR)/animations.c \
 	$(SRC_DIR)/cleanup.c \
+	$(SRC_DIR)/error_messages.c \
 	$(SRC_DIR)/executor.c \
 	$(SRC_DIR)/lexer.c \
 	$(SRC_DIR)/lexer_cmd.c \
 	$(SRC_DIR)/print_token.c \
 	$(SRC_DIR)/prompt.c \
-	$(SRC_DIR)/utils.c \
-	$(SRC_DIR)/error_messages.c \
-	#$(SRC_DIR)/parser.c \#
+	$(SRC_DIR)/utils.c
 
 OBJS = $(SRCS:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
-
-OBJS = $(SRCS:.c=.o)
-
 LIBFT = $(LIBFT_DIR)/libft.a
 
 all: $(NAME)
-
 
 $(NAME): $(OBJS) $(LIBFT)
 	$(CC) $(CFLAGS) $(OBJS) $(LIBFT) -o $(NAME) $(LFLAGS)
@@ -46,17 +37,14 @@ $(NAME): $(OBJS) $(LIBFT)
 	echo " G H O S T   /in\\   M I N I S H E L L"
 	echo "            / The\\                   "
 
-$(LIBFT):
-	@make -s -C $(LIBFT_DIR) --no-print-directory
-
 $(OBJ_DIR):
-	@mkdir -p $(OBJ_DIR) --no-print-directory
+	@mkdir -p $(OBJ_DIR)
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c | $(OBJ_DIR)
-	@$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
-
-%.o: %.c
 	@$(CC) $(CFLAGS) -I$(LIBFT_DIR) -c $< -o $@
+
+$(LIBFT):
+	@make -s -C $(LIBFT_DIR)
 
 clean:
 	@rm -f $(OBJS)
@@ -65,11 +53,6 @@ clean:
 fclean: clean
 	@rm -f $(NAME)
 	@make fclean -s -C $(LIBFT_DIR)
-
-re: fclean all
-
-.PHONY: all clean fclean re
-
 
 re: fclean all
 

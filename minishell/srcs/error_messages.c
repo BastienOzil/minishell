@@ -22,7 +22,7 @@ void	puppetmaster_perror(const char *context)
 	perror(context);
 
 	// Affiche une citation stylisée
-	write(2, "\033[38;5;208m[Puppet~master] ", 28); 
+	write(2, "\033[38;5;208m[?] ", 14); 
 	write(2, quotes[i], strlen(quotes[i]));
 	write(2, "\033[0m\n", 5);
 }

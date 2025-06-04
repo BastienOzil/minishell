@@ -15,8 +15,7 @@
 #include <readline/history.h>
 #include "../utils/libft/libft.h"
 #include <sys/time.h>
-
-
+#include <sys/ioctl.h>
 
 // token type
 typedef enum
@@ -130,5 +129,14 @@ void print_token(t_token *token);
 //error_messages.c
 void	    puppetmaster_perror(const char *context);
 int	        get_random_index(int max);
+
+//animations.c
+void	slow_type_prompt(const char *str);
+void	launch_animation(void);
+void	slow_type_line_at(int row, int col, const char *str);
+void	clear_screen(void);
+void	move_cursor(int row, int col);
+int	    int_to_str(int n, char *str);
+int	    ft_random_digit(void);
 
 #endif
