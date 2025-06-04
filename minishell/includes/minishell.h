@@ -66,6 +66,7 @@ typedef struct s_cmd
     char **argv;
     char *infile;
     char *outfile;
+    char *heredoc;
     int append;
     struct s_cmd *next;
 } t_cmd;
@@ -88,7 +89,11 @@ typedef struct s_ast_node
 } t_ast_node;
 
 // executor.c
-void execute_cmd(t_cmd *cmd, char **envp);
+void	exec_output_redirection(t_cmd *cmd);
+void	exec_input_redirection(t_cmd *cmd);
+void	exec_append_redirection(t_cmd *cmd);
+void    exec_heredoc(t_cmd *cmd);
+void    execute_cmd(t_cmd *cmd, char **envp);
 
 // parser
 t_ast_node *parse_command(t_parser *parser);

@@ -22,8 +22,8 @@
 
 ## 🧪 Semaine 3 : Exécution et Builtins
 
-- [ ] Implémenter fork + execve
-- [ ] Gérer les redirections `<`, `>`, `>>`, `<<` (heredoc) (!!PENSER A GERER PLUSIEURS HEREDOC)
+- [x] Implémenter fork + execve
+- [x] Gérer les redirections `<`, `>`, `>>`, `<<` (heredoc) (!!PENSER A GERER PLUSIEURS HEREDOC)
 - [ ] Implémenter les pipes `|`
 - [ ] Implémenter les builtins : echo, cd, pwd, export, unset, env, exit
 - [ ] Gérer les erreurs (commandes inconnues, fichiers manquants, etc.)
