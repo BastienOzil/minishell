@@ -23,6 +23,7 @@ SRCS = $(SRC_DIR)/main.c \
 	$(SRC_DIR)/lexer_cmd.c \
 	$(SRC_DIR)/print_token.c \
 	$(SRC_DIR)/prompt.c \
+	$(SRC_DIR)/pipe.c \
 	$(SRC_DIR)/utils.c
 
 OBJS = $(SRCS:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
@@ -33,9 +34,9 @@ all: $(NAME)
 $(NAME): $(OBJS) $(LIBFT)
 	$(CC) $(CFLAGS) $(OBJS) $(LIBFT) -o $(NAME) $(LFLAGS)
 	echo "$(GREEN)"
-	echo "              /\\                     "
-	echo " G H O S T   /in\\   M I N I S H E L L"
-	echo "            / The\\                   "
+	echo "                   /\\                     "
+	echo "      G H O S T   /in\\   M I N I S H E L L"
+	echo "                 / The\\                   "
 
 $(OBJ_DIR):
 	@mkdir -p $(OBJ_DIR)
