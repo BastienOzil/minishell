@@ -71,12 +71,12 @@ void	puppetmaster_perror(const char *context)
 	while (j < 100)
 	{
 		write(2, clear, strlen(clear));
-		usleep(200);
+		usleep(7000);
 		write(2, prefix, strlen(prefix));
 		write(2, quotes[i], len);
 		write(2, reset, strlen(reset));
 		write(2, carriage, strlen(carriage));
-		usleep(500);
+		usleep(5000);
 		j++;
 	}
 
@@ -98,7 +98,7 @@ void	puppetmaster_perror(const char *context)
 		write(2, clear, strlen(clear));
 		write(2, temp, total_len);
 		write(2, carriage, strlen(carriage));
-		usleep(1000);
+		usleep(10000);
 		step++;
 	}
 	write(2, clear, strlen(clear));
