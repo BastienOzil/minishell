@@ -14,6 +14,8 @@
 #include <readline/readline.h>
 #include <readline/history.h>
 #include "../utils/libft/libft.h"
+#include <sys/time.h>
+#include <sys/ioctl.h>
 
 // token type
 typedef enum
@@ -116,12 +118,22 @@ void free_tokens(t_token *tokens);
 void free_array(char **arr);
 
 // prompt
-void	ft_run_tests(char **envp);
-void	ft_run_interactive(char **envp);
-void	handle_line(char *line);
-void	handle_tokens(t_lexer *lexer);
+void ft_run_tests(char **envp);
+void ft_run_interactive(char **envp);
+void handle_line(char *line);
+void handle_tokens(t_lexer *lexer);
 
 // print_tokken
 void print_token(t_token *token);
+
+// animation
+void slow_type_prompt(const char *str);
+void launch_animation(void);
+void slow_type_line_at(int row, int col, const char *str);
+void clear_screen(void);
+void move_cursor(int row, int col);
+int int_to_str(int n, char *str);
+int ft_random_digit(void);
+void puppetmaster_perror(const char *context);
 
 #endif
