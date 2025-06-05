@@ -55,7 +55,7 @@ void	run_animation_loop(t_animation *anim)
 			}
 			i++;
 		}
-		usleep((anim->frame > anim->fast_forward_frame) ? 10000 : 30000);
+		usleep((anim->frame > anim->fast_forward_frame) ? 10000 : 20000);
 		anim->frame++;
 	}
 }

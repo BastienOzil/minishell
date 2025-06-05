@@ -34,7 +34,7 @@ void	update_matrix_char(char *c)
 
 void	draw_matrix_char(char c, int should_fade, int frame, int max_frames)
 {
-	if (should_fade && (rand() % 1000) < ((float)frame / max_frames * 1000))
+	if (should_fade && (rand() % 300) < ((float)frame / max_frames * 1000))
 		c = ' ';
 	write(1, "\033[1;92m", 7);
 	write(1, &c, 1);
