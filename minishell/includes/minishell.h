@@ -82,7 +82,10 @@ typedef struct s_ast_node
 {
     t_node_type type;
     char **args;
-    t_redir *redirs;
+    char *input_file;
+    char *output_file;
+    int append;
+    char *heredoc_delimiter;
     struct s_ast_node *left;
     struct s_ast_node *right;
 } t_ast_node;
@@ -94,6 +97,20 @@ void execute_cmd(t_cmd *cmd, char **envp);
 t_ast_node *parse_command(t_parser *parser);
 t_ast_node *parse_pipeline(t_parser *parser);
 t_ast_node *parse(t_token *tokens);
+
+// parser_utils
+t_ast_node *new_node(t_node_type type);
+void advance_token(t_parser *parser);
+int match_token(t_parser *parser, t_token_type type);
+int is_redir_token(t_token_type type);
+char **add_arg(char **args, char *new_arg);
+void parse_redir(t_parser *parser, t_ast_node *node);
+
+// handle_line
+void init_lexer(t_lexer *lexer, char *input);
+t_token *tokenize(char *input);
+void print_ast(t_ast_node *node, int depth);
+void handle_line(char *line);
 
 // token & lexer
 t_token *new_token(t_token_type type, char *value);
@@ -116,15 +133,22 @@ int is_space(char c);
 void free_redir(t_redir *redir);
 void free_tokens(t_token *tokens);
 void free_array(char **arr);
-
-// prompt
-void ft_run_tests(char **envp);
-void ft_run_interactive(char **envp);
-void handle_line(char *line);
-void handle_tokens(t_lexer *lexer);
+void free_args(char **args);
+void free_ast(t_ast_node *node);
 
 // print_tokken
 void print_token(t_token *token);
+
+// error_msg
+int get_random_index(int max);
+void puppetmaster_perror(const char *context);
+void print_loop(const char *quote);
+void format_line(char *dst, const char *quote);
+
+// vanish
+void vanish_blank(char *temp, int l, int r);
+void vanish_write(const char *str, int len);
+void vanish_effect(char *temp, const char *ref);
 
 // animation
 void slow_type_prompt(const char *str);
