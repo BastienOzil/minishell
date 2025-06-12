@@ -37,7 +37,7 @@ t_token	*tokenize(char *input)
 	return (tokens);
 }
 
-static void	print_command_node(t_ast_node *node, int depth)
+static void	print_command_node(t_cmd *node, int depth)
 {
 	int	i;
 
@@ -62,7 +62,7 @@ static void	print_command_node(t_ast_node *node, int depth)
 	ft_putstr_fd("\n", 1);
 }
 
-static void	print_redirections(t_ast_node *node, int depth)
+static void	print_redirections(t_cmd *node, int depth)
 {
 	int	i;
 
@@ -106,7 +106,7 @@ static void	print_redirections(t_ast_node *node, int depth)
 	}
 }
 
-void	print_ast(t_ast_node *node, int depth)
+void	print_ast(t_cmd *node, int depth)
 {
 	int	i;
 
@@ -134,7 +134,7 @@ void	print_ast(t_ast_node *node, int depth)
 void	handle_line(char *line)
 {
 	t_token		*tokens;
-	t_ast_node	*ast;
+	t_cmd	*ast;
 
 	if (!line || !*line)
 		return ;

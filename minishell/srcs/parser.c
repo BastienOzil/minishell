@@ -1,9 +1,9 @@
 #include "../includes/minishell.h"
 
 // gère les commandes et redirections
-t_ast_node *parse_command(t_parser *parser)
+t_cmd *parse_command(t_parser *parser)
 {
-    t_ast_node *node;
+    t_cmd *node;
 
     node = new_node(NODE_COMMAND);
     if (!node)
@@ -24,10 +24,10 @@ t_ast_node *parse_command(t_parser *parser)
 }
 
 // parse les pipes
-t_ast_node *parse_pipeline(t_parser *parser)
+t_cmd *parse_pipeline(t_parser *parser)
 {
-    t_ast_node *left;
-    t_ast_node *pipeline;
+    t_cmd *left;
+    t_cmd *pipeline;
 
     left = parse_command(parser);
     if (!left)
@@ -46,7 +46,7 @@ t_ast_node *parse_pipeline(t_parser *parser)
 }
 
 // départ du parse
-t_ast_node *parse(t_token *tokens)
+t_cmd *parse(t_token *tokens)
 {
     t_parser parser;
 

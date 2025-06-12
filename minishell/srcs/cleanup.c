@@ -47,7 +47,7 @@ void	free_args(char **args)
 }
 
 // libère les redirections
-void	free_ast(t_ast_node *node)
+void	free_ast(t_cmd *node)
 {
 	if (!node)
 		return ;

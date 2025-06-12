@@ -1,10 +1,10 @@
 #include "../includes/minishell.h"
 
-t_ast_node	*new_node(t_node_type type)
+t_cmd	*new_node(t_node_type type)
 {
-	t_ast_node	*node;
+	t_cmd	*node;
 
-	node = malloc(sizeof(t_ast_node));
+	node = malloc(sizeof(t_cmd));
 	if (!node)
 		return (NULL);
 	node->type = type;
@@ -93,14 +93,14 @@ char	**add_arg(char **args, char *new_arg)
 	return (new_args);
 }
 
-static void	handle_input_redir(t_parser *parser, t_ast_node *node)
+static void	handle_input_redir(t_parser *parser, t_cmd *node)
 {
 	if (node->input_file)
 		free(node->input_file);
 	node->input_file = ft_strdup(parser->current->value);
 }
 
-static void	handle_output_redir(t_parser *parser, t_ast_node *node, int append)
+static void	handle_output_redir(t_parser *parser, t_cmd *node, int append)
 {
 	if (node->output_file)
 		free(node->output_file);
@@ -108,14 +108,14 @@ static void	handle_output_redir(t_parser *parser, t_ast_node *node, int append)
 	node->append = append;
 }
 
-static void	handle_heredoc_redir(t_parser *parser, t_ast_node *node)
+static void	handle_heredoc_redir(t_parser *parser, t_cmd *node)
 {
 	if (node->heredoc_delimiter)
 		free(node->heredoc_delimiter);
 	node->heredoc_delimiter = ft_strdup(parser->current->value);
 }
 
-void	parse_redir(t_parser *parser, t_ast_node *node)
+void	parse_redir(t_parser *parser, t_cmd *node)
 {
 	t_token_type	redir_type;
 
