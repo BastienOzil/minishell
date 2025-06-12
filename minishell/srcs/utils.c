@@ -14,11 +14,13 @@
 
 #include "../includes/minishell.h"
 
+// Vérifie les espaces blanc
 int	is_space(char c)
 {
 	return (c == ' ' || c == '\t' || c == '\n' || c == '\r');
 }
 
+// Vérifie si c'est un charactère spéciale du shell
 int	is_special(char c)
 {
 	return (c == '|' || c == '<' || c == '>' || c == '\0');

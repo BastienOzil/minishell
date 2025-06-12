@@ -1,5 +1,6 @@
 #include "../includes/minishell.h"
 
+// valeur numérique aleatoire
 int get_random_index(int max)
 {
 	struct timeval tv;
@@ -7,6 +8,7 @@ int get_random_index(int max)
 	return (tv.tv_usec % max);
 }
 
+// Messages subliminaux
 void	puppetmaster_perror(const char *context)
 {
 	const char	*quotes[] = {
@@ -28,6 +30,7 @@ void	puppetmaster_perror(const char *context)
 	vanish_effect(temp, line);
 }
 
+// fait clignoter l'erreur
 void	print_loop(const char *quote)
 {
 	const char	*prefix = "\033[38;5;208m[?] ";
@@ -50,6 +53,7 @@ void	print_loop(const char *quote)
 	}
 }
 
+// les caractères devienent orange
 void	format_line(char *dst, const char *quote)
 {
 	const char	*prefix = "\033[38;5;208m[?] ";

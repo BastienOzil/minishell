@@ -60,14 +60,18 @@ typedef struct s_lexer
     int i;
 } t_lexer;
 
-// executor
+// Structure unifiée pour les commandes et l'AST
 typedef struct s_cmd
 {
-    char **argv;
-    char *infile;
-    char *outfile;
-    int append;
-    struct s_cmd *next;
+    t_node_type type;    // Type de boucle (COMMAND, PIPELINE, REDIR)
+    char **args;         // Arguments de la commande
+    char *infile;        // Fichier d'entrée
+    char *outfile;       // Fichier de sortie
+    int append;          // Flag pour >>
+    char *heredoc;       // Délimiteur pour heredoc
+    struct s_cmd *left;  // boucle gauche (pour pipelines)
+    struct s_cmd *right; // boucle droit (pour pipelines)
+    struct s_cmd *next;  // boucle suivant (si besoin pour une liste)
 } t_cmd;
 
 // parser
@@ -77,22 +81,6 @@ typedef struct s_parser
     t_token *current;
 } t_parser;
 
-// redirection order
-typedef struct s_cmd
-{
-    t_node_type type;
-    char **args;
-    char *input_file;
-    char *output_file;
-    int append;
-    char *heredoc_delimiter;
-    struct s_cmd *left;
-    struct s_cmd *right;
-} t_cmd;
-
-// executor.c
-void execute_cmd(t_cmd *cmd, char **envp);
-
 // parser
 t_cmd *parse_command(t_parser *parser);
 t_cmd *parse_pipeline(t_parser *parser);
@@ -100,11 +88,11 @@ t_cmd *parse(t_token *tokens);
 
 // parser_utils
 t_cmd *new_node(t_node_type type);
-void    advance_token(t_parser *parser);
+void advance_token(t_parser *parser);
 int match_token(t_parser *parser, t_token_type type);
 int is_redir_token(t_token_type type);
-char    **add_arg(char **args, char *new_arg);
-void    parse_redir(t_parser *parser, t_cmd *node);
+char **add_arg(char **args, char *new_arg);
+void parse_redir(t_parser *parser, t_cmd *node);
 
 // handle_line
 void init_lexer(t_lexer *lexer, char *input);

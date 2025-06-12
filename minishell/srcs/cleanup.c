@@ -53,12 +53,12 @@ void	free_ast(t_cmd *node)
 		return ;
 	if (node->args)
 		free_args(node->args);
-	if (node->input_file)
-		free(node->input_file);
-	if (node->output_file)
-		free(node->output_file);
-	if (node->heredoc_delimiter)
-		free(node->heredoc_delimiter);
+	if (node->infile)
+		free(node->infile);
+	if (node->outfile)
+		free(node->outfile);
+	if (node->heredoc)
+		free(node->heredoc);
 	free_ast(node->left);
 	free_ast(node->right);
 	free(node);

@@ -1,11 +1,13 @@
 #include "../includes/minishell.h"
 
+// initialise lexer
 void	init_lexer(t_lexer *lexer, char *input)
 {
 	lexer->input = input;
 	lexer->i = 0;
 }
 
+// Transforme une ligne de commande en liste de tokens
 t_token	*tokenize(char *input)
 {
 	t_lexer	lexer;
@@ -37,6 +39,7 @@ t_token	*tokenize(char *input)
 	return (tokens);
 }
 
+// Affiche une commande avec ses arguments
 static void	print_command_node(t_cmd *node, int depth)
 {
 	int	i;
@@ -62,11 +65,12 @@ static void	print_command_node(t_cmd *node, int depth)
 	ft_putstr_fd("\n", 1);
 }
 
+// Affiche les redirection d'une boucle
 static void	print_redirections(t_cmd *node, int depth)
 {
 	int	i;
 
-	if (node->input_file)
+	if (node->infile)
 	{
 		i = 0;
 		while (i < depth)
@@ -75,10 +79,10 @@ static void	print_redirections(t_cmd *node, int depth)
 			i++;
 		}
 		ft_putstr_fd("INPUT: ", 1);
-		ft_putstr_fd(node->input_file, 1);
+		ft_putstr_fd(node->infile, 1);
 		ft_putstr_fd("\n", 1);
 	}
-	if (node->output_file)
+	if (node->outfile)
 	{
 		i = 0;
 		while (i < depth)
@@ -87,12 +91,12 @@ static void	print_redirections(t_cmd *node, int depth)
 			i++;
 		}
 		ft_putstr_fd("OUTPUT: ", 1);
-		ft_putstr_fd(node->output_file, 1);
+		ft_putstr_fd(node->outfile, 1);
 		if (node->append)
 			ft_putstr_fd(" (append)", 1);
 		ft_putstr_fd("\n", 1);
 	}
-	if (node->heredoc_delimiter)
+	if (node->heredoc)
 	{
 		i = 0;
 		while (i < depth)
@@ -101,11 +105,12 @@ static void	print_redirections(t_cmd *node, int depth)
 			i++;
 		}
 		ft_putstr_fd("HEREDOC: ", 1);
-		ft_putstr_fd(node->heredoc_delimiter, 1);
+		ft_putstr_fd(node->heredoc, 1);
 		ft_putstr_fd("\n", 1);
 	}
 }
 
+// Affiche de facon recursive les synthaxes
 void	print_ast(t_cmd *node, int depth)
 {
 	int	i;
@@ -131,6 +136,7 @@ void	print_ast(t_cmd *node, int depth)
 	}
 }
 
+// Trate la ligne de commande complète
 void	handle_line(char *line)
 {
 	t_token		*tokens;

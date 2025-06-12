@@ -1,6 +1,6 @@
 #include "../includes/minishell.h"
 
-// gère les commandes et redirections
+// Parse une commande simple avec ses arguments et redirections
 t_cmd *parse_command(t_parser *parser)
 {
     t_cmd *node;
@@ -23,7 +23,7 @@ t_cmd *parse_command(t_parser *parser)
     return (node);
 }
 
-// parse les pipes
+// Parse une séquence de commandes reliées par des pipes
 t_cmd *parse_pipeline(t_parser *parser)
 {
     t_cmd *left;
@@ -45,7 +45,7 @@ t_cmd *parse_pipeline(t_parser *parser)
     return (left);
 }
 
-// départ du parse
+// Point d'entrée principal du parser
 t_cmd *parse(t_token *tokens)
 {
     t_parser parser;
