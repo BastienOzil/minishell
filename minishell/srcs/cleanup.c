@@ -30,6 +30,7 @@ void	free_tokens(t_token *tokens)
 	}
 }
 
+// libère les arguments
 void	free_args(char **args)
 {
 	int	i;
@@ -45,6 +46,7 @@ void	free_args(char **args)
 	free(args);
 }
 
+// libère les redirections
 void	free_ast(t_ast_node *node)
 {
 	if (!node)
