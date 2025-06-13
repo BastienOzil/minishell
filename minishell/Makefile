@@ -18,12 +18,17 @@ ANIMATION_DIR = animation
 SRCS = $(SRC_DIR)/main.c \
 	$(SRC_DIR)/cleanup.c \
 	$(SRC_DIR)/error_messages.c \
+	$(SRC_DIR)/exec_builtins.c \
+	$(SRC_DIR)/executor.c \
 	$(SRC_DIR)/handle_line.c \
 	$(SRC_DIR)/lexer_cmd.c \
 	$(SRC_DIR)/lexer.c \
-	$(SRC_DIR)/parser.c \
 	$(SRC_DIR)/parser_utils.c \
+	$(SRC_DIR)/parser.c \
+	$(SRC_DIR)/pipe.c \
 	$(SRC_DIR)/print_token.c \
+	$(SRC_DIR)/prompt.c \
+	$(SRC_DIR)/redirect.c \
 	$(SRC_DIR)/utils.c \
 	$(SRC_DIR)/vanish.c \
 	
