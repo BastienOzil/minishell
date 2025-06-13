@@ -131,7 +131,7 @@ void	launch_animation(void)
 					screen[i][j] = '0' + ft_random_digit();
 			}
 		}
-		usleep((frame > fast_forward_frame) ? 10000 : 30000);
+		usleep((frame > fast_forward_frame) ? 20000 : 50000);
 		frame++;
 	}
 	clear_screen();
@@ -148,7 +148,7 @@ void	slow_type_prompt(const char *str)
 	{
 		write(1, str, 1);
 		write(1, "\a", 1);
-		usleep(20000);
+		usleep(30000);
 		str++;
 	}
 }

@@ -89,11 +89,14 @@ typedef struct s_ast_node
 } t_ast_node;
 
 // executor.c
+void    execute_cmd(t_cmd *cmd, char **envp);
+void	execute_all(t_cmd *cmd, char **envp);
+
+//redirect.c
 void	exec_output_redirection(t_cmd *cmd);
 void	exec_input_redirection(t_cmd *cmd);
 void	exec_append_redirection(t_cmd *cmd);
 void    exec_heredoc(t_cmd *cmd);
-void    execute_cmd(t_cmd *cmd, char **envp);
 
 // parser
 t_ast_node *parse_command(t_parser *parser);
@@ -143,5 +146,11 @@ void	clear_screen(void);
 void	move_cursor(int row, int col);
 int	    int_to_str(int n, char *str);
 int	    ft_random_digit(void);
+
+//pipe.c
+void	execute_pipeline(t_cmd *cmd_list, char **envp);
+
+//builtins 
+
 
 #endif
