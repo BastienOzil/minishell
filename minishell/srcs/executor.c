@@ -24,7 +24,7 @@ void	execute_cmd(t_cmd *cmd, char **envp)
 		else if (cmd->outfile)
 			exec_output_redirection(cmd);
 
-		execve(cmd->argv[0], cmd->argv, envp);
+		execve(cmd->args[0], cmd->args, envp);
 		puppetmaster_perror("execve");
 		exit(EXIT_FAILURE);
 	}

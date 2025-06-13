@@ -51,14 +51,14 @@ void	handle_line(char *line)
 // {
 // 	t_cmd	cmd;
 
-// 	cmd.argv = ft_split("/bin/ls -l", ' ');
+// 	cmd.args = ft_split("/bin/ls -l", ' ');
 // 	cmd.infile = NULL;
 // 	cmd.outfile = NULL;
 // 	cmd.append = 0;
 // 	cmd.next = NULL;
 // 	execute_cmd(&cmd, envp);
-// 	free_array(cmd.argv);
-// 	cmd.argv = ft_split("/bin/echo Hello world", ' ');
+// 	free_array(cmd.args);
+// 	cmd.args = ft_split("/bin/echo Hello world", ' ');
 // 	execute_cmd(&cmd, envp);
-// 	free_array(cmd.argv);
+// 	free_array(cmd.args);
 // }

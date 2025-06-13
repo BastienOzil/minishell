@@ -81,6 +81,35 @@ typedef struct s_parser
     t_token *current;
 } t_parser;
 
+// aurelia's part
+
+// builtins
+int	exec_builtin(char **args, char ***envp);
+int	is_builtin(char *cmd);
+
+// executor.c
+void    execute_cmd(t_cmd *cmd, char **envp);
+void    execute_all(t_cmd *cmd, char **envp);
+
+//redirect.c
+void    exec_output_redirection(t_cmd *cmd);
+void    exec_input_redirection(t_cmd *cmd);
+void    exec_append_redirection(t_cmd *cmd);
+void    exec_heredoc(t_cmd *cmd);
+
+// prompt
+void    ft_run_tests(char **envp);
+void    ft_run_interactive(char **envp);
+void    handle_line(char *line);
+void    handle_tokens(t_lexer *lexer);
+
+//pipe.c
+void    execute_pipeline(t_cmd *cmd_list, char **envp);
+
+/*--------------------------------------------------------------------------*/
+
+// bastien's part
+
 // parser
 t_cmd *parse_command(t_parser *parser);
 t_cmd *parse_pipeline(t_parser *parser);

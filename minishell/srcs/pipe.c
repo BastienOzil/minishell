@@ -36,7 +36,7 @@ void	execute_pipeline(t_cmd *cmd_list, char **envp)
 				dup2(pipefd[1], STDOUT_FILENO);
 				close(pipefd[1]);
 			}
-			execve(cmd->argv[0], cmd->argv, envp);
+			execve(cmd->args[0], cmd->args, envp);
 			puppetmaster_perror("execve");
 			exit(EXIT_FAILURE);
 		}
