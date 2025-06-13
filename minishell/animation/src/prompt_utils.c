@@ -9,4 +9,6 @@ void	slow_type_prompt(const char *str)
 		usleep(10000);
 		str++;
 	}
+
+	write(1, "\r\033[K", 5);
 }
