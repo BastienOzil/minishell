@@ -52,5 +52,5 @@ t_cmd *parse(t_token *tokens)
 
     parser.tokens = tokens;
     parser.current = tokens;
-    return (parse_pipeline(&parser));
+    return (parse_logical(&parser));
 }

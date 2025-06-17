@@ -23,6 +23,8 @@ int	is_space(char c)
 // Vérifie si c'est un charactère spéciale du shell
 int	is_special(char c)
 {
-	return (c == '|' || c == '<' || c == '>' || c == '\0');
+	return (c == '|' || c == '<' || c == '>' || c == '&' 
+		|| c == '(' || c == ')' || c == '"' || c == '\'' 
+		|| c == '$' || c == '\0');
 }
 

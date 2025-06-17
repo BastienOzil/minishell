@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   minishell.h                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: bozil <bozil@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/06/17 15:25:55 by bozil             #+#    #+#             */
+/*   Updated: 2025/06/17 16:13:47 by bozil            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef MINISHELL_H
 #define MINISHELL_H
 
@@ -13,94 +25,115 @@
 #include <termios.h>
 #include <readline/readline.h>
 #include <readline/history.h>
-#include "../utils/libft/libft.h"
 #include <sys/time.h>
 #include <sys/ioctl.h>
+#include <errno.h>
+#include <dirent.h>
+#include "../utils/libft/libft.h"
 
-// token type
-typedef enum
+// Variable globale pour le statut de sortie
+extern int g_exit_status;
+
+// Types de tokens
+typedef enum e_token_type
 {
-    TOKEN_WORD,    // mots/commandes/arguments
-    TOKEN_PIPE,    // | connecter la sortie standard d'une commande à l'entrée standard d'une autre
-    TOKEN_INFILE,  // < redirection depuis un fichier
-    TOKEN_OUTFILE, // > efface le contenu puis le remplace
-    TOKEN_APPEND,  // >> ajoute le countenu a la fin du fichier
-    TOKEN_HEREDOC, // << écrire directement du texte dans le terminal
-    TOKEN_EOF,     // retour d'erreur et sert de marqueur de fin (EOF = End Of File)
+	TOKEN_WORD,
+	TOKEN_PIPE,
+	TOKEN_INFILE,
+	TOKEN_OUTFILE,
+	TOKEN_APPEND,
+	TOKEN_HEREDOC,
+	TOKEN_EOF,
+	TOKEN_AND,
+	TOKEN_OR,
+	TOKEN_LPAREN,
+	TOKEN_RPAREN,
+	TOKEN_DQUOTE,
+	TOKEN_SQUOTE
 } t_token_type;
 
-// commande type
+// Types de nœuds pour l'AST
 typedef enum e_node_type
 {
-    NODE_COMMAND,
-    NODE_PIPELINE,
-    NODE_REDIR
+	NODE_COMMAND,
+	NODE_PIPELINE,
+	NODE_REDIR,
+	NODE_AND,
+	NODE_OR,
+	NODE_SUBSHELL
 } t_node_type;
 
-// redirection
+// Structure pour les redirections
 typedef struct s_redir
 {
-    t_token_type type;
-    char *file;
-    struct s_redir *next;
+	t_token_type type;
+	char *file;
+	struct s_redir *next;
 } t_redir;
 
-// token
+// Structure pour les tokens
 typedef struct s_token
 {
-    t_token_type type;
-    char *value;
-    struct s_token *next;
+	t_token_type type;
+	char *value;
+	struct s_token *next;
 } t_token;
 
-// lexer
+// Structure pour le lexer
 typedef struct s_lexer
 {
-    char *input;
-    int i;
+	char *input;
+	int i;
 } t_lexer;
 
 // Structure unifiée pour les commandes et l'AST
 typedef struct s_cmd
 {
-    t_node_type type;    // Type de boucle (COMMAND, PIPELINE, REDIR)
-    char **args;         // Arguments de la commande
-    char *infile;        // Fichier d'entrée
-    char *outfile;       // Fichier de sortie
-    int append;          // Flag pour >>
-    char *heredoc;       // Délimiteur pour heredoc
-    struct s_cmd *left;  // boucle gauche (pour pipelines)
-    struct s_cmd *right; // boucle droit (pour pipelines)
-    struct s_cmd *next;  // boucle suivant (si besoin pour une liste)
+	t_node_type type;
+	char **args;
+	char *infile;
+	char *outfile;
+	int append;
+	char *heredoc;
+	struct s_cmd *left;
+	struct s_cmd *right;
+	struct s_cmd *next;
 } t_cmd;
 
-// parser
+// Structure pour le parser
 typedef struct s_parser
 {
-    t_token *tokens;
-    t_token *current;
+	t_token *tokens;
+	t_token *current;
 } t_parser;
 
-// parser
-t_cmd *parse_command(t_parser *parser);
-t_cmd *parse_pipeline(t_parser *parser);
-t_cmd *parse(t_token *tokens);
+// Structure pour l'environnement
+typedef struct s_env
+{
+	char *key;
+	char *value;
+	struct s_env *next;
+} t_env;
 
-// parser_utils
-t_cmd *new_node(t_node_type type);
-void advance_token(t_parser *parser);
-int match_token(t_parser *parser, t_token_type type);
-int is_redir_token(t_token_type type);
-char **add_arg(char **args, char *new_arg);
-void parse_redir(t_parser *parser, t_cmd *node);
+// Structure principale du minishell
+typedef struct s_shell
+{
+	t_env *env;
+	char **envp;
+	int exit_status;
+} t_shell;
 
-// handle_line
+// ============================================================================
+// FONCTIONS DE LEXING/TOKENISATION
+// ============================================================================
+
+// handle_line.c
 void init_lexer(t_lexer *lexer, char *input);
 t_token *tokenize(char *input);
 void print_ast(t_cmd *node, int depth);
 void handle_line(char *line);
 
-// token & lexer
+// lexer.c
 t_token *new_token(t_token_type type, char *value);
 t_token *get_next_token(t_lexer *lexer);
 int is_space(char c);
@@ -108,37 +141,116 @@ int is_special(char c);
 char *get_word(t_lexer *lexer);
 void skip_spaces(t_lexer *lexer);
 
-// lexer_cmd
+// lexer_cmd.c
 t_token *handle_pipe(t_lexer *lexer);
 t_token *handle_input_redirection(t_lexer *lexer);
 t_token *handle_output_redirection(t_lexer *lexer);
 
-// utils
-int is_special(char c);
-int is_space(char c);
+// quote_parser.c
+t_token *handle_quotes(t_lexer *lexer);
+char *get_double_quoted_string(t_lexer *lexer);
+char *get_single_quoted_string(t_lexer *lexer);
+int is_quote(char c);
 
-// cleanup
+// expansion.c
+t_token *handle_variable(t_lexer *lexer);
+char *expand_string(char *str);
+char *get_env_value(char *var_name);
+char *get_var_name(t_lexer *lexer);
+char *handle_var_expansion(char *str, int *i);
+
+// logical_ops.c
+t_token *handle_and(t_lexer *lexer);
+t_token *handle_or(t_lexer *lexer);
+t_token *handle_parentheses(t_lexer *lexer);
+
+// wildcards.c
+char **expand_wildcard(char *pattern);
+int match_pattern(char *pattern, char *str);
+int count_matches(char *pattern);
+char **fill_matches(char *pattern, int count);
+
+// ============================================================================
+// FONCTIONS DE PARSING
+// ============================================================================
+
+// parser.c
+t_cmd *parse_command(t_parser *parser);
+t_cmd *parse_pipeline(t_parser *parser);
+t_cmd *parse(t_token *tokens);
+t_cmd *parse_logical(t_parser *parser);
+
+// parser_utils.c
+t_cmd *new_node(t_node_type type);
+void advance_token(t_parser *parser);
+int match_token(t_parser *parser, t_token_type type);
+int is_redir_token(t_token_type type);
+char **add_arg(char **args, char *new_arg);
+void parse_redir(t_parser *parser, t_cmd *node);
+
+// ============================================================================
+// FONCTIONS D'EXÉCUTION
+// ============================================================================
+
+// execution.c
+int execute_ast(t_cmd *node, t_shell *shell);
+int execute_command(t_cmd *node, t_shell *shell);
+int execute_pipeline(t_cmd *node, t_shell *shell);
+
+// builtins.c
+int is_builtin(char *cmd);
+int execute_builtin(char **args, t_shell *shell);
+int builtin_echo(char **args);
+int builtin_cd(char **args, t_shell *shell);
+int builtin_pwd(void);
+int builtin_export(char **args, t_shell *shell);
+int builtin_unset(char **args, t_shell *shell);
+int builtin_env(t_shell *shell);
+int builtin_exit(char **args, t_shell *shell);
+
+// redirections.c
+int setup_redirections(t_cmd *node);
+int handle_heredoc(char *delimiter);
+
+// ============================================================================
+// FONCTIONS D'ENVIRONNEMENT
+// ============================================================================
+
+// env_utils.c
+t_env *init_env(char **envp);
+char *get_env_var(t_env *env, char *key);
+int set_env_var(t_env **env, char *key, char *value);
+int unset_env_var(t_env **env, char *key);
+char **env_to_array(t_env *env);
+
+// ============================================================================
+// FONCTIONS UTILITAIRES
+// ============================================================================
+
+// utils.c (fonctions communes déjà déclarées plus haut sont supprimées)
+
+// cleanup.c
 void free_redir(t_redir *redir);
 void free_tokens(t_token *tokens);
 void free_array(char **arr);
 void free_args(char **args);
 void free_ast(t_cmd *node);
 
-// print_tokken
+// print_token.c
 void print_token(t_token *token);
 
-// error_msg
+// error_msg.c
 int get_random_index(int max);
 void puppetmaster_perror(const char *context);
 void print_loop(const char *quote);
 void format_line(char *dst, const char *quote);
 
-// vanish
+// vanish.c
 void vanish_blank(char *temp, int l, int r);
 void vanish_write(const char *str, int len);
 void vanish_effect(char *temp, const char *ref);
 
-// animation
+// dir animation
 void slow_type_prompt(const char *str);
 void launch_animation(void);
 void slow_type_line_at(int row, int col, const char *str);
@@ -146,6 +258,25 @@ void clear_screen(void);
 void move_cursor(int row, int col);
 int int_to_str(int n, char *str);
 int ft_random_digit(void);
-void puppetmaster_perror(const char *context);
+
+// ============================================================================
+// MACROS ET CONSTANTES
+// ============================================================================
+
+#define PROMPT_COLOR "\001\033[1;32m\002"
+#define RESET_COLOR "\001\033[0m\002"
+#define ERROR_COLOR "\033[1;31m"
+#define WARNING_COLOR "\033[1;33m"
+
+#define MAX_PATH 4096
+#define MAX_ARGS 1024
+#define BUFFER_SIZE 1024
+
+// Codes de sortie
+#define EXIT_SUCCESS 0
+#define EXIT_FAILURE 1
+#define EXIT_MISUSE 2
+#define EXIT_CANNOT_EXECUTE 126
+#define EXIT_COMMAND_NOT_FOUND 127
 
 #endif

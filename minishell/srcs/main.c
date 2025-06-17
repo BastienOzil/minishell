@@ -1,9 +1,11 @@
 #include "../includes/minishell.h"
 #include "../animation/includes/animation.h"
 
-int	main(void)
+int g_exit_status = 0;
+
+int main(void)
 {
-	char	*line;
+	char *line;
 
 	launch_animation(); // effet initial
 

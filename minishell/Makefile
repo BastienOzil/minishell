@@ -18,14 +18,18 @@ ANIMATION_DIR = animation
 SRCS = $(SRC_DIR)/main.c \
 	$(SRC_DIR)/cleanup.c \
 	$(SRC_DIR)/error_messages.c \
+	$(SRC_DIR)/expansion.c \
 	$(SRC_DIR)/handle_line.c \
-	$(SRC_DIR)/lexer.c \
 	$(SRC_DIR)/lexer_cmd.c \
-	$(SRC_DIR)/parser.c \
+	$(SRC_DIR)/lexer.c \
+	$(SRC_DIR)/logical_ops.c \
 	$(SRC_DIR)/parser_utils.c \
+	$(SRC_DIR)/parser.c \
 	$(SRC_DIR)/print_token.c \
+	$(SRC_DIR)/quote_parser.c \
 	$(SRC_DIR)/utils.c \
 	$(SRC_DIR)/vanish.c \
+	$(SRC_DIR)/wildcard.c \
 	
 OBJS = $(SRCS:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
 LIBFT = $(LIBFT_DIR)/libft.a
