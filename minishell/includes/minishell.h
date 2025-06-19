@@ -6,12 +6,36 @@
 /*   By: bozil <bozil@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 15:25:55 by bozil             #+#    #+#             */
-/*   Updated: 2025/06/17 16:13:47 by bozil            ###   ########.fr       */
+/*   Updated: 2025/06/19 15:24:48 by bozil            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 #define MINISHELL_H
+
+// ============================================================================
+// MACROS ET CONSTANTES
+// ============================================================================
+
+#define PROMPT_COLOR "\001\033[1;32m\002"
+#define RESET_COLOR "\001\033[0m\002"
+#define ERROR_COLOR "\033[1;31m"
+#define WARNING_COLOR "\033[1;33m"
+
+#define MAX_PATH 4096
+#define MAX_ARGS 1024
+#define BUFFER_SIZE 1024
+
+// Codes de sortie
+#define EXIT_SUCCESS 0
+#define EXIT_FAILURE 1
+#define EXIT_MISUSE 2
+#define EXIT_CANNOT_EXECUTE 126
+#define EXIT_COMMAND_NOT_FOUND 127
+
+// ============================================================================
+// INCLUDES
+// ============================================================================
 
 #include <unistd.h>
 #include <stdio.h>
@@ -31,7 +55,11 @@
 #include <dirent.h>
 #include "../utils/libft/libft.h"
 
-// Variable globale pour le statut de sortie
+// ============================================================================
+// TYPEDEF
+// ============================================================================
+
+// Variable globale pour le statut de sortie ---NEW
 extern int g_exit_status;
 
 // Types de tokens
@@ -44,12 +72,12 @@ typedef enum e_token_type
 	TOKEN_APPEND,
 	TOKEN_HEREDOC,
 	TOKEN_EOF,
-	TOKEN_AND,
-	TOKEN_OR,
-	TOKEN_LPAREN,
-	TOKEN_RPAREN,
-	TOKEN_DQUOTE,
-	TOKEN_SQUOTE
+	TOKEN_AND,		//---NEW
+	TOKEN_OR,		//---NEW
+	TOKEN_LPAREN, 	//---NEW
+	TOKEN_RPAREN, 	//---NEW
+	TOKEN_DQUOTE, 	//---NEW
+	TOKEN_SQUOTE 	//---NEW
 } t_token_type;
 
 // Types de nœuds pour l'AST
@@ -62,6 +90,10 @@ typedef enum e_node_type
 	NODE_OR,
 	NODE_SUBSHELL
 } t_node_type;
+
+// ============================================================================
+// STRUCTS
+// ============================================================================
 
 // Structure pour les redirections
 typedef struct s_redir
@@ -146,25 +178,25 @@ t_token *handle_pipe(t_lexer *lexer);
 t_token *handle_input_redirection(t_lexer *lexer);
 t_token *handle_output_redirection(t_lexer *lexer);
 
-// quote_parser.c
+// quote_parser.c	---NEW
 t_token *handle_quotes(t_lexer *lexer);
 char *get_double_quoted_string(t_lexer *lexer);
 char *get_single_quoted_string(t_lexer *lexer);
 int is_quote(char c);
 
-// expansion.c
+// expansion.c		---NEW
 t_token *handle_variable(t_lexer *lexer);
 char *expand_string(char *str);
 char *get_env_value(char *var_name);
 char *get_var_name(t_lexer *lexer);
 char *handle_var_expansion(char *str, int *i);
 
-// logical_ops.c
+// logical_ops.c	---NEW
 t_token *handle_and(t_lexer *lexer);
 t_token *handle_or(t_lexer *lexer);
 t_token *handle_parentheses(t_lexer *lexer);
 
-// wildcards.c
+// wildcards.c		---NEW
 char **expand_wildcard(char *pattern);
 int match_pattern(char *pattern, char *str);
 int count_matches(char *pattern);
@@ -189,45 +221,8 @@ char **add_arg(char **args, char *new_arg);
 void parse_redir(t_parser *parser, t_cmd *node);
 
 // ============================================================================
-// FONCTIONS D'EXÉCUTION
-// ============================================================================
-
-// execution.c
-int execute_ast(t_cmd *node, t_shell *shell);
-int execute_command(t_cmd *node, t_shell *shell);
-int execute_pipeline(t_cmd *node, t_shell *shell);
-
-// builtins.c
-int is_builtin(char *cmd);
-int execute_builtin(char **args, t_shell *shell);
-int builtin_echo(char **args);
-int builtin_cd(char **args, t_shell *shell);
-int builtin_pwd(void);
-int builtin_export(char **args, t_shell *shell);
-int builtin_unset(char **args, t_shell *shell);
-int builtin_env(t_shell *shell);
-int builtin_exit(char **args, t_shell *shell);
-
-// redirections.c
-int setup_redirections(t_cmd *node);
-int handle_heredoc(char *delimiter);
-
-// ============================================================================
-// FONCTIONS D'ENVIRONNEMENT
-// ============================================================================
-
-// env_utils.c
-t_env *init_env(char **envp);
-char *get_env_var(t_env *env, char *key);
-int set_env_var(t_env **env, char *key, char *value);
-int unset_env_var(t_env **env, char *key);
-char **env_to_array(t_env *env);
-
-// ============================================================================
 // FONCTIONS UTILITAIRES
 // ============================================================================
-
-// utils.c (fonctions communes déjà déclarées plus haut sont supprimées)
 
 // cleanup.c
 void free_redir(t_redir *redir);
@@ -245,6 +240,10 @@ void puppetmaster_perror(const char *context);
 void print_loop(const char *quote);
 void format_line(char *dst, const char *quote);
 
+// ============================================================================
+// ANIMATION
+// ============================================================================
+
 // vanish.c
 void vanish_blank(char *temp, int l, int r);
 void vanish_write(const char *str, int len);
@@ -258,25 +257,5 @@ void clear_screen(void);
 void move_cursor(int row, int col);
 int int_to_str(int n, char *str);
 int ft_random_digit(void);
-
-// ============================================================================
-// MACROS ET CONSTANTES
-// ============================================================================
-
-#define PROMPT_COLOR "\001\033[1;32m\002"
-#define RESET_COLOR "\001\033[0m\002"
-#define ERROR_COLOR "\033[1;31m"
-#define WARNING_COLOR "\033[1;33m"
-
-#define MAX_PATH 4096
-#define MAX_ARGS 1024
-#define BUFFER_SIZE 1024
-
-// Codes de sortie
-#define EXIT_SUCCESS 0
-#define EXIT_FAILURE 1
-#define EXIT_MISUSE 2
-#define EXIT_CANNOT_EXECUTE 126
-#define EXIT_COMMAND_NOT_FOUND 127
 
 #endif
