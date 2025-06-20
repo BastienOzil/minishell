@@ -1,43 +1,43 @@
 .SILENT:
 
 YELLOW = \033[1;33m
-GREEN = \033[1;32m
-RESET = \033[0m
+GREEN  = \033[1;32m
+RESET  = \033[0m
 
 NAME = minishell
 
 CC = cc
 CFLAGS = -Wall -Wextra -Werror
-LFLAGS = -lreadline 
+LFLAGS = -lreadline
 
-SRC_DIR = srcs
+# Répertoires
 OBJ_DIR = objs
 LIBFT_DIR = utils/libft
 ANIMATION_DIR = animation
 
-SRCS = $(SRC_DIR)/main.c \
-	$(SRC_DIR)/cleanup.c \
-	$(SRC_DIR)/error_messages.c \
-	$(SRC_DIR)/exec_builtins.c \
-	$(SRC_DIR)/executor.c \
-	$(SRC_DIR)/handle_line.c \
-	$(SRC_DIR)/lexer_cmd.c \
-	$(SRC_DIR)/lexer.c \
-	$(SRC_DIR)/parser_utils.c \
-	$(SRC_DIR)/parser.c \
-	$(SRC_DIR)/pipe.c \
-	$(SRC_DIR)/print_token.c \
-	$(SRC_DIR)/prompt.c \
-	$(SRC_DIR)/redirect.c \
-	$(SRC_DIR)/utils.c \
-	$(SRC_DIR)/vanish.c \
-	
-OBJS = $(SRCS:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
+# Fichiers source (avec chemins)
+SRCS = main.c \
+	srcs/exec/executor.c \
+	srcs/exec/redirect.c \
+	srcs/exec/pipe.c \
+	srcs/exec/exec_builtins.c
+	# srcs/parse/lexer.c \
+	# srcs/parse/lexer_cmd.c \
+	# srcs/parse/print_token.c \
+	# srcs/parse/prompt.c
+
+# On garde juste les noms des fichiers pour les .o
+OBJ_FILES = $(notdir $(SRCS:.c=.o))
+OBJS = $(addprefix $(OBJ_DIR)/, $(OBJ_FILES))
+
+# Librairies
 LIBFT = $(LIBFT_DIR)/libft.a
 ANIMATION_LIB = $(ANIMATION_DIR)/animation.a
 
+# Cible principale
 all: $(NAME)
 
+# Link final
 $(NAME): $(OBJS) $(LIBFT) $(ANIMATION_LIB)
 	$(CC) $(CFLAGS) $(OBJS) $(LIBFT) $(ANIMATION_LIB) -o $(NAME) $(LFLAGS)
 	echo "$(GREEN)"
@@ -45,20 +45,29 @@ $(NAME): $(OBJS) $(LIBFT) $(ANIMATION_LIB)
 	echo "      G H O S T   /in\\   M I N I S H E L L"
 	echo "                 / The\\                   "
 
+# Création du dossier objs/ si nécessaire
 $(OBJ_DIR):
-	@mkdir -p $(OBJ_DIR)
+	@mkdir -p $@
 
-$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c | $(OBJ_DIR)
-	@$(CC) $(CFLAGS) -I$(LIBFT_DIR) -I$(ANIMATION_DIR)/includes -c $< -o $@
+$(OBJ_DIR)/%.o: srcs/exec/%.c | $(OBJ_DIR)
+	$(CC) $(CFLAGS) -Iincludes -I$(LIBFT_DIR) -I$(ANIMATION_DIR)/includes -c $< -o $@
 
+$(OBJ_DIR)/%.o: srcs/parse/%.c | $(OBJ_DIR)
+	$(CC) $(CFLAGS) -Iincludes -I$(LIBFT_DIR) -I$(ANIMATION_DIR)/includes -c $< -o $@
+
+$(OBJ_DIR)/%.o: %.c | $(OBJ_DIR)
+	$(CC) $(CFLAGS) -Iincludes -I$(LIBFT_DIR) -I$(ANIMATION_DIR)/includes -c $< -o $@
+
+# Compilation des dépendances
 $(LIBFT):
 	@make -s -C $(LIBFT_DIR)
 
 $(ANIMATION_LIB):
 	@make -s -C $(ANIMATION_DIR)
 
+# Nettoyage
 clean:
-	@rm -f $(OBJS)
+	@rm -rf $(OBJ_DIR)
 	@make clean -s -C $(LIBFT_DIR)
 	@make clean -s -C $(ANIMATION_DIR)
 
