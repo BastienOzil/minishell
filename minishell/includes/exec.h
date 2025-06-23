@@ -4,15 +4,16 @@
 #include "shared.h"
 
 // executor
-typedef struct s_cmd
+typedef struct s_exec_cmd
 {
     char **argv;
     char *infile;
     char *outfile;
     char *heredoc;
     int append;
-    struct s_cmd *next;
-} t_cmd;
+    struct s_exec_cmd *next;
+} t_exec_cmd;
+
 
 // executor.c
 void    execute_cmd(t_cmd *cmd, char **envp);

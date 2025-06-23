@@ -15,22 +15,32 @@ OBJ_DIR = objs
 LIBFT_DIR = utils/libft
 ANIMATION_DIR = animation
 
-# Fichiers source (avec chemins)
 SRCS = main.c \
 	srcs/exec/executor.c \
 	srcs/exec/redirect.c \
 	srcs/exec/pipe.c \
-	srcs/exec/exec_builtins.c
-	# srcs/parse/lexer.c \
-	# srcs/parse/lexer_cmd.c \
-	# srcs/parse/print_token.c \
-	# srcs/parse/prompt.c
+	srcs/exec/exec_builtins.c \
+	srcs/parse/cleanup.c \
+	srcs/parse/error_messages.c \
+	srcs/parse/expansion.c \
+	srcs/parse/handle_line.c \
+	srcs/parse/lexer_cmd.c \
+	srcs/parse/lexer.c \
+	srcs/parse/logical_ops.c \
+	srcs/parse/parser_utils.c \
+	srcs/parse/parser.c \
+	srcs/parse/print_token.c \
+	srcs/parse/quote_parser.c \
+	srcs/parse/utils.c \
+	srcs/parse/vanish.c \
+	srcs/parse/wildcard.c \
 
 # On garde juste les noms des fichiers pour les .o
 OBJ_FILES = $(notdir $(SRCS:.c=.o))
 OBJS = $(addprefix $(OBJ_DIR)/, $(OBJ_FILES))
+	
+# OBJS = $(SRCS:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
 
-# Librairies
 LIBFT = $(LIBFT_DIR)/libft.a
 ANIMATION_LIB = $(ANIMATION_DIR)/animation.a
 

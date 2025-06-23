@@ -25,6 +25,21 @@ typedef struct s_parser
 	t_token *current;
 } t_parser;
 
+//modification du nom cmd pour la fonction free_ast
+typedef struct s_cmd
+{
+	t_node_type type;
+	char **args;
+	char *infile;
+	char *outfile;
+	int append;
+	char *heredoc;
+	struct s_cmd *left;
+	struct s_cmd *right;
+	struct s_cmd *next;
+} t_cmd;
+
+
 // parser.c
 t_ast_node	*parse_command(t_parser *parser);
 t_ast_node	*parse_pipeline(t_parser *parser);

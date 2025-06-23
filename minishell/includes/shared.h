@@ -1,8 +1,8 @@
 #ifndef SHARED_H
 #define SHARED_H
 
-// Enums partagés
-typedef enum
+// Types de tokens
+typedef enum e_token_type
 {
 	TOKEN_WORD,
 	TOKEN_PIPE,
@@ -10,8 +10,14 @@ typedef enum
 	TOKEN_OUTFILE,
 	TOKEN_APPEND,
 	TOKEN_HEREDOC,
-	TOKEN_EOF
-}	t_token_type;
+	TOKEN_EOF,
+	TOKEN_AND,		//---NEW
+	TOKEN_OR,		//---NEW
+	TOKEN_LPAREN, 	//---NEW
+	TOKEN_RPAREN, 	//---NEW
+	TOKEN_DQUOTE, 	//---NEW
+	TOKEN_SQUOTE 	//---NEW
+} t_token_type;
 
 typedef enum
 {
