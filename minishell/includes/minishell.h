@@ -1,6 +1,26 @@
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
+// ============================================================================
+// MACROS ET CONSTANTES
+// ============================================================================
+
+#define PROMPT_COLOR "\001\033[1;32m\002"
+#define RESET_COLOR "\001\033[0m\002"
+#define ERROR_COLOR "\033[1;31m"
+#define WARNING_COLOR "\033[1;33m"
+
+#define MAX_PATH 4096
+#define MAX_ARGS 1024
+#define BUFFER_SIZE 1024
+
+// Codes de sortie
+#define EXIT_SUCCESS 0
+#define EXIT_FAILURE 1
+#define EXIT_MISUSE 2
+#define EXIT_CANNOT_EXECUTE 126
+#define EXIT_COMMAND_NOT_FOUND 127
+
 // =========================================================================
 // INCLUDES
 // =========================================================================
@@ -43,15 +63,17 @@ typedef struct s_shell {
 	int exit_status;
 } t_shell;
 
+
+
 // =========================================================================
 // DÉCLARATIONS DE FONCTIONS SPÉCIFIQUES
 // =========================================================================
 
 // handle_line.c
-void init_lexer(t_lexer *lexer, char *input);
-t_token *tokenize(char *input);
-void print_ast(t_cmd *node, int depth);
-void handle_line(char *line);
+// void init_lexer(t_lexer *lexer, char *input);
+// t_token *tokenize(char *input);
+// void print_ast(t_cmd *node, int depth);
+// void handle_line(char *line);
 
 
 //error_message.c

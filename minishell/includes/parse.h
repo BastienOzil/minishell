@@ -40,32 +40,136 @@ typedef struct s_cmd
 } t_cmd;
 
 
-// parser.c
-t_ast_node	*parse_command(t_parser *parser);
-t_ast_node	*parse_pipeline(t_parser *parser);
-t_ast_node	*parse(t_token *tokens);
+// // parser.c
+// t_ast_node	*parse_command(t_parser *parser);
+// t_ast_node	*parse_pipeline(t_parser *parser);
+// t_ast_node	*parse(t_token *tokens);
+
+// // lexer.c
+// t_token		*get_next_token(t_lexer *lexer);
+// void		skip_spaces(t_lexer *lexer);
+// char		*get_word(t_lexer *lexer);
+// int			is_space(char c);
+// int			is_special(char c);
+
+// // lexer_cmd.c
+// t_token		*handle_pipe(t_lexer *lexer);
+// t_token		*handle_input_redirection(t_lexer *lexer);
+// t_token		*handle_output_redirection(t_lexer *lexer);
+
+// // token_utils.c
+// t_token		*new_token(t_token_type type, char *value);
+
+// // print_token.c
+// void		print_token(t_token *token);
+
+// // cleanup.c
+// void		free_tokens(t_token *tokens);
+// void		free_redir(t_redir *redir);
+// void		free_array(char **arr);
+
+
+// ============================================================================
+// FONCTIONS DE LEXING/TOKENISATION
+// ============================================================================
+
+// handle_line.c
+void init_lexer(t_lexer *lexer, char *input);
+t_token *tokenize(char *input);
+void print_ast(t_cmd *node, int depth);
+void handle_line(char *line);
 
 // lexer.c
-t_token		*get_next_token(t_lexer *lexer);
-void		skip_spaces(t_lexer *lexer);
-char		*get_word(t_lexer *lexer);
-int			is_space(char c);
-int			is_special(char c);
+t_token *new_token(t_token_type type, char *value);
+t_token *get_next_token(t_lexer *lexer);
+int is_space(char c);
+int is_special(char c);
+char *get_word(t_lexer *lexer);
+void skip_spaces(t_lexer *lexer);
 
 // lexer_cmd.c
-t_token		*handle_pipe(t_lexer *lexer);
-t_token		*handle_input_redirection(t_lexer *lexer);
-t_token		*handle_output_redirection(t_lexer *lexer);
+t_token *handle_pipe(t_lexer *lexer);
+t_token *handle_input_redirection(t_lexer *lexer);
+t_token *handle_output_redirection(t_lexer *lexer);
 
-// token_utils.c
-t_token		*new_token(t_token_type type, char *value);
+// quote_parser.c	---NEW
+t_token *handle_quotes(t_lexer *lexer);
+char *get_double_quoted_string(t_lexer *lexer);
+char *get_single_quoted_string(t_lexer *lexer);
+int is_quote(char c);
 
-// print_token.c
-void		print_token(t_token *token);
+// expansion.c		---NEW
+t_token *handle_variable(t_lexer *lexer);
+char *expand_string(char *str);
+char *get_env_value(char *var_name);
+char *get_var_name(t_lexer *lexer);
+char *handle_var_expansion(char *str, int *i);
+
+// logical_ops.c	---NEW
+t_token *handle_and(t_lexer *lexer);
+t_token *handle_or(t_lexer *lexer);
+t_token *handle_parentheses(t_lexer *lexer);
+
+// wildcards.c		---NEW
+char **expand_wildcard(char *pattern);
+int match_pattern(char *pattern, char *str);
+int count_matches(char *pattern);
+char **fill_matches(char *pattern, int count);
+
+// ============================================================================
+// FONCTIONS DE PARSING
+// ============================================================================
+
+// parser.c
+t_cmd *parse_command(t_parser *parser);
+t_cmd *parse_pipeline(t_parser *parser);
+t_cmd *parse(t_token *tokens);
+t_cmd *parse_logical(t_parser *parser);
+
+// parser_utils.c
+t_cmd *new_node(t_node_type type);
+void advance_token(t_parser *parser);
+int match_token(t_parser *parser, t_token_type type);
+int is_redir_token(t_token_type type);
+char **add_arg(char **args, char *new_arg);
+void parse_redir(t_parser *parser, t_cmd *node);
+
+// ============================================================================
+// FONCTIONS UTILITAIRES
+// ============================================================================
 
 // cleanup.c
-void		free_tokens(t_token *tokens);
-void		free_redir(t_redir *redir);
-void		free_array(char **arr);
+void free_redir(t_redir *redir);
+void free_tokens(t_token *tokens);
+void free_array(char **arr);
+void free_args(char **args);
+void free_ast(t_cmd *node);
+
+// print_token.c
+void print_token(t_token *token);
+
+// error_msg.c
+int get_random_index(int max);
+void puppetmaster_perror(const char *context);
+void print_loop(const char *quote);
+void format_line(char *dst, const char *quote);
+
+// ============================================================================
+// ANIMATION
+// ============================================================================
+
+// vanish.c
+void vanish_blank(char *temp, int l, int r);
+void vanish_write(const char *str, int len);
+void vanish_effect(char *temp, const char *ref);
+
+// dir animation
+void slow_type_prompt(const char *str);
+void launch_animation(void);
+void slow_type_line_at(int row, int col, const char *str);
+void clear_screen(void);
+void move_cursor(int row, int col);
+int int_to_str(int n, char *str);
+int ft_random_digit(void);
 
 #endif

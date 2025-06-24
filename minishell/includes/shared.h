@@ -19,12 +19,16 @@ typedef enum e_token_type
 	TOKEN_SQUOTE 	//---NEW
 } t_token_type;
 
-typedef enum
+typedef enum e_node_type
 {
 	NODE_COMMAND,
 	NODE_PIPELINE,
-	NODE_REDIR
-}	t_node_type;
+	NODE_REDIR,
+	NODE_AND,
+	NODE_OR,
+	NODE_SUBSHELL
+} t_node_type;
+
 
 // Structures partagées
 typedef struct s_redir

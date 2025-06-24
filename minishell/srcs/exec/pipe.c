@@ -1,11 +1,11 @@
 #include "../includes/minishell.h"
 
-void	execute_pipeline(t_cmd *cmd_list, char **envp)
+void	execute_pipeline(t_exec_cmd *cmd_list, char **envp)
 {
 	int		pipefd[2];
 	int		in_fd = 0;  // au début, l'entrée standard (stdin)
 	pid_t	pid;
-	t_cmd	*cmd = cmd_list;
+	t_exec_cmd	*cmd = cmd_list;
 
 	while (cmd)
 	{

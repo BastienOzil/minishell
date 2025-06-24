@@ -16,17 +16,17 @@ typedef struct s_exec_cmd
 
 
 // executor.c
-void    execute_cmd(t_cmd *cmd, char **envp);
-void	execute_all(t_cmd *cmd, char **envp);
+void    execute_cmd(t_exec_cmd *exec_cmd, char **envp);
+void	execute_all(t_exec_cmd *exec_cmd, char **envp);
 
 //redirect.c
-void	exec_output_redirection(t_cmd *cmd);
-void	exec_input_redirection(t_cmd *cmd);
-void	exec_append_redirection(t_cmd *cmd);
-void    exec_heredoc(t_cmd *cmd);
+void	exec_output_redirection(t_exec_cmd *exec_cmd);
+void	exec_input_redirection(t_exec_cmd *exec_cmd);
+void	exec_append_redirection(t_exec_cmd *exec_cmd);
+void    exec_heredoc(t_exec_cmd *cmd);
 
 //pipe.c
-void	execute_pipeline(t_cmd *cmd_list, char **envp);
+void	execute_pipeline(t_exec_cmd *cmd_list, char **envp);
 
 //builtins.c
 int	echo_builtin(char **args);

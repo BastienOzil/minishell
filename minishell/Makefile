@@ -34,6 +34,13 @@ SRCS = main.c \
 	srcs/parse/utils.c \
 	srcs/parse/vanish.c \
 	srcs/parse/wildcard.c \
+	srcs/builtins/builtin_cd.c \
+	srcs/builtins/builtin_echo.c \
+	srcs/builtins/builtin_env.c \
+	srcs/builtins/builtin_exit.c \
+	srcs/builtins/builtin_export.c \
+	srcs/builtins/builtin_pwd.c \
+	srcs/builtins/builtin_unset.c
 
 # On garde juste les noms des fichiers pour les .o
 OBJ_FILES = $(notdir $(SRCS:.c=.o))
@@ -58,6 +65,9 @@ $(NAME): $(OBJS) $(LIBFT) $(ANIMATION_LIB)
 # Création du dossier objs/ si nécessaire
 $(OBJ_DIR):
 	@mkdir -p $@
+
+$(OBJ_DIR)/%.o: srcs/builtins/%.c | $(OBJ_DIR)
+	$(CC) $(CFLAGS) -Iincludes -I$(LIBFT_DIR) -I$(ANIMATION_DIR)/includes -c $< -o $@
 
 $(OBJ_DIR)/%.o: srcs/exec/%.c | $(OBJ_DIR)
 	$(CC) $(CFLAGS) -Iincludes -I$(LIBFT_DIR) -I$(ANIMATION_DIR)/includes -c $< -o $@
