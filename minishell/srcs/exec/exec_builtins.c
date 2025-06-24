@@ -18,17 +18,17 @@ int	exec_builtin(char **args, char ***envp)
 		return (1);
 	if (!strcmp(args[0], "echo"))
 		return (echo_builtin(args));
-	if (!strcmp(args[0], "cd"))
-		return (cd_builtin(args));
-	if (!strcmp(args[0], "pwd"))
-		return (pwd_builtin());
+	// if (!strcmp(args[0], "cd"))
+	// 	return (cd_builtin(args));
+	// if (!strcmp(args[0], "pwd"))
+	// 	return (pwd_builtin());
 	if (!strcmp(args[0], "env"))
 		return (env_builtin(*envp));
-	if (!strcmp(args[0], "exit"))
-		return (exit_builtin(args));
-	if (!strcmp(args[0], "export"))
-		return (export_builtin(args, envp));
-	if (!strcmp(args[0], "unset"))
-		return (unset_builtin(args, envp));
+	// if (!strcmp(args[0], "exit"))
+	// 	return (exit_builtin(args));
+	// if (!strcmp(args[0], "export"))
+	// 	return (export_builtin(args, envp));
+	// if (!strcmp(args[0], "unset"))
+	// 	return (unset_builtin(args, envp));
 	return (1);
 }

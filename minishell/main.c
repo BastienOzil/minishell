@@ -2,9 +2,12 @@
 
 int g_exit_status = 0;
 
-int main(void)
+int main(int argc, char **argv, char **envp)
 {
 	char *line;
+	(void)argc;
+	(void)argv;
+
 
 	launch_animation(); // effet initial
 
@@ -25,7 +28,7 @@ int main(void)
 			break;
 		if (*line)
 			add_history(line);
-		handle_line(line);
+		handle_line(line, envp);
 		free(line);
 	}
 	printf("exit\n");

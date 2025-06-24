@@ -5,11 +5,11 @@
 
 //overwrite > écrase le fichier s'il n'existe pas.
 //ouvre un fichier pour rediriger la sortie.
-void	exec_output_redirection(t_exec_cmd *exec_cmd)
+void	exec_output_redirection(t_cmd *cmd)
 {
 	int	fd;
 
-	fd = open(exec_cmd->outfile, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	fd = open(cmd->outfile, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (fd == -1)
 	{
 		puppetmaster_perror("open outfile");
@@ -25,11 +25,11 @@ void	exec_output_redirection(t_exec_cmd *exec_cmd)
 }
 
 // input < lit dans un fichier existant et remplace l'entrée standard (stdin)
-void	exec_input_redirection(t_exec_cmd *exec_cmd)
+void	exec_input_redirection(t_cmd *cmd)
 {
 	int	fd;
 
-	fd = open(exec_cmd->infile, O_RDONLY);
+	fd = open(cmd->infile, O_RDONLY);
 	if (fd == -1)
 	{
 		puppetmaster_perror("open infile");
@@ -45,11 +45,11 @@ void	exec_input_redirection(t_exec_cmd *exec_cmd)
 }
 
 // append >> ajoute à la fin d’un fichier (ou le crée si absent)
-void	exec_append_redirection(t_exec_cmd *exec_cmd)
+void	exec_append_redirection(t_cmd *cmd)
 {
 	int	fd;
 
-	fd = open(exec_cmd->outfile, O_WRONLY | O_CREAT | O_APPEND, 0644);
+	fd = open(cmd->outfile, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	if (fd == -1)
 	{
 		puppetmaster_perror("open outfile (append)");
@@ -65,11 +65,11 @@ void	exec_append_redirection(t_exec_cmd *exec_cmd)
 }
 
 // heredoc << simule un fichier temporaire contenant l’entrée jusqu’à un délimiteur
-void	exec_heredoc(t_exec_cmd *exec_cmd)
+void	exec_heredoc(t_cmd *cmd)
 {
 	int		fd;
 	char	*line;
-	char	*delimiter = exec_cmd->infile; // contient le mot-clé de fin, comme "EOF"
+	char	*delimiter = cmd->infile; // contient le mot-clé de fin, comme "EOF"
 
 	fd = open("/tmp/.heredoc_tmp", O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	if (fd == -1)

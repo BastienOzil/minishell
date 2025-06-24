@@ -29,6 +29,19 @@ typedef enum e_node_type
 	NODE_SUBSHELL
 } t_node_type;
 
+//modification du nom cmd pour la fonction free_ast
+typedef struct s_cmd
+{
+	t_node_type type;
+	char **args;
+	char *infile;
+	char *outfile;
+	int append;
+	char *heredoc;
+	struct s_cmd *left;
+	struct s_cmd *right;
+	struct s_cmd *next;
+} t_cmd;
 
 // Structures partagées
 typedef struct s_redir

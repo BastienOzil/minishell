@@ -1,11 +1,11 @@
 #include "../includes/minishell.h"
 
-void	execute_pipeline(t_exec_cmd *cmd_list, char **envp)
+void	execute_pipeline(t_cmd *cmd_list, char **envp)
 {
 	int		pipefd[2];
 	int		in_fd = 0;  // au début, l'entrée standard (stdin)
 	pid_t	pid;
-	t_exec_cmd	*cmd = cmd_list;
+	t_cmd	*cmd = cmd_list;
 
 	while (cmd)
 	{
@@ -36,7 +36,7 @@ void	execute_pipeline(t_exec_cmd *cmd_list, char **envp)
 				dup2(pipefd[1], STDOUT_FILENO);
 				close(pipefd[1]);
 			}
-			execve(cmd->argv[0], cmd->argv, envp);
+			execve(cmd->args[0], cmd->args, envp);
 			puppetmaster_perror("execve");
 			exit(EXIT_FAILURE);
 		}
