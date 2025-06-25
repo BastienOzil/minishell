@@ -19,8 +19,6 @@ int	is_builtin(const char *cmd)
 		return (0);
 
 	// Affichage de debug (à commenter plus tard)
-	printf(">> test is_builtin avec : [%s]\n", cmd);
-
 	if (!strcmp(cmd, "echo"))
 		return (1);
 	if (!strcmp(cmd, "cd"))
@@ -42,12 +40,14 @@ int	is_builtin(const char *cmd)
 
 int	exec_builtin(t_cmd *cmd, char ***envp)
 {
-	printf("exec_builtin\n");
 	if (!cmd || !cmd->args || !cmd->args[0])
 		return (1);
+	// printf(">>> cmd->args[0] = [%s]\n", cmd->args[0]);
+	// for (int i = 0; cmd->args[i]; i++)
+	// 	printf(">>> cmd->args[%d] = [%s]\n", i, cmd->args[i]);
+
 	if (!strcmp(cmd->args[0], "echo"))
 	{
-		printf("echo\n");
 		return (echo_builtin(cmd->args));
 	}
 	// if (!strcmp(args[0], "cd"))

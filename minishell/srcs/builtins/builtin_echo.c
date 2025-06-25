@@ -7,11 +7,13 @@ int	echo_builtin(char **args)
 
 	i = 1;
 	newline = 1;
-
-	printf(">> echo_builtin() appelé\n");
-	
-	if (args[1] && strcmp(args[1], "-n") == 0)
+	while (args[i] && args[i][0] == '-' && args[i][1] == 'n')
 	{
+		int j = 1;
+		while (args[i][j] == 'n')
+			j++;
+		if (args[i][j] != '\0')
+			break;
 		newline = 0;
 		i++;
 	}

@@ -20,9 +20,9 @@ int main(int argc, char **argv, char **envp)
 
 		line = readline(prompt);
 
-		int fd = open("fichier_qui_nexiste_pas.txt", O_RDONLY);
-		if (fd < 0)
-			puppetmaster_perror("open");
+		// int fd = open("fichier_qui_nexiste_pas.txt", O_RDONLY);
+		// if (fd < 0)
+		// 	puppetmaster_perror("open");
 
 		if (!line)
 			break;

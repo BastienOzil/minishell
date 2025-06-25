@@ -157,9 +157,9 @@ void	handle_line(char *line, char **envp)
 		free_tokens(tokens);
 		return ;
 	}
-	ft_putstr_fd("=== AST ===\n", 1);
-	print_ast(ast, 0);
-	ft_putstr_fd("===========\n", 1);
+	// ft_putstr_fd("=== AST ===\n", 1);
+	// print_ast(ast, 0);
+	// ft_putstr_fd("===========\n", 1);
 
 	execute_all(ast, envp);
 
