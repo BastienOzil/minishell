@@ -6,8 +6,10 @@ void	execute_cmd(t_cmd *cmd, char **envp)
 {
 	pid_t	pid;
 	printf(">> cmd->args[0] = [%s]\n", cmd->args[0]);
-printf(">> is_builtin = %d\n", is_builtin(cmd->args[0]));
+	printf(">> is_builtin = %d\n", is_builtin(cmd->args[0]));
 
+	for (int i = 0; cmd->args[0][i]; i++)
+		printf("char[%d] = %d (char: %c)\n", i, cmd->args[0][i], cmd->args[0][i]);
 
 	if (is_builtin(cmd->args[0]))
 	{
