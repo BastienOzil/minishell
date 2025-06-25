@@ -5,6 +5,16 @@
 void	execute_cmd(t_cmd *cmd, char **envp)
 {
 	pid_t	pid;
+	printf(">> cmd->args[0] = [%s]\n", cmd->args[0]);
+printf(">> is_builtin = %d\n", is_builtin(cmd->args[0]));
+
+
+	if (is_builtin(cmd->args[0]))
+	{
+		printf(">> builtin()\n");
+		exec_builtin(cmd, &envp);
+		return ;
+	}
 
 	pid = fork();
 	if (pid < 0)

@@ -37,4 +37,9 @@ int	env_builtin(char **envp);
 // int	export_builtin(char **args, char ***envp);
 // int	unset_builtin(char **args, char ***envp);
 
+//exec_builtin.c
+int	is_builtin(const char *cmd);
+int	exec_builtin(t_cmd *cmd, char ***envp);
+
+
 #endif

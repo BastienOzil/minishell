@@ -7,6 +7,9 @@ int	echo_builtin(char **args)
 
 	i = 1;
 	newline = 1;
+
+	printf(">> echo_builtin() appelé\n");
+	
 	if (args[1] && strcmp(args[1], "-n") == 0)
 	{
 		newline = 0;

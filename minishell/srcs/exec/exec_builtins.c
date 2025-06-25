@@ -2,8 +2,9 @@
 
 //detections des appels de fonctions interne (echo, cd, pwd, env, export, unset, exit)
 
-int	is_builtin(char *cmd)
+int	is_builtin(const char *cmd)
 {
+	printf(">> vérif is_builtin avec : [%s]\n", cmd);
 	if (!cmd)
 		return (0);
 	return (!strcmp(cmd, "echo") || !strcmp(cmd, "cd")
@@ -12,17 +13,18 @@ int	is_builtin(char *cmd)
 		|| !strcmp(cmd, "exit"));
 }
 
-int	exec_builtin(char **args, char ***envp)
+int	exec_builtin(t_cmd *cmd, char ***envp)
 {
-	if (!args || !args[0])
+	if (!cmd || !cmd->args || !cmd->args[0])
 		return (1);
-	if (!strcmp(args[0], "echo"))
-		return (echo_builtin(args));
+	if (!strcmp(cmd->args[0], "echo"))
+	printf("echo");
+		return (echo_builtin(cmd->args));
 	// if (!strcmp(args[0], "cd"))
 	// 	return (cd_builtin(args));
 	// if (!strcmp(args[0], "pwd"))
 	// 	return (pwd_builtin());
-	if (!strcmp(args[0], "env"))
+	if (!strcmp(cmd->args[0], "env"))
 		return (env_builtin(*envp));
 	// if (!strcmp(args[0], "exit"))
 	// 	return (exit_builtin(args));
