@@ -100,6 +100,17 @@ char	**add_arg(char **args, char *new_arg)
 	return (new_args);
 }
 
+// Valide la syntaxe de redirection
+static int	validate_redir_syntax(t_parser *parser)
+{
+	if (!parser->current || parser->current->type != TOKEN_WORD)
+	{
+		ft_putstr_fd("minishell: syntax error near redirection\n", 2);
+		return (0);
+	}
+	return (1);
+}
+
 //Redirige l'entrée et met a jour la boucle
 static void	handle_input_redir(t_parser *parser, t_cmd *node)
 {
@@ -125,18 +136,10 @@ static void	handle_heredoc_redir(t_parser *parser, t_cmd *node)
 	node->heredoc = ft_strdup(parser->current->value);
 }
 
-// Parse la redirection et l'applique a la boucle
-void	parse_redir(t_parser *parser, t_cmd *node)
+// Applique la redirection selon son type
+static void	apply_redirection(t_parser *parser, t_cmd *node, 
+	t_token_type redir_type)
 {
-	t_token_type	redir_type;
-
-	redir_type = parser->current->type;
-	advance_token(parser);
-	if (!parser->current || parser->current->type != TOKEN_WORD)
-	{
-		ft_putstr_fd("minishell: syntax error near redirection\n", 2);
-		return ;
-	}
 	if (redir_type == TOKEN_INFILE)
 		handle_input_redir(parser, node);
 	else if (redir_type == TOKEN_OUTFILE)
@@ -145,6 +148,17 @@ void	parse_redir(t_parser *parser, t_cmd *node)
 		handle_output_redir(parser, node, 1);
 	else if (redir_type == TOKEN_HEREDOC)
 		handle_heredoc_redir(parser, node);
-	advance_token(parser);
 }
 
+// Parse la redirection et l'applique a la boucle
+void	parse_redir(t_parser *parser, t_cmd *node)
+{
+	t_token_type	redir_type;
+
+	redir_type = parser->current->type;
+	advance_token(parser);
+	if (!validate_redir_syntax(parser))
+		return ;
+	apply_redirection(parser, node, redir_type);
+	advance_token(parser);
+}
