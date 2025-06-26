@@ -30,10 +30,10 @@ void	execute_pipeline(t_cmd *cmd_list, char **envp);
 
 //builtins.c
 int	echo_builtin(char **args);
-// int	cd_builtin(char **args);
-// int	pwd_builtin(void);
+int	cd_builtin(char **args);
+int	pwd_builtin(void);
 int	env_builtin(char **envp);
-// int	exit_builtin(char **args);
+int	exit_builtin(char **args);
 // int	export_builtin(char **args, char ***envp);
 // int	unset_builtin(char **args, char ***envp);
 
