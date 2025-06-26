@@ -16,6 +16,7 @@ t_cmd	*new_node(t_node_type type)
 	node->outfile = NULL;
 	node->append = 0;
 	node->heredoc = NULL;
+	node->next = NULL;
 	return (node);
 }
 

@@ -42,6 +42,7 @@ void	execute_all(t_cmd *cmd, char **envp)
 {
 	if (!cmd)
 		return ;
+	
 	if (cmd->next)
 		execute_pipeline(cmd, envp);
 	else

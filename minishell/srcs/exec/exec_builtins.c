@@ -40,16 +40,8 @@ int	is_builtin(const char *cmd)
 
 int	exec_builtin(t_cmd *cmd, char ***envp)
 {
-	if (!cmd || !cmd->args || !cmd->args[0])
-		return (1);
-	// printf(">>> cmd->args[0] = [%s]\n", cmd->args[0]);
-	// for (int i = 0; cmd->args[i]; i++)
-	// 	printf(">>> cmd->args[%d] = [%s]\n", i, cmd->args[i]);
-
 	if (!strcmp(cmd->args[0], "echo"))
-	{
 		return (echo_builtin(cmd->args));
-	}
 	// if (!strcmp(args[0], "cd"))
 	// 	return (cd_builtin(args));
 	// if (!strcmp(args[0], "pwd"))
