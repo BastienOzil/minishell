@@ -1,42 +1,60 @@
 .SILENT:
 
 YELLOW = \033[1;33m
-GREEN = \033[1;32m
-RESET = \033[0m
+GREEN  = \033[1;32m
+RESET  = \033[0m
 
 NAME = minishell
 
 CC = cc
 CFLAGS = -Wall -Wextra -Werror
-LFLAGS = -lreadline 
+LFLAGS = -lreadline
 
-SRC_DIR = srcs
+# Répertoires
 OBJ_DIR = objs
 LIBFT_DIR = utils/libft
 ANIMATION_DIR = animation
 
-SRCS = $(SRC_DIR)/main.c \
-	$(SRC_DIR)/cleanup.c \
-	$(SRC_DIR)/error_messages.c \
-	$(SRC_DIR)/expansion.c \
-	$(SRC_DIR)/handle_line.c \
-	$(SRC_DIR)/lexer_cmd.c \
-	$(SRC_DIR)/lexer.c \
-	$(SRC_DIR)/logical_ops.c \
-	$(SRC_DIR)/parser_utils.c \
-	$(SRC_DIR)/parser.c \
-	$(SRC_DIR)/print_token.c \
-	$(SRC_DIR)/quote_parser.c \
-	$(SRC_DIR)/utils.c \
-	$(SRC_DIR)/vanish.c \
-	$(SRC_DIR)/wildcard.c \
+SRCS = main.c \
+	srcs/exec/executor.c \
+	srcs/exec/redirect.c \
+	srcs/exec/pipe.c \
+	srcs/exec/exec_builtins.c \
+	srcs/parse/cleanup.c \
+	srcs/parse/error_messages.c \
+	srcs/parse/expansion.c \
+	srcs/parse/handle_line.c \
+	srcs/parse/lexer_cmd.c \
+	srcs/parse/lexer.c \
+	srcs/parse/logical_ops.c \
+	srcs/parse/parser_utils.c \
+	srcs/parse/parser.c \
+	srcs/parse/print_token.c \
+	srcs/parse/quote_parser.c \
+	srcs/parse/utils.c \
+	srcs/parse/vanish.c \
+	srcs/parse/wildcard.c \
+	srcs/builtins/builtin_cd.c \
+	srcs/builtins/builtin_echo.c \
+	srcs/builtins/builtin_env.c \
+	srcs/builtins/builtin_exit.c \
+	srcs/builtins/builtin_export.c \
+	srcs/builtins/builtin_pwd.c \
+	srcs/builtins/builtin_unset.c
+
+# On garde juste les noms des fichiers pour les .o
+OBJ_FILES = $(notdir $(SRCS:.c=.o))
+OBJS = $(addprefix $(OBJ_DIR)/, $(OBJ_FILES))
 	
-OBJS = $(SRCS:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
+# OBJS = $(SRCS:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
+
 LIBFT = $(LIBFT_DIR)/libft.a
 ANIMATION_LIB = $(ANIMATION_DIR)/animation.a
 
+# Cible principale
 all: $(NAME)
 
+# Link final
 $(NAME): $(OBJS) $(LIBFT) $(ANIMATION_LIB)
 	$(CC) $(CFLAGS) $(OBJS) $(LIBFT) $(ANIMATION_LIB) -o $(NAME) $(LFLAGS)
 	echo "$(GREEN)"
@@ -44,20 +62,32 @@ $(NAME): $(OBJS) $(LIBFT) $(ANIMATION_LIB)
 	echo "      G H O S T   /in\\   M I N I S H E L L"
 	echo "                 / The\\                   "
 
+# Création du dossier objs/ si nécessaire
 $(OBJ_DIR):
-	@mkdir -p $(OBJ_DIR)
+	@mkdir -p $@
 
-$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c | $(OBJ_DIR)
-	@$(CC) $(CFLAGS) -I$(LIBFT_DIR) -I$(ANIMATION_DIR)/includes -c $< -o $@
+$(OBJ_DIR)/%.o: srcs/builtins/%.c | $(OBJ_DIR)
+	$(CC) $(CFLAGS) -Iincludes -I$(LIBFT_DIR) -I$(ANIMATION_DIR)/includes -c $< -o $@
 
+$(OBJ_DIR)/%.o: srcs/exec/%.c | $(OBJ_DIR)
+	$(CC) $(CFLAGS) -Iincludes -I$(LIBFT_DIR) -I$(ANIMATION_DIR)/includes -c $< -o $@
+
+$(OBJ_DIR)/%.o: srcs/parse/%.c | $(OBJ_DIR)
+	$(CC) $(CFLAGS) -Iincludes -I$(LIBFT_DIR) -I$(ANIMATION_DIR)/includes -c $< -o $@
+
+$(OBJ_DIR)/%.o: %.c | $(OBJ_DIR)
+	$(CC) $(CFLAGS) -Iincludes -I$(LIBFT_DIR) -I$(ANIMATION_DIR)/includes -c $< -o $@
+
+# Compilation des dépendances
 $(LIBFT):
 	@make -s -C $(LIBFT_DIR)
 
 $(ANIMATION_LIB):
 	@make -s -C $(ANIMATION_DIR)
 
+# Nettoyage
 clean:
-	@rm -f $(OBJS)
+	@rm -rf $(OBJ_DIR)
 	@make clean -s -C $(LIBFT_DIR)
 	@make clean -s -C $(ANIMATION_DIR)
 

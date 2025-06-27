@@ -62,20 +62,36 @@ char	*handle_var_expansion(char *str, int *i)
 		(*i)++;
 	name = ft_substr(str, start, *i - start);
 	(*i)--;
-
 	value = get_env_value(name);
 	free(name);
 	return (value);
 }
 
-// Expanse une chaîne contenant des variables
+// Fonction utilitaire pour joindre et libérer l'ancien résultat
+static char	*join_and_free(char *old_str, char *to_add)
+{
+	char	*new_str;
+
+	if (!old_str || !to_add)
+		return (NULL);
+	new_str = ft_strjoin(old_str, to_add);
+	free(old_str);
+	free(to_add);
+	return (new_str);
+}
+
+// VERSION CORRIGÉE - Expanse une chaîne contenant des variables
 char	*expand_string(char *str)
 {
 	char	*result;
 	char	*temp;
 	int		i;
 
+	if (!str)
+		return (NULL);
 	result = ft_strdup("");
+	if (!result)
+		return (NULL);
 	i = 0;
 	while (str[i])
 	{
@@ -83,14 +99,29 @@ char	*expand_string(char *str)
 				|| str[i + 1] == '_' || str[i + 1] == '?'))
 		{
 			temp = handle_var_expansion(&str[i], &i);
-			result = ft_strjoin(result, temp);
+			if (!temp)
+			{
+				free(result);
+				return (NULL);
+			}
+			result = join_and_free(result, temp);
+			if (!result)
+				return (NULL);
 		}
 		else
 		{
 			temp = ft_substr(str, i, 1);
-			result = ft_strjoin(result, temp);
-			i++;
+			if (!temp)
+			{
+				free(result);
+				return (NULL);
+			}
+			result = join_and_free(result, temp);
+			if (!result)
+				return (NULL);
 		}
+		i++;
 	}
 	return (result);
 }
+
