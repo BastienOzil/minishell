@@ -1,10 +1,16 @@
 #include "../includes/minishell.h"
 
 // Elle exécute une commande (comme ls, echo, etc.) en créant un nouveau processus 
-// à l’aide de fork() et en lançant la commande avec execve()
+// à l'aide de fork() et en lançant la commande avec execve()
 void	execute_cmd(t_cmd *cmd, char **envp)
 {
 	pid_t	pid;
+
+	// AJOUT DES VÉRIFICATIONS CRITIQUES
+	if (!cmd)
+		return ;
+	if (!cmd->args || !cmd->args[0])
+		return ;
 
 	if (is_builtin(cmd->args[0]))
 	{
@@ -48,3 +54,4 @@ void	execute_all(t_cmd *cmd, char **envp)
 	else
 		execute_cmd(cmd, envp);
 }
+
