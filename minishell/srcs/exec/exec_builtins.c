@@ -47,11 +47,11 @@ int	exec_builtin(t_cmd *cmd, char ***envp)
 	if (!strcmp(cmd->args[0], "pwd"))
 		return (pwd_builtin());
 	if (!strcmp(cmd->args[0], "env"))
-		return (env_builtin(*envp));
+		return (env_builtin(envp));
 	if (!strcmp(cmd->args[0], "exit"))
 		return (exit_builtin(cmd->args));
-	// if (!strcmp(cmd->args[0], "export"))
-	// 	return (export_builtin(cmd->args, envp));
+	if (!strcmp(cmd->args[0], "export"))
+		return (export_builtin(cmd->args, envp));
 	// if (!strcmp(cmd->args[0], "unset"))
 	// 	return (unset_builtin(cmd->args, envp));
 	return (1);

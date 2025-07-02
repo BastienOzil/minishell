@@ -4,11 +4,19 @@ int g_exit_status = 0;
 
 int main(int argc, char **argv, char **envp)
 {
-	char *line;
+	char 	*line;
+	char	**my_env;
 	(void)argc;
 	(void)argv;
 
 	//launch_animation(); // effet initial
+
+	my_env = dup_env(envp); // Copie sécurisée de l'environnement
+	if (!my_env)
+		{
+			perror("minishell: dup_env failed");
+			exit(EXIT_FAILURE);
+		}
 
 	while (1)
 	{
@@ -27,7 +35,7 @@ int main(int argc, char **argv, char **envp)
 			break;
 		if (*line)
 			add_history(line);
-		handle_line(line, envp);
+		handle_line(line, &my_env);
 		free(line);
 	}
 	printf("exit\n");

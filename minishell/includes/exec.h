@@ -16,8 +16,8 @@
 
 
 // executor.c
-void    execute_cmd(t_cmd *cmd, char **envp);
-void	execute_all(t_cmd *cmd, char **envp);
+void    execute_cmd(t_cmd *cmd, char ***envp);
+void	execute_all(t_cmd *cmd, char ***envp);
 
 //redirect.c
 void	exec_output_redirection(t_cmd *cmd);
@@ -26,15 +26,21 @@ void	exec_append_redirection(t_cmd *cmd);
 void    exec_heredoc(t_cmd *cmd);
 
 //pipe.c
-void	execute_pipeline(t_cmd *cmd_list, char **envp);
+void	execute_pipeline(t_cmd *cmd_list, char ***envp);
 
-//builtins.c
-int	echo_builtin(char **args);
-int	cd_builtin(char **args);
-int	pwd_builtin(void);
-int	env_builtin(char **envp);
-int	exit_builtin(char **args);
-// int	export_builtin(char **args, char ***envp);
+//builtins
+int	    echo_builtin(char **args);
+int	    cd_builtin(char **args);
+int	    pwd_builtin(void);
+char    **dup_env(char **envp);
+int	    env_builtin(char ***envp);
+int 	exit_builtin(char **args);
+int	    export_builtin(char **args, char ***envp);
+char	*is_arg_export(char *str);
+int		is_var_exist(char *var, char ***envp);
+void	add_var(char ***envp, char *arg);
+void	replace_val(char **args, char ***envp);
+void	free_envp(char ***envp);
 // int	unset_builtin(char **args, char ***envp);
 
 //exec_builtin.c

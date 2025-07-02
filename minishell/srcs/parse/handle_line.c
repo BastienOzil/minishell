@@ -137,7 +137,7 @@ void	print_ast(t_cmd *node, int depth)
 }
 
 // Traite la ligne de commande complète
-// void	handle_line(char *line, char **envp)
+// void	handle_line(char *line, char ***envp)
 // {
 // 	t_token		*tokens;
 // 	t_cmd	*ast;
@@ -170,7 +170,7 @@ void	print_ast(t_cmd *node, int depth)
 // }
 
 
-void	handle_line(char *line, char **envp)
+void	handle_line(char *line, char ***envp)
 {
 	t_token		*tokens;
 	t_cmd	*ast;
