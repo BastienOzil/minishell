@@ -33,6 +33,7 @@ int	    echo_builtin(char **args);
 int	    cd_builtin(char **args);
 int	    pwd_builtin(void);
 char    **dup_env(char **envp);
+int	    export_empty(char ***envp);
 int	    env_builtin(char ***envp);
 int 	exit_builtin(char **args);
 int	    export_builtin(char **args, char ***envp);

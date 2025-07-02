@@ -1,5 +1,19 @@
 #include "../../includes/minishell.h"
 
+int	export_empty(char ***envp)
+{
+	int		i;
+
+	i = 0;
+	while ((*envp)[i])
+	{
+		printf("declare -x %s\n", (*envp)[i]);
+		i++;
+	}
+	return (0); // ou 1 si tu veux signaler "export affiché"
+}
+
+
 //function for check if string is available with this form > var=value 
 //if ok return the variable name
 char *is_arg_export(char *str)
@@ -90,7 +104,7 @@ void	add_var(char ***envp, char *arg)
 	}
 	new_env[i] = ft_strdup(arg);
 	new_env[i + 1] = NULL;
-	free_envp(envp); // plus sûr que free ligne par ligne dans la boucle précédente
+	free_envp(envp);
 	*envp = new_env;
 }
 
@@ -122,6 +136,9 @@ void	replace_val(char **args, char ***envp)
 int	export_builtin(char **args, char ***envp)
 {
 	char *var;
+
+	if (!args[1])
+		return (export_empty(envp));
 
 	var = is_arg_export(args[1]);
 	if (!var)
