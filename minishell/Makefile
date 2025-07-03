@@ -40,7 +40,8 @@ SRCS = main.c \
 	srcs/builtins/builtin_exit.c \
 	srcs/builtins/builtin_export.c \
 	srcs/builtins/builtin_pwd.c \
-	srcs/builtins/builtin_unset.c
+	srcs/builtins/builtin_unset.c \
+	srcs/builtins/builtin_utils.c
 
 # On garde juste les noms des fichiers pour les .o
 OBJ_FILES = $(notdir $(SRCS:.c=.o))

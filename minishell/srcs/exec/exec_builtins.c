@@ -52,7 +52,7 @@ int	exec_builtin(t_cmd *cmd, char ***envp)
 		return (exit_builtin(cmd->args));
 	if (!strcmp(cmd->args[0], "export"))
 		return (export_builtin(cmd->args, envp));
-	// if (!strcmp(cmd->args[0], "unset"))
-	// 	return (unset_builtin(cmd->args, envp));
+	if (!strcmp(cmd->args[0], "unset"))
+		return (unset_builtin(cmd->args, envp));
 	return (1);
 }

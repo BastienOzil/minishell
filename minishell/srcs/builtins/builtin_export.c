@@ -43,28 +43,6 @@ char *is_arg_export(char *str)
     return(var);
 }
 
-
-
-//check if variable exist in env
-int is_var_exist(char *var, char ***envp)
-{
-    int i;
-    int len;
-
-    i = 0;
-    len = ft_strlen(var);
-
-    while((*envp)[i])
-    {
-        if((ft_strncmp(var,(*envp)[i], len) == 0) && (*envp)[i][len] == '=')
-        {
-           return (1);
-        }
-        i++;
-    }
-    return (0);
-}
-
 void	free_envp(char ***envp)
 {
 	int	i;
@@ -139,11 +117,9 @@ int	export_builtin(char **args, char ***envp)
 
 	if (!args[1])
 		return (export_empty(envp));
-
 	var = is_arg_export(args[1]);
 	if (!var)
 		return (1);
-
 	if (is_var_exist(var, envp))
 	{
 		replace_val(args, envp);

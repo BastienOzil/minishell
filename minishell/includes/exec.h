@@ -42,7 +42,8 @@ int		is_var_exist(char *var, char ***envp);
 void	add_var(char ***envp, char *arg);
 void	replace_val(char **args, char ***envp);
 void	free_envp(char ***envp);
-// int	unset_builtin(char **args, char ***envp);
+int	    unset_builtin(char **args, char ***envp);
+void	remove_var(char ***envp, char *var);
 
 //exec_builtin.c
 int	is_builtin(const char *cmd);
