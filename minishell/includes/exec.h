@@ -16,6 +16,9 @@
 
 
 // executor.c
+void	ft_free_split(char **split);
+char	*get_path_var(char **envp);
+char	*find_path(char *cmd, char **envp);
 void    execute_cmd(t_cmd *cmd, char ***envp);
 void	execute_all(t_cmd *cmd, char ***envp);
 

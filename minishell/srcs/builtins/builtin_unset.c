@@ -11,7 +11,7 @@ void	remove_var(char ***envp, char *var)
 	while ((*envp)[i])
 		i++;
 
-	new_env = malloc(sizeof(char *) * i);
+	new_env = malloc(sizeof(char *) * (i + 1));
 	if (!new_env)
 		return ;
 
