@@ -1,8 +1,5 @@
 #include "../includes/minishell.h"
 
-
-//execution des commandes (fork, execve, redirections, pipes, dup2, close)
-
 // Fonction utilitaire pour vérifier la validité de cmd
 static int is_cmd_valid(t_cmd *cmd)
 {
@@ -14,14 +11,15 @@ static int is_cmd_valid(t_cmd *cmd)
     return (1);
 }
 
-//overwrite > écrase le fichier s'il n'existe pas.
-//ouvre un fichier pour rediriger la sortie.
+// Version corrigée pour éviter les exit() dans les builtins
 void exec_output_redirection(t_cmd *cmd)
 {
     int fd;
 
     if (!is_cmd_valid(cmd) || !cmd->outfile)
     {
+        if (is_builtin(cmd->args[0]))
+            return; // Ne pas exit() pour les builtins
         puppetmaster_perror("invalid command or outfile");
         exit(EXIT_FAILURE);
     }
@@ -30,24 +28,30 @@ void exec_output_redirection(t_cmd *cmd)
     if (fd == -1)
     {
         puppetmaster_perror("open outfile");
+        if (is_builtin(cmd->args[0]))
+            return; // Ne pas exit() pour les builtins
         exit(EXIT_FAILURE);
     }
     if (dup2(fd, STDOUT_FILENO) == -1)
     {
         puppetmaster_perror("dup2");
         close(fd);
+        if (is_builtin(cmd->args[0]))
+            return; // Ne pas exit() pour les builtins
         exit(EXIT_FAILURE);
     }
     close(fd);
 }
 
-// input < lit dans un fichier existant et remplace l'entrée standard (stdin)
+// Version corrigée pour éviter les exit() dans les builtins
 void exec_input_redirection(t_cmd *cmd)
 {
     int fd;
 
     if (!is_cmd_valid(cmd) || !cmd->infile)
     {
+        if (is_builtin(cmd->args[0]))
+            return; // Ne pas exit() pour les builtins
         puppetmaster_perror("invalid command or infile");
         exit(EXIT_FAILURE);
     }
@@ -56,24 +60,30 @@ void exec_input_redirection(t_cmd *cmd)
     if (fd == -1)
     {
         puppetmaster_perror("open infile");
+        if (is_builtin(cmd->args[0]))
+            return; // Ne pas exit() pour les builtins
         exit(EXIT_FAILURE);
     }
     if (dup2(fd, STDIN_FILENO) == -1)
     {
         puppetmaster_perror("dup2");
         close(fd);
+        if (is_builtin(cmd->args[0]))
+            return; // Ne pas exit() pour les builtins
         exit(EXIT_FAILURE);
     }
     close(fd);
 }
 
-// append >> ajoute à la fin d’un fichier (ou le crée si absent)
+// Version corrigée pour éviter les exit() dans les builtins
 void exec_append_redirection(t_cmd *cmd)
 {
     int fd;
 
     if (!is_cmd_valid(cmd) || !cmd->outfile)
     {
+        if (is_builtin(cmd->args[0]))
+            return; // Ne pas exit() pour les builtins
         puppetmaster_perror("invalid command or outfile for append");
         exit(EXIT_FAILURE);
     }
@@ -82,18 +92,22 @@ void exec_append_redirection(t_cmd *cmd)
     if (fd == -1)
     {
         puppetmaster_perror("open outfile (append)");
+        if (is_builtin(cmd->args[0]))
+            return; // Ne pas exit() pour les builtins
         exit(EXIT_FAILURE);
     }
     if (dup2(fd, STDOUT_FILENO) == -1)
     {
         puppetmaster_perror("dup2");
         close(fd);
+        if (is_builtin(cmd->args[0]))
+            return; // Ne pas exit() pour les builtins
         exit(EXIT_FAILURE);
     }
     close(fd);
 }
 
-// heredoc << simule un fichier temporaire contenant l’entrée jusqu’à un délimiteur
+// Version corrigée pour éviter les exit() dans les builtins
 void exec_heredoc(t_cmd *cmd)
 {
     int fd;
@@ -102,25 +116,30 @@ void exec_heredoc(t_cmd *cmd)
     char tmp_file[] = "/tmp/.heredoc_tmp_XXXXXX";
 
     if (!is_cmd_valid(cmd))
+    {
+        if (is_builtin(cmd->args[0]))
+            return; // Ne pas exit() pour les builtins
         exit(EXIT_FAILURE);
+    }
 
-    // Utilise le champ heredoc au lieu d'infile pour le délimiteur
     delimiter = cmd->heredoc;
     if (!delimiter)
     {
         puppetmaster_perror("heredoc delimiter is NULL");
+        if (is_builtin(cmd->args[0]))
+            return; // Ne pas exit() pour les builtins
         exit(EXIT_FAILURE);
     }
 
-    // Crée un fichier temporaire unique
     fd = mkstemp(tmp_file);
     if (fd == -1)
     {
         puppetmaster_perror("heredoc tmp file creation");
+        if (is_builtin(cmd->args[0]))
+            return; // Ne pas exit() pour les builtins
         exit(EXIT_FAILURE);
     }
 
-    // Collecte l'input jusqu'au délimiteur
     while (1)
     {
         line = readline("> ");
@@ -137,12 +156,13 @@ void exec_heredoc(t_cmd *cmd)
     }
     close(fd);
 
-    // Réouvre le fichier en lecture et redirige vers stdin
     fd = open(tmp_file, O_RDONLY);
     if (fd == -1)
     {
         puppetmaster_perror("heredoc reopen for reading");
-        unlink(tmp_file);  // Nettoie le fichier temporaire
+        unlink(tmp_file);
+        if (is_builtin(cmd->args[0]))
+            return; // Ne pas exit() pour les builtins
         exit(EXIT_FAILURE);
     }
     
@@ -151,9 +171,11 @@ void exec_heredoc(t_cmd *cmd)
         puppetmaster_perror("heredoc dup2");
         close(fd);
         unlink(tmp_file);
+        if (is_builtin(cmd->args[0]))
+            return; // Ne pas exit() pour les builtins
         exit(EXIT_FAILURE);
     }
     
     close(fd);
-    unlink(tmp_file);  // Supprime le fichier temporaire
+    unlink(tmp_file);
 }

@@ -42,6 +42,8 @@ t_cmd *parse_command(t_parser *parser)
            parser->current->type != TOKEN_AND && 
            parser->current->type != TOKEN_OR)
     {
+        if (parser->error)
+            break;
         if (parser->current->type == TOKEN_WORD)
         {
             node->args = add_arg(node->args, parser->current->value);
@@ -101,12 +103,15 @@ t_cmd *parse_pipeline(t_parser *parser)
 // Point d'entrée principal du parser
 t_cmd *parse(t_token *tokens)
 {
-    t_parser parser;
+	t_parser parser;
 
-    if (!tokens)
-        return (NULL);
+	if (!tokens)
+		return (NULL);
 
-    parser.tokens = tokens;
-    parser.current = tokens;
-    return (parse_logical(&parser));
+	parser.tokens = tokens;
+	parser.current = tokens;
+	parser.error = 0;
+
+	return (parse_logical(&parser));
 }
+
