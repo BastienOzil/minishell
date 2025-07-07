@@ -8,6 +8,37 @@ int get_random_index(int max)
 	return (tv.tv_usec % max);
 }
 
+// Affiche le message avec effet de clignotement
+static void	display_blinking_message(const char *quote)
+{
+	const char	*prefix = "\033[38;5;208m[?] ";
+	const char	*reset = "\033[0m";
+	const char	*clear = "\033[K";
+	const char	*carriage = "\r";
+	int			j;
+	int			len;
+
+	j = 0;
+	len = strlen(quote);
+	while (j < 100)
+	{
+		write(2, clear, strlen(clear));
+		usleep(200);
+		write(2, prefix, strlen(prefix));
+		write(2, quote, len);
+		write(2, reset, strlen(reset));
+		write(2, carriage, strlen(carriage));
+		usleep(10000);
+		j++;
+	}
+}
+
+// fait clignoter l'erreur
+void	print_loop(const char *quote)
+{
+	display_blinking_message(quote);
+}
+
 // Messages subliminaux
 void	puppetmaster_perror(const char *context)
 {
@@ -30,29 +61,6 @@ void	puppetmaster_perror(const char *context)
 	vanish_effect(temp, line);
 }
 
-// fait clignoter l'erreur
-void	print_loop(const char *quote)
-{
-	const char	*prefix = "\033[38;5;208m[?] ";
-	const char	*reset = "\033[0m";
-	const char	*clear = "\033[K";
-	const char	*carriage = "\r";
-	int			j = 0;
-	int			len = strlen(quote);
-
-	while (j < 100)
-	{
-		write(2, clear, strlen(clear));
-		usleep(200);
-		write(2, prefix, strlen(prefix));void	format_line(char *dst, const char *quote);
-		write(2, quote, len);
-		write(2, reset, strlen(reset));
-		write(2, carriage, strlen(carriage));
-		usleep(10000);
-		j++;
-	}
-}
-
 // les caractères devienent orange
 void	format_line(char *dst, const char *quote)
 {
@@ -61,4 +69,3 @@ void	format_line(char *dst, const char *quote)
 
 	snprintf(dst, 512, "%s%s%s", prefix, quote, reset);
 }
-

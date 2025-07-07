@@ -66,6 +66,11 @@ void	execute_cmd(t_cmd *cmd, char ***envp)
 {
 	pid_t	pid;
 
+	// AJOUT DES VÉRIFICATIONS CRITIQUES
+	if (!cmd)
+		return ;
+	if (!cmd->args || !cmd->args[0])
+		return ;
 	if (is_builtin(cmd->args[0]))
 	{
 		if (cmd->infile)
@@ -81,8 +86,7 @@ void	execute_cmd(t_cmd *cmd, char ***envp)
 		exec_builtin(cmd, envp);
 		return ;
 	}
-
-
+	
 	pid = fork();
 	if (pid < 0)
 	{

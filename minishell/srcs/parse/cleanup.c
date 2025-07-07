@@ -1,19 +1,22 @@
 #include "../includes/minishell.h"
 
-// libère les ordres de redirections
-void free_redir(t_redir *redir)
+// Libère les ordres de redirections - VERSION CORRIGÉE
+void	free_redir(t_redir *redir)
 {
-	t_redir *tmp;
+	t_redir	*tmp;
 
 	while (redir)
 	{
-		tmp = redir;
-		redir = redir->next;
-		free(tmp);
+		tmp = redir->next;
+		// Libérer le champ file de la structure t_redir
+		if (redir->file)
+			free(redir->file);
+		free(redir);
+		redir = tmp;
 	}
 }
 
-// libère la memoire alloué par les tokens
+// Libère la mémoire allouée par les tokens
 void	free_tokens(t_token *tokens)
 {
 	t_token	*current;
@@ -30,7 +33,7 @@ void	free_tokens(t_token *tokens)
 	}
 }
 
-// libère les arguments
+// Libère les arguments
 void	free_args(char **args)
 {
 	int	i;
@@ -46,11 +49,13 @@ void	free_args(char **args)
 	free(args);
 }
 
-// libère les redirections
+// VERSION CORRIGÉE - Libère l'AST de manière récursive
 void	free_ast(t_cmd *node)
 {
 	if (!node)
 		return ;
+	
+	// Libérer tous les champs de la structure t_cmd selon shared.h
 	if (node->args)
 		free_args(node->args);
 	if (node->infile)
@@ -59,12 +64,17 @@ void	free_ast(t_cmd *node)
 		free(node->outfile);
 	if (node->heredoc)
 		free(node->heredoc);
+	
+	// Récursion pour libérer les noeuds enfants
 	free_ast(node->left);
 	free_ast(node->right);
+	free_ast(node->next);  // Libérer aussi le champ next
+	
+	// Libérer le noeud lui-même
 	free(node);
 }
 
-// libère un tableau de chaînes 
+// Libère un tableau de chaînes (déjà correcte)
 void	free_array(char **arr)
 {
 	int	i;
@@ -78,4 +88,15 @@ void	free_array(char **arr)
 		i++;
 	}
 	free(arr);
+}
+
+// FONCTION BONUS - Nettoyage complet en cas d'erreur
+void	cleanup_all(t_token *tokens, t_cmd *ast, char **env_copy)
+{
+	if (tokens)
+		free_tokens(tokens);
+	if (ast)
+		free_ast(ast);
+	if (env_copy)
+		free_array(env_copy);
 }
