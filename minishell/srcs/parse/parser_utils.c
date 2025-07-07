@@ -12,7 +12,7 @@ t_cmd *new_node(t_node_type type)
     node->args = NULL;
     node->left = NULL;
     node->right = NULL;
-    node->next = NULL;  // Ajout de l'initialisation manquante
+    node->next = NULL;
     node->infile = NULL;
     node->outfile = NULL;
     node->append = 0;
@@ -38,8 +38,7 @@ int match_token(t_parser *parser, t_token_type type)
 // Vérifie si le token est un opérateur de redirection
 int is_redir_token(t_token_type type)
 {
-    return (type == TOKEN_INFILE || type == TOKEN_OUTFILE
-        || type == TOKEN_APPEND || type == TOKEN_HEREDOC);
+    return (type == TOKEN_INFILE || type == TOKEN_OUTFILE || type == TOKEN_APPEND || type == TOKEN_HEREDOC);
 }
 
 // compte le nombre d'arguments dans le tableau
@@ -119,14 +118,32 @@ char **add_arg(char **args, char *new_arg)
     return (new_args);
 }
 
-// Valide la syntaxe de redirection
-static int validate_redir_syntax(t_parser *parser)
+// Valide la syntaxe de redirection ET vérifie les redirections multiples
+static int validate_redir_syntax(t_parser *parser, t_cmd *node, t_token_type redir_type)
 {
     if (!parser || !parser->current || parser->current->type != TOKEN_WORD)
     {
         ft_putstr_fd("minishell: syntax error near redirection\n", 2);
         return (0);
     }
+
+    // Vérifie les redirections multiples du même type
+    if (redir_type == TOKEN_INFILE && node->infile)
+    {
+        ft_putstr_fd("minishell: multiple input redirections\n", 2);
+        return (0);
+    }
+    if (redir_type == TOKEN_HEREDOC && node->heredoc)
+    {
+        ft_putstr_fd("minishell: multiple heredoc redirections\n", 2);
+        return (0);
+    }
+    if ((redir_type == TOKEN_OUTFILE || redir_type == TOKEN_APPEND) && node->outfile)
+    {
+        ft_putstr_fd("minishell: multiple output redirections\n", 2);
+        return (0);
+    }
+
     return (1);
 }
 
@@ -135,19 +152,19 @@ static void handle_input_redir(t_parser *parser, t_cmd *node)
 {
     if (!parser || !parser->current || !node)
         return;
-    
+
     if (node->infile)
         free(node->infile);
     node->infile = ft_strdup(parser->current->value);
 }
 
 // Gère les redirections de sortie et met a jour la boucle
-static void    handle_output_redir(t_parser *parser, t_cmd *node, int append)
+static void handle_output_redir(t_parser *parser, t_cmd *node, int append)
 {
     if (!parser || !parser->current || !parser->current->value)
     {
         ft_putstr_fd("minishell: redirection error\n", 2);
-        return ;
+        return;
     }
     if (node->outfile)
         free(node->outfile);
@@ -160,19 +177,19 @@ static void handle_heredoc_redir(t_parser *parser, t_cmd *node)
 {
     if (!parser || !parser->current || !node)
         return;
-    
+
     if (node->heredoc)
         free(node->heredoc);
     node->heredoc = ft_strdup(parser->current->value);
 }
 
 // Applique la redirection selon son type
-static void apply_redirection(t_parser *parser, t_cmd *node, 
-    t_token_type redir_type)
+static void apply_redirection(t_parser *parser, t_cmd *node,
+                              t_token_type redir_type)
 {
     if (!parser || !node)
         return;
-    
+
     if (redir_type == TOKEN_INFILE)
         handle_input_redir(parser, node);
     else if (redir_type == TOKEN_OUTFILE)
@@ -183,21 +200,30 @@ static void apply_redirection(t_parser *parser, t_cmd *node,
         handle_heredoc_redir(parser, node);
 }
 
-// Parse la redirection et l'applique à la boucle
+// Parse la redirection et l'applique à la boucle - VERSION CORRIGÉE
 void parse_redir(t_parser *parser, t_cmd *node)
 {
     t_token_type redir_type;
 
-    if (!parser || !parser->current || !node)
+    if (!parser || !parser->current || !node || parser->error)
         return;
 
     redir_type = parser->current->type;
     advance_token(parser);
-    
-    if (!validate_redir_syntax(parser))
+
+    if (!validate_redir_syntax(parser, node, redir_type))
+    {
+        parser->error = 1;
+
+        // Avance d’un token pour ne pas rester bloqué
+        if (parser->current)
+            advance_token(parser);
         return;
-    
+    }
+
     apply_redirection(parser, node, redir_type);
-    advance_token(parser);
+
+    if (parser->current)
+        advance_token(parser);
 }
 

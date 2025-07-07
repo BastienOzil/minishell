@@ -23,6 +23,7 @@ typedef struct s_parser
 {
 	t_token *tokens;
 	t_token *current;
+	int         error;
 } t_parser;
 
 // // parser.c
