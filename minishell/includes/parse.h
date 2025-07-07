@@ -62,7 +62,7 @@ typedef struct s_parser
 void init_lexer(t_lexer *lexer, char *input);
 t_token *tokenize(char *input);
 void print_ast(t_cmd *node, int depth);
-void	handle_line(char *line, char **envp);  //-----modififie pour prendre la variable envp
+void	handle_line(char *line, char ***envp);  //-----modififie pour prendre la variable envp
 
 // lexer.c
 t_token *new_token(t_token_type type, char *value);

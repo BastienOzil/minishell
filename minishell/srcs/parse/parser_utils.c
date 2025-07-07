@@ -142,11 +142,13 @@ static void handle_input_redir(t_parser *parser, t_cmd *node)
 }
 
 // Gère les redirections de sortie et met a jour la boucle
-static void handle_output_redir(t_parser *parser, t_cmd *node, int append)
+static void    handle_output_redir(t_parser *parser, t_cmd *node, int append)
 {
-    if (!parser || !parser->current || !node)
-        return;
-    
+    if (!parser || !parser->current || !parser->current->value)
+    {
+        ft_putstr_fd("minishell: redirection error\n", 2);
+        return ;
+    }
     if (node->outfile)
         free(node->outfile);
     node->outfile = ft_strdup(parser->current->value);
@@ -198,3 +200,4 @@ void parse_redir(t_parser *parser, t_cmd *node)
     apply_redirection(parser, node, redir_type);
     advance_token(parser);
 }
+

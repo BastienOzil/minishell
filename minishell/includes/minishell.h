@@ -59,7 +59,7 @@ typedef struct s_env {
 
 typedef struct s_shell {
 	t_env *env;
-	char **envp;
+	char ***envp;
 	int exit_status;
 } t_shell;
 

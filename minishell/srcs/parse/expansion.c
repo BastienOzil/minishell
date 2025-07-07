@@ -124,4 +124,3 @@ char	*expand_string(char *str)
 	}
 	return (result);
 }
-

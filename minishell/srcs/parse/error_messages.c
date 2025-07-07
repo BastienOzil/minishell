@@ -1,9 +1,5 @@
 #include "../includes/minishell.h"
 
-// Déclarations des fonctions
-void	format_line(char *dst, const char *quote);
-void	vanish_effect(char *temp, const char *line);
-
 // valeur numérique aleatoire
 int get_random_index(int max)
 {

@@ -1,5 +1,8 @@
 #include "../includes/minishell.h"
 
+
+//execution des commandes (fork, execve, redirections, pipes, dup2, close)
+
 // Fonction utilitaire pour vérifier la validité de cmd
 static int is_cmd_valid(t_cmd *cmd)
 {
@@ -11,8 +14,8 @@ static int is_cmd_valid(t_cmd *cmd)
     return (1);
 }
 
-// overwrite > écrase le fichier s'il n'existe pas.
-// ouvre un fichier pour rediriger la sortie.
+//overwrite > écrase le fichier s'il n'existe pas.
+//ouvre un fichier pour rediriger la sortie.
 void exec_output_redirection(t_cmd *cmd)
 {
     int fd;
@@ -64,7 +67,7 @@ void exec_input_redirection(t_cmd *cmd)
     close(fd);
 }
 
-// append >> ajoute à la fin d'un fichier (ou le crée si absent)
+// append >> ajoute à la fin d’un fichier (ou le crée si absent)
 void exec_append_redirection(t_cmd *cmd)
 {
     int fd;
@@ -90,7 +93,7 @@ void exec_append_redirection(t_cmd *cmd)
     close(fd);
 }
 
-// heredoc << simule un fichier temporaire contenant l'entrée jusqu'à un délimiteur
+// heredoc << simule un fichier temporaire contenant l’entrée jusqu’à un délimiteur
 void exec_heredoc(t_cmd *cmd)
 {
     int fd;

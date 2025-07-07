@@ -110,4 +110,3 @@ t_cmd *parse(t_token *tokens)
     parser.current = tokens;
     return (parse_logical(&parser));
 }
-

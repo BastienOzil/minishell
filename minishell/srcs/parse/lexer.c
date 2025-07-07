@@ -13,8 +13,7 @@ char *get_word(t_lexer *lexer)
 	int start;
 
 	start = lexer->i;
-	while (lexer->input[lexer->i] && !is_space(lexer->input[lexer->i]) 
-		&& !is_special(lexer->input[lexer->i]))
+	while (lexer->input[lexer->i] && !is_space(lexer->input[lexer->i]) && !is_special(lexer->input[lexer->i]))
 		lexer->i++;
 	return (ft_substr(lexer->input, start, lexer->i - start));
 }
@@ -39,10 +38,8 @@ t_token *get_next_token(t_lexer *lexer)
 	skip_spaces(lexer);
 	if (!lexer->input[lexer->i])
 		return (new_token(TOKEN_EOF, NULL));
-	if (lexer->input[lexer->i] == '&')
-		return (handle_and(lexer));
 	if (lexer->input[lexer->i] == '|')
-		return (handle_or(lexer));
+		return (handle_pipe(lexer));
 	if (lexer->input[lexer->i] == '<')
 		return (handle_input_redirection(lexer));
 	if (lexer->input[lexer->i] == '>')
@@ -51,8 +48,11 @@ t_token *get_next_token(t_lexer *lexer)
 		return (handle_quotes(lexer));
 	if (lexer->input[lexer->i] == '$')
 		return (handle_variable(lexer));
+	if (lexer->input[lexer->i] == '&')
+		return (handle_and(lexer));
+	if (lexer->input[lexer->i] == '|')
+		return (handle_or(lexer));
 	if (lexer->input[lexer->i] == '(' || lexer->input[lexer->i] == ')')
 		return (handle_parentheses(lexer));
 	return (new_token(TOKEN_WORD, get_word(lexer)));
 }
-

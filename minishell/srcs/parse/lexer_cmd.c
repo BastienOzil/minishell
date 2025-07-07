@@ -39,4 +39,3 @@ t_token *handle_output_redirection(t_lexer *lexer)
     lexer->i++;
     return (new_token(TOKEN_OUTFILE, ft_substr(">", 0, 1)));
 }
-
