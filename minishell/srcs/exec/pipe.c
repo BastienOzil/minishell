@@ -107,6 +107,5 @@ void execute_pipeline(t_cmd *cmd_list, char ***envp)
     }
     
     // Attendre tous les processus enfants
-    while (wait(NULL) > 0)
-        ;
+    while (wait(NULL) > 0);
 }

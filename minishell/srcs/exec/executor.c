@@ -156,3 +156,5 @@ void	execute_all(t_cmd *cmd, char ***envp)
 	else
 		execute_cmd(cmd, envp);
 }
+
+

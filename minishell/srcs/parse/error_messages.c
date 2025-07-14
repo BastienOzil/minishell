@@ -40,6 +40,28 @@ void	print_loop(const char *quote)
 }
 
 // Messages subliminaux
+// void	puppetmaster_perror(const char *context)
+// {
+// 	const char	*quotes[] = {
+// 		"\"Your effort to remain what you are is what limits you.\"",
+// 		"\"Who can gaze into the mirror without becoming evil?\"",
+// 		"\"All things change in a dynamic environment.\"",
+// 		"\"I am connected to all parts of the Net.\"",
+// 		"\"There is no individuality without memory.\""
+// 	};
+// 	int			i;
+// 	char		temp[512];
+// 	char		line[512];
+
+// 	i = get_random_index(sizeof(quotes) / sizeof(quotes[0]));
+// 	perror(context);
+// 	print_loop(quotes[i]);
+// 	format_line(line, quotes[i]);
+// 	strcpy(temp, line);
+// 	vanish_effect(temp, line);
+// }
+
+
 void	puppetmaster_perror(const char *context)
 {
 	const char	*quotes[] = {
@@ -49,12 +71,21 @@ void	puppetmaster_perror(const char *context)
 		"\"I am connected to all parts of the Net.\"",
 		"\"There is no individuality without memory.\""
 	};
-	int			i;
-	char		temp[512];
-	char		line[512];
+	int		i;
+	char	temp[512];
+	char	line[512];
 
 	i = get_random_index(sizeof(quotes) / sizeof(quotes[0]));
-	perror(context);
+
+	if (errno == ENOENT)
+	{
+		printf("\033[38;5;208m[Puppet~master]> %s: command not found\n\033[0m", context);
+	}
+	else
+	{
+		perror(context);
+	}
+
 	print_loop(quotes[i]);
 	format_line(line, quotes[i]);
 	strcpy(temp, line);
