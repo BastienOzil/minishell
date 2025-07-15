@@ -5,8 +5,6 @@ t_token *handle_and(t_lexer *lexer)
 {
     if (!lexer || !lexer->input)
         return (NULL);
-    
-    // Vérification des limites avant accès
     if (lexer->i + 1 < (int)ft_strlen(lexer->input) && 
         lexer->input[lexer->i + 1] == '&')
     {
@@ -21,8 +19,6 @@ t_token *handle_or(t_lexer *lexer)
 {
     if (!lexer || !lexer->input)
         return (NULL);
-    
-    // Vérification des limites avant accès
     if (lexer->i + 1 < (int)ft_strlen(lexer->input) && 
         lexer->input[lexer->i + 1] == '|')
     {
@@ -74,7 +70,7 @@ t_cmd *parse_logical(t_parser *parser)
         logical = new_node(op_type == TOKEN_AND ? NODE_AND : NODE_OR);
         if (!logical)
         {
-            free_ast(left);  // Nettoie en cas d'erreur
+            free_ast(left);
             return (NULL);
         }
         

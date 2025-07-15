@@ -85,15 +85,12 @@ char **add_arg(char **args, char *new_arg)
     new_args = malloc(sizeof(char *) * (count + 2));
     if (!new_args)
         return (args);
-
-    // Copie les anciens arguments
     i = 0;
     while (i < count)
     {
         new_args[i] = ft_strdup(args[i]);
         if (!new_args[i])
         {
-            // Nettoie en cas d'erreur
             while (--i >= 0)
                 free(new_args[i]);
             free(new_args);
@@ -101,8 +98,6 @@ char **add_arg(char **args, char *new_arg)
         }
         i++;
     }
-
-    // Ajoute le nouvel argument
     new_args[count] = ft_strdup(new_arg);
     if (!new_args[count])
     {
@@ -110,8 +105,6 @@ char **add_arg(char **args, char *new_arg)
         return (args);
     }
     new_args[count + 1] = NULL;
-
-    // Libère l'ancien tableau SEULEMENT si tout s'est bien passé
     if (args)
         free_arg_array(args);
 
@@ -126,8 +119,6 @@ static int validate_redir_syntax(t_parser *parser, t_cmd *node, t_token_type red
         ft_putstr_fd("minishell: syntax error near redirection\n", 2);
         return (0);
     }
-
-    // Vérifie les redirections multiples du même type
     if (redir_type == TOKEN_INFILE && node->infile)
     {
         ft_putstr_fd("minishell: multiple input redirections\n", 2);
@@ -143,7 +134,6 @@ static int validate_redir_syntax(t_parser *parser, t_cmd *node, t_token_type red
         ft_putstr_fd("minishell: multiple output redirections\n", 2);
         return (0);
     }
-
     return (1);
 }
 
@@ -214,8 +204,6 @@ void parse_redir(t_parser *parser, t_cmd *node)
     if (!validate_redir_syntax(parser, node, redir_type))
     {
         parser->error = 1;
-
-        // Avance d’un token pour ne pas rester bloqué
         if (parser->current)
             advance_token(parser);
         return;

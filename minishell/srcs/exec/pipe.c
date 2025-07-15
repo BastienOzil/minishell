@@ -12,11 +12,9 @@ void execute_pipeline(t_cmd *cmd_list, char ***envp)
     {
         if (cmd->next)
             pipe(pipefd);
-
-        // Gestion des builtins dans les pipelines
         if (is_builtin(cmd->args[0]))
         {
-            pid = fork(); // Fork même pour les builtins dans les pipelines
+            pid = fork();
             if (pid == 0)
             {
                 // Processus enfant pour builtin
@@ -41,15 +39,12 @@ void execute_pipeline(t_cmd *cmd_list, char ***envp)
                     dup2(pipefd[1], STDOUT_FILENO);
                     close(pipefd[1]);
                 }
-                
-                // Exécute le builtin et exit avec son code de retour
                 int builtin_result = exec_builtin(cmd, envp);
                 exit(builtin_result);
             }
         }
         else
         {
-            // Commande externe
             pid = fork();
             if (pid == 0)
             {
@@ -93,8 +88,6 @@ void execute_pipeline(t_cmd *cmd_list, char ***envp)
             puppetmaster_perror("fork");
             return;
         }
-        
-        // Ferme les descripteurs dans le parent
         if (in_fd != 0)
             close(in_fd);
         if (cmd->next)
@@ -105,7 +98,6 @@ void execute_pipeline(t_cmd *cmd_list, char ***envp)
         
         cmd = cmd->next;
     }
-    
     // Attendre tous les processus enfants
     while (wait(NULL) > 0)
         ;

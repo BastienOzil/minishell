@@ -17,7 +17,7 @@ char	*get_path_var(char **envp)
 	while (envp[i])
 	{
 		if (strncmp(envp[i], "PATH=", 5) == 0)
-			return (envp[i] + 5); // saute "PATH="
+			return (envp[i] + 5);
 		i++;
 	}
 	return (NULL);
@@ -32,7 +32,7 @@ char	*find_path(char *cmd, char **envp)
 	char	*full_path;
 	int		i = 0;
 
-	if (!cmd || strchr(cmd, '/')) // si déjà un chemin
+	if (!cmd || strchr(cmd, '/'))
 		return (strdup(cmd));
 
 	path_var = get_path_var(envp);
@@ -67,39 +67,27 @@ void	execute_cmd(t_cmd *cmd, char ***envp)
 	char	*path;
 	int		builtin_result;
 
-	// AJOUT DES VÉRIFICATIONS CRITIQUES
 	if (!cmd)
 		return ;
 	if (!cmd->args || !cmd->args[0])
 		return ;
-	
-	// Gestion des builtins SANS fork
 	if (is_builtin(cmd->args[0]))
 	{
-		// Sauvegarde des descripteurs originaux
 		int saved_stdout = dup(STDOUT_FILENO);
 		int saved_stdin = dup(STDIN_FILENO);
-		
-		// Applique les redirections si nécessaires
 		if (cmd->infile)
 			exec_input_redirection(cmd);
 		else if (cmd->heredoc)
 			exec_heredoc(cmd);
-
 		if (cmd->append)
 			exec_append_redirection(cmd);
 		else if (cmd->outfile)
 			exec_output_redirection(cmd);
-
-		// Exécute le builtin
 		builtin_result = exec_builtin(cmd, envp);
-		
-		// Restaure les descripteurs originaux
 		dup2(saved_stdout, STDOUT_FILENO);
 		dup2(saved_stdin, STDIN_FILENO);
 		close(saved_stdout);
 		close(saved_stdin);
-		
 		g_exit_status = builtin_result;
 		return ;
 	}

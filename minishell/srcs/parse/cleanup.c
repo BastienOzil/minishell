@@ -49,13 +49,11 @@ void	free_args(char **args)
 	free(args);
 }
 
-// VERSION CORRIGÉE - Libère l'AST de manière récursive
+// Libère l'AST de manière récursive
 void	free_ast(t_cmd *node)
 {
 	if (!node)
 		return ;
-	
-	// Libérer tous les champs de la structure t_cmd selon shared.h
 	if (node->args)
 		free_args(node->args);
 	if (node->infile)
@@ -64,13 +62,9 @@ void	free_ast(t_cmd *node)
 		free(node->outfile);
 	if (node->heredoc)
 		free(node->heredoc);
-	
-	// Récursion pour libérer les noeuds enfants
 	free_ast(node->left);
 	free_ast(node->right);
-	free_ast(node->next);  // Libérer aussi le champ next
-	
-	// Libérer le noeud lui-même
+	free_ast(node->next);
 	free(node);
 }
 
@@ -90,7 +84,7 @@ void	free_array(char **arr)
 	free(arr);
 }
 
-// FONCTION BONUS - Nettoyage complet en cas d'erreur
+// Nettoyage complet en cas d'erreur
 void	cleanup_all(t_token *tokens, t_cmd *ast, char **env_copy)
 {
 	if (tokens)
