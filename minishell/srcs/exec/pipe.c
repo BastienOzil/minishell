@@ -11,65 +11,48 @@ void execute_pipeline(t_cmd *cmd_list, char ***envp)
     while (cmd)
     {
         if (cmd->next)
-            pipe(pipefd);
-        if (is_builtin(cmd->args[0]))
         {
-            pid = fork();
-            if (pid == 0)
+            if (pipe(pipefd) == -1)
             {
-                // Processus enfant pour builtin
-                if (cmd->infile)
-                    exec_input_redirection(cmd);
-                else if (cmd->heredoc)
-                    exec_heredoc(cmd);
-
-                if (cmd->append)
-                    exec_append_redirection(cmd);
-                else if (cmd->outfile)
-                    exec_output_redirection(cmd);
-
-                if (in_fd != 0)
-                {
-                    dup2(in_fd, STDIN_FILENO);
-                    close(in_fd);
-                }
-                if (cmd->next)
-                {
-                    close(pipefd[0]);
-                    dup2(pipefd[1], STDOUT_FILENO);
-                    close(pipefd[1]);
-                }
+                puppetmaster_perror("pipe");
+                return;
+            }
+        }
+        pid = fork();
+        if (pid == -1)
+        {
+            puppetmaster_perror("fork");
+            return;
+        }
+        if (pid == 0)
+        {
+            // Processus enfant
+            if (cmd->infile)
+                exec_input_redirection(cmd);
+            else if (cmd->heredoc)
+                exec_heredoc(cmd);
+            else if (in_fd != 0)
+            {
+                dup2(in_fd, STDIN_FILENO);
+                close(in_fd);
+            }
+            if (cmd->append)
+                exec_append_redirection(cmd);
+            else if (cmd->outfile)
+                exec_output_redirection(cmd);
+            else if (cmd->next)
+            {
+                close(pipefd[0]);
+                dup2(pipefd[1], STDOUT_FILENO);
+                close(pipefd[1]);
+            }
+            if (is_builtin(cmd->args[0]))
+            {
                 int builtin_result = exec_builtin(cmd, envp);
                 exit(builtin_result);
             }
-        }
-        else
-        {
-            pid = fork();
-            if (pid == 0)
+            else
             {
-                if (cmd->infile)
-                    exec_input_redirection(cmd);
-                else if (cmd->heredoc)
-                    exec_heredoc(cmd);
-
-                if (cmd->append)
-                    exec_append_redirection(cmd);
-                else if (cmd->outfile)
-                    exec_output_redirection(cmd);
-
-                if (in_fd != 0)
-                {
-                    dup2(in_fd, STDIN_FILENO);
-                    close(in_fd);
-                }
-                if (cmd->next)
-                {
-                    close(pipefd[0]);
-                    dup2(pipefd[1], STDOUT_FILENO);
-                    close(pipefd[1]);
-                }
-                
                 path = find_path(cmd->args[0], *envp);
                 if (!path)
                 {
@@ -81,15 +64,10 @@ void execute_pipeline(t_cmd *cmd_list, char ***envp)
                 exit(EXIT_FAILURE);
             }
         }
-        
         // Processus parent
-        if (pid < 0)
-        {
-            puppetmaster_perror("fork");
-            return;
-        }
         if (in_fd != 0)
             close(in_fd);
+        
         if (cmd->next)
         {
             close(pipefd[1]);
@@ -98,7 +76,5 @@ void execute_pipeline(t_cmd *cmd_list, char ***envp)
         
         cmd = cmd->next;
     }
-    // Attendre tous les processus enfants
-    while (wait(NULL) > 0)
-        ;
+    while (wait(NULL) > 0);
 }

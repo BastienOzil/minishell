@@ -16,21 +16,20 @@ void	free_redir(t_redir *redir)
 	}
 }
 
-// Libère la mémoire allouée par les tokens
-void	free_tokens(t_token *tokens)
+// Fonction pour libérer les tokens
+void free_tokens(t_token *tokens)
 {
-	t_token	*current;
-	t_token	*next;
-
-	current = tokens;
-	while (current)
-	{
-		next = current->next;
-		if (current->value)
-			free(current->value);
-		free(current);
-		current = next;
-	}
+    t_token *current = tokens;
+    t_token *next;
+    
+    while (current)
+    {
+        next = current->next;
+        if (current->value)
+            free(current->value);
+        free(current);
+        current = next;
+    }
 }
 
 // Libère les arguments
@@ -49,23 +48,34 @@ void	free_args(char **args)
 	free(args);
 }
 
-// Libère l'AST de manière récursive
-void	free_ast(t_cmd *node)
+// Libérer l'AST
+void free_ast(t_cmd *ast)
 {
-	if (!node)
-		return ;
-	if (node->args)
-		free_args(node->args);
-	if (node->infile)
-		free(node->infile);
-	if (node->outfile)
-		free(node->outfile);
-	if (node->heredoc)
-		free(node->heredoc);
-	free_ast(node->left);
-	free_ast(node->right);
-	free_ast(node->next);
-	free(node);
+    if (!ast)
+        return;
+    if (ast->args)
+    {
+        int i = 0;
+        while (ast->args[i])
+        {
+            free(ast->args[i]);
+            i++;
+        }
+        free(ast->args);
+    }
+    if (ast->infile)
+        free(ast->infile);
+    if (ast->outfile)
+        free(ast->outfile);
+    if (ast->heredoc)
+        free(ast->heredoc);
+    if (ast->left)
+        free_ast(ast->left);
+    if (ast->right)
+        free_ast(ast->right);
+    if (ast->next)
+        free_ast(ast->next);
+    free(ast);
 }
 
 // Libère un tableau de chaînes (déjà correcte)
