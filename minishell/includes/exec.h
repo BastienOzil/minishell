@@ -26,7 +26,7 @@ void	execute_all(t_cmd *cmd, char ***envp);
 void	exec_output_redirection(t_cmd *cmd);
 void	exec_input_redirection(t_cmd *cmd);
 void	exec_append_redirection(t_cmd *cmd);
-void    exec_heredoc(t_cmd *cmd);
+//void    exec_heredoc(t_cmd *cmd);
 
 //pipe.c
 void	execute_pipeline(t_cmd *cmd_list, char ***envp);
@@ -52,5 +52,10 @@ void	remove_var(char ***envp, char *var);
 int	is_builtin(const char *cmd);
 int	exec_builtin(t_cmd *cmd, char ***envp);
 
+//heredoc.h
+int		open_tmp_heredoc(char *template_path);
+int		write_heredoc_lines(int fd, const char *delimiter);
+int		redirect_stdin_from_tmp(const char *path);
+void	exec_heredoc(t_cmd *cmd);
 
 #endif

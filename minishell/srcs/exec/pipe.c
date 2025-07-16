@@ -82,23 +82,86 @@ void	handle_parent(t_cmd *cmd, int *in_fd, int pipefd[2])
 }
 
 
-void	execute_pipeline(t_cmd *cmd_list, char ***envp)
+void execute_pipeline(t_cmd *cmd_list, char ***envp)
 {
-	t_cmd	*cmd = cmd_list;
 	int		pipefd[2];
 	int		in_fd = 0;
 	pid_t	pid;
+	t_cmd	*cmd = cmd_list;
+	char	*path;
 
 	while (cmd)
 	{
-		if (cmd->next && create_pipe(pipefd) == -1)
-			return;
-		pid = create_child_process();
+		if (cmd->next)
+			pipe(pipefd);
+
+		pid = fork();
 		if (pid == 0)
-			run_child_process(cmd, in_fd, pipefd, *envp);
-		handle_parent(cmd, &in_fd, pipefd);
+		{
+			if (cmd->infile)
+				exec_input_redirection(cmd);
+			else if (cmd->heredoc)
+				exec_heredoc(cmd);
+
+			if (cmd->append)
+				exec_append_redirection(cmd);
+			else if (cmd->outfile)
+				exec_output_redirection(cmd);
+
+			if (in_fd != 0)
+			{
+				dup2(in_fd, STDIN_FILENO);
+				close(in_fd);
+			}
+			if (cmd->next)
+			{
+				close(pipefd[0]);
+				dup2(pipefd[1], STDOUT_FILENO);
+				close(pipefd[1]);
+			}
+
+			if (is_builtin(cmd->args[0]))
+			{
+				int code = exec_builtin(cmd, envp);
+				exit(code);
+			}
+			else
+			{
+				path = find_path(cmd->args[0], *envp);
+				if (!path)
+				{
+					puppetmaster_perror(cmd->args[0]);
+					exit(127);
+				}
+				execve(path, cmd->args, *envp);
+				puppetmaster_perror("execve");
+				exit(EXIT_FAILURE);
+			}
+		}
+
+		if (pid < 0)
+		{
+			puppetmaster_perror("fork");
+			return;
+		}
+
+		if (in_fd != 0)
+			close(in_fd);
+		if (cmd->next)
+		{
+			close(pipefd[1]);
+			in_fd = pipefd[0];
+		}
 		cmd = cmd->next;
 	}
-	while (wait(NULL) > 0)
-		;
+
+	// Attend les enfants et met à jour g_exit_status
+	int status;
+	while (wait(&status) > 0)
+	{
+		if (WIFEXITED(status))
+			g_exit_status = WEXITSTATUS(status);
+		else if (WIFSIGNALED(status))
+			g_exit_status = 128 + WTERMSIG(status);
+	}
 }
