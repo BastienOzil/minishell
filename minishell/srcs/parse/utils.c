@@ -13,4 +13,21 @@ int is_special(char c)
             c == '(' || c == ')' || c == '"' || c == '\'' || c == '$');
 }
 
+//_____ajout de cette fonctin pour convertir les ast en liste chainée
+t_cmd	*linearize_pipeline(t_cmd *ast)
+{
+	t_cmd	*list;
+	t_cmd	*tail;
 
+	if (!ast)
+		return (NULL);
+	if (ast->type != NODE_PIPELINE)
+		return (ast);
+
+	list = linearize_pipeline(ast->left);
+	tail = list;
+	while (tail && tail->next)
+		tail = tail->next;
+	tail->next = linearize_pipeline(ast->right);
+	return (list);
+}
