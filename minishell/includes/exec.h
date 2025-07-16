@@ -28,7 +28,26 @@ void	exec_input_redirection(t_cmd *cmd);
 void	exec_append_redirection(t_cmd *cmd);
 //void    exec_heredoc(t_cmd *cmd);
 
-//pipe.c
+//______pipe_____
+// pipe_utils.c
+int		create_pipe(int pipefd[2]);
+pid_t	create_child_process(void);
+int		redirect_fd(int input_fd, int output_fd);
+void	close_unused_fds(int pipefd[2]);
+
+// pipe_exec.c
+void	execute_command(t_cmd *cmd, char **envp);
+void	run_child_process(t_cmd *cmd, int in_fd, int pipefd[2], char **envp);
+
+// pipe_redir.c
+void	handle_redirections(t_cmd *cmd);
+
+// pipe_run.c
+void	child_exec(t_cmd *cmd, int in_fd, int pipefd[2], char ***envp);
+void	handle_parent(t_cmd *cmd, int *in_fd, int pipefd[2]);
+void	wait_and_set_exit_status(void);
+
+// pipe.c
 void	execute_pipeline(t_cmd *cmd_list, char ***envp);
 
 //builtins
