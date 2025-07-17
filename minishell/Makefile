@@ -20,12 +20,7 @@ SRCS = main.c \
 	srcs/exec/redirect.c \
 	srcs/exec/pipe.c \
 	srcs/exec/exec_builtins.c \
-	srcs/exec/pipe/pipe_utils.c \
-    srcs/exec/pipe/pipe_redir.c \
-    srcs/exec/pipe/pipe_exec.c \
-    srcs/exec/pipe/pipe_run.c \
 	srcs/parse/cleanup.c \
-	srcs/parse/heredoc.c \
 	srcs/parse/error_messages.c \
 	srcs/parse/expansion.c \
 	srcs/parse/handle_line.c \
@@ -46,7 +41,10 @@ SRCS = main.c \
 	srcs/builtins/builtin_export.c \
 	srcs/builtins/builtin_pwd.c \
 	srcs/builtins/builtin_unset.c \
-	srcs/builtins/builtin_utils.c
+	srcs/builtins/builtin_utils.c \
+	srcs/signals/signal_handler.c \
+	srcs/signals/signal_setup.c \
+	srcs/signals/signal_utils.c 
 
 # On garde juste les noms des fichiers pour les .o
 OBJ_FILES = $(notdir $(SRCS:.c=.o))
@@ -78,10 +76,10 @@ $(OBJ_DIR)/%.o: srcs/builtins/%.c | $(OBJ_DIR)
 $(OBJ_DIR)/%.o: srcs/exec/%.c | $(OBJ_DIR)
 	$(CC) $(CFLAGS) -Iincludes -I$(LIBFT_DIR) -I$(ANIMATION_DIR)/includes -c $< -o $@
 
-$(OBJ_DIR)/%.o: srcs/exec/pipe/%.c | $(OBJ_DIR)
+$(OBJ_DIR)/%.o: srcs/parse/%.c | $(OBJ_DIR)
 	$(CC) $(CFLAGS) -Iincludes -I$(LIBFT_DIR) -I$(ANIMATION_DIR)/includes -c $< -o $@
 
-$(OBJ_DIR)/%.o: srcs/parse/%.c | $(OBJ_DIR)
+$(OBJ_DIR)/%.o: srcs/signals/%.c | $(OBJ_DIR)
 	$(CC) $(CFLAGS) -Iincludes -I$(LIBFT_DIR) -I$(ANIMATION_DIR)/includes -c $< -o $@
 
 $(OBJ_DIR)/%.o: %.c | $(OBJ_DIR)
