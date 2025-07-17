@@ -2,6 +2,11 @@
 
 int g_exit_status = 0;
 
+void init_readline(void)
+{
+   rl_bind_key('\t', rl_insert);
+}
+
 int main(int argc, char **argv, char **envp)
 {
 	char 	*line;

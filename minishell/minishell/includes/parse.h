@@ -23,6 +23,7 @@ typedef struct s_parser
 {
 	t_token *tokens;
 	t_token *current;
+	int error;
 } t_parser;
 
 // // parser.c
@@ -53,7 +54,6 @@ typedef struct s_parser
 // void		free_redir(t_redir *redir);
 // void		free_array(char **arr);
 
-
 // ============================================================================
 // FONCTIONS DE LEXING/TOKENISATION
 // ============================================================================
@@ -62,40 +62,44 @@ typedef struct s_parser
 void init_lexer(t_lexer *lexer, char *input);
 t_token *tokenize(char *input);
 void print_ast(t_cmd *node, int depth);
-void	handle_line(char *line, char ***envp);  //-----modififie pour prendre la variable envp
+void handle_line(char *line, char ***envp);
 
 // lexer.c
 t_token *new_token(t_token_type type, char *value);
-t_token *get_next_token(t_lexer *lexer);
+void skip_spaces(t_lexer *lexer);
+char *get_word(t_lexer *lexer);
+int is_special_except_quotes_and_dollar(char c);
 int is_space(char c);
 int is_special(char c);
-char *get_word(t_lexer *lexer);
-void skip_spaces(t_lexer *lexer);
+int is_special_except_quotes_and_dollar(char c);
+t_token *get_complex_word(t_lexer *lexer);
+t_token *get_next_token(t_lexer *lexer);
 
 // lexer_cmd.c
 t_token *handle_pipe(t_lexer *lexer);
 t_token *handle_input_redirection(t_lexer *lexer);
 t_token *handle_output_redirection(t_lexer *lexer);
+t_token *handle_and(t_lexer *lexer);
+t_token *handle_or(t_lexer *lexer);
+t_token *handle_parentheses(t_lexer *lexer);
 
-// quote_parser.c	---NEW
+// quote_parser.c
 t_token *handle_quotes(t_lexer *lexer);
 char *get_double_quoted_string(t_lexer *lexer);
 char *get_single_quoted_string(t_lexer *lexer);
 int is_quote(char c);
 
-// expansion.c		---NEW
+// expansion.c
 t_token *handle_variable(t_lexer *lexer);
 char *expand_string(char *str);
 char *get_env_value(char *var_name);
 char *get_var_name(t_lexer *lexer);
 char *handle_var_expansion(char *str, int *i);
 
-// logical_ops.c	---NEW
-t_token *handle_and(t_lexer *lexer);
-t_token *handle_or(t_lexer *lexer);
-t_token *handle_parentheses(t_lexer *lexer);
+// logical_ops.c
+t_cmd *parse_logical(t_parser *parser);
 
-// wildcards.c		---NEW
+// wildcards.c
 char **expand_wildcard(char *pattern);
 int match_pattern(char *pattern, char *str);
 int count_matches(char *pattern);
@@ -109,7 +113,6 @@ char **fill_matches(char *pattern, int count);
 t_cmd *parse_command(t_parser *parser);
 t_cmd *parse_pipeline(t_parser *parser);
 t_cmd *parse(t_token *tokens);
-t_cmd *parse_logical(t_parser *parser);
 
 // parser_utils.c
 t_cmd *new_node(t_node_type type);
@@ -125,10 +128,10 @@ void parse_redir(t_parser *parser, t_cmd *node);
 
 // cleanup.c
 void free_redir(t_redir *redir);
-void free_tokens(t_token *tokens);
 void free_array(char **arr);
 void free_args(char **args);
-void free_ast(t_cmd *node);
+void free_tokens(t_token *tokens);
+void free_ast(t_cmd *ast);
 
 // print_token.c
 void print_token(t_token *token);
@@ -156,5 +159,8 @@ void clear_screen(void);
 void move_cursor(int row, int col);
 int int_to_str(int n, char *str);
 int ft_random_digit(void);
+
+//utils.c 
+t_cmd	*linearize_pipeline(t_cmd *ast);
 
 #endif

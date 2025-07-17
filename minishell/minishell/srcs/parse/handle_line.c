@@ -137,39 +137,6 @@ void	print_ast(t_cmd *node, int depth)
 }
 
 // Traite la ligne de commande complète
-// void	handle_line(char *line, char ***envp)
-// {
-// 	t_token		*tokens;
-// 	t_cmd	*ast;
-
-// 	if (!line || !*line)
-// 		return ;
-// 	tokens = tokenize(line);
-// 	if (!tokens)
-// 	{
-// 		ft_putstr_fd("Erreur lors de la tokenisation\n", 2);
-// 		return ;
-// 	}
-// 	ast = parse(tokens);
-// 	if (!ast)
-// 	{
-// 		ft_putstr_fd("Erreur lors du parsing\n", 2);
-// 		free_tokens(tokens);
-// 		return ;
-// 	}
-
-	
-// 	// ft_putstr_fd("=== AST ===\n", 1);
-// 	// print_ast(ast, 0);
-// 	// ft_putstr_fd("===========\n", 1);
-
-// 	execute_all(ast, envp);
-
-// 	free_tokens(tokens);
-// 	free_ast(ast);
-// }
-
-
 void	handle_line(char *line, char ***envp)
 {
 	t_token		*tokens;
@@ -194,5 +161,5 @@ void	handle_line(char *line, char ***envp)
 	execute_all(ast, envp);
 
 	free_tokens(tokens);
-	free_ast(ast);
+	//free_ast(ast); 
 }

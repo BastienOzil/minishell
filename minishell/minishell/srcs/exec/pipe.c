@@ -2,55 +2,25 @@
 
 void	execute_pipeline(t_cmd *cmd_list, char ***envp)
 {
-	int		pipefd[2];
-	int		in_fd = 0;  // au début, l'entrée standard (stdin)
+	t_cmd	*cmd;
 	pid_t	pid;
-	t_cmd	*cmd = cmd_list;
+	int		in_fd;
+	int		pipefd[2];
 
+	cmd = cmd_list;
+	in_fd = 0;
 	while (cmd)
 	{
-		if (cmd->next)
-			pipe(pipefd); // on crée un pipe seulement si une commande suit
-
-		pid = fork();
+		if (cmd->next && create_pipe(pipefd) == -1)
+			return ;
+		pid = create_child_process();
 		if (pid == 0)
-		{
-			if (cmd->infile)
-				exec_input_redirection(cmd);
-			else if (cmd->heredoc)
-				exec_heredoc(cmd);
-
-			if (cmd->append)
-				exec_append_redirection(cmd);
-			else if (cmd->outfile)
-				exec_output_redirection(cmd);
-
-			if (in_fd != 0)
-			{
-				dup2(in_fd, STDIN_FILENO);
-				close(in_fd);
-			}
-			if (cmd->next)
-			{
-				close(pipefd[0]);
-				dup2(pipefd[1], STDOUT_FILENO);
-				close(pipefd[1]);
-			}
-			execve(cmd->args[0], cmd->args, *envp);
-			puppetmaster_perror("execve");
-			exit(EXIT_FAILURE);
-		}
-		else
-		{
-			wait(NULL);
-			if (in_fd != 0)
-				close(in_fd);
-			if (cmd->next)
-			{
-				close(pipefd[1]);
-				in_fd = pipefd[0]; // pour la prochaine commande
-			}
-		}
+			child_exec(cmd, in_fd, pipefd, envp);
+		if (pid < 0)
+			return ;
+		handle_parent(cmd, &in_fd, pipefd);
 		cmd = cmd->next;
 	}
+	wait_and_set_exit_status();
 }
+

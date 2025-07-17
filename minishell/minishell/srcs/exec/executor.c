@@ -60,14 +60,27 @@ char	*find_path(char *cmd, char **envp)
 	return (NULL);
 }
 
-// Elle exécute une commande (comme ls, echo, etc.) en créant un nouveau processus 
-// à l’aide de fork() et en lançant la commande avec execve()
+// Version corrigée pour éviter les boucles infinies
 void	execute_cmd(t_cmd *cmd, char ***envp)
 {
 	pid_t	pid;
+	char	*path;
+	int		builtin_result;
 
+	// AJOUT DES VÉRIFICATIONS CRITIQUES
+	if (!cmd)
+		return ;
+	if (!cmd->args || !cmd->args[0])
+		return ;
+	
+	// Gestion des builtins SANS fork
 	if (is_builtin(cmd->args[0]))
 	{
+		// Sauvegarde des descripteurs originaux
+		int saved_stdout = dup(STDOUT_FILENO);
+		int saved_stdin = dup(STDIN_FILENO);
+		
+		// Applique les redirections si nécessaires
 		if (cmd->infile)
 			exec_input_redirection(cmd);
 		else if (cmd->heredoc)
@@ -78,11 +91,20 @@ void	execute_cmd(t_cmd *cmd, char ***envp)
 		else if (cmd->outfile)
 			exec_output_redirection(cmd);
 
-		exec_builtin(cmd, envp);
+		// Exécute le builtin
+		builtin_result = exec_builtin(cmd, envp);
+		
+		// Restaure les descripteurs originaux
+		dup2(saved_stdout, STDOUT_FILENO);
+		dup2(saved_stdin, STDIN_FILENO);
+		close(saved_stdout);
+		close(saved_stdin);
+		
+		g_exit_status = builtin_result;
 		return ;
 	}
-
-
+	
+	// Gestion des commandes externes avec fork
 	pid = fork();
 	if (pid < 0)
 	{
@@ -91,6 +113,7 @@ void	execute_cmd(t_cmd *cmd, char ***envp)
 	}
 	if (pid == 0)
 	{
+		// Processus enfant
 		if (cmd->infile)
 			exec_input_redirection(cmd);
 		else if (cmd->heredoc)
@@ -101,27 +124,45 @@ void	execute_cmd(t_cmd *cmd, char ***envp)
 		else if (cmd->outfile)
 			exec_output_redirection(cmd);
 
-		char *path = find_path(cmd->args[0], *envp);
+		path = find_path(cmd->args[0], *envp);
 		if (!path)
 		{
 			puppetmaster_perror(cmd->args[0]);
 			exit(127);
 		}
 		execve(path, cmd->args, *envp);
-
+		puppetmaster_perror("execve");
 		exit(EXIT_FAILURE);
 	}
 	else
-		wait(NULL);
+	{
+		// Processus parent
+		int status;
+		waitpid(pid, &status, 0);
+		if (WIFEXITED(status))
+			g_exit_status = WEXITSTATUS(status);
+		else if (WIFSIGNALED(status))
+			g_exit_status = 128 + WTERMSIG(status);
+	}
 }
 
 void	execute_all(t_cmd *cmd, char ***envp)
 {
 	if (!cmd)
 		return ;
-	
-	if (cmd->next)
-		execute_pipeline(cmd, envp);
+
+	if (cmd->type == NODE_PIPELINE)
+	{
+		t_cmd *flat = linearize_pipeline(cmd);
+		execute_pipeline(flat, envp);
+		return;
+	}
 	else
+	{
 		execute_cmd(cmd, envp);
+		return;
+	}
 }
+
+
+
