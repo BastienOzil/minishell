@@ -52,6 +52,8 @@ void	execute_pipeline(t_cmd *cmd_list, char ***envp);
 
 //builtins
 int	    echo_builtin(char **args);
+void	print_cd_error(char *path);
+int	    is_directory(char *path);
 int	    cd_builtin(char **args);
 int	    pwd_builtin(void);
 char    **dup_env(char **envp);
@@ -71,10 +73,10 @@ void	remove_var(char ***envp, char *var);
 int	is_builtin(const char *cmd);
 int	exec_builtin(t_cmd *cmd, char ***envp);
 
-//heredoc.h
+//heredoc.c
 int		open_tmp_heredoc(char *template_path);
 int		write_heredoc_lines(int fd, const char *delimiter);
 int		redirect_stdin_from_tmp(const char *path);
-int     exec_heredoc(t_cmd *cmd);
+void	exec_heredoc(t_cmd *cmd);
 
 #endif

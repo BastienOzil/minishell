@@ -161,5 +161,4 @@ void	handle_line(char *line, char ***envp)
 	execute_all(ast, envp);
 
 	free_tokens(tokens);
-	//free_ast(ast); 
 }

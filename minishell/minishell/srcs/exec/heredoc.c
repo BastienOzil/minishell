@@ -51,25 +51,19 @@ int	redirect_stdin_from_tmp(const char *path)
 	return (0);
 }
 
-int	exec_heredoc(t_cmd *cmd)
+void	exec_heredoc(t_cmd *cmd)
 {
 	char	tmp_file[] = "/tmp/.heredoc_tmp_XXXXXX";
 	int		fd;
 
 	if (!cmd || !cmd->heredoc)
-		return (0); // rien à faire
+		return ;
 	fd = open_tmp_heredoc(tmp_file);
 	if (fd == -1)
-		return (-1);
-	if (write_heredoc_lines(fd, cmd->heredoc) == -1)
-	{
-		close(fd);
-		return (-1);
-	}
+		return ;
+	write_heredoc_lines(fd, cmd->heredoc);
 	close(fd);
 	if (redirect_stdin_from_tmp(tmp_file) == -1)
-		return (-1);
+		return ;
 	unlink(tmp_file);
-	return (0);
 }
-
