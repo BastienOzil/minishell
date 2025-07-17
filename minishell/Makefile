@@ -99,7 +99,6 @@ $(LIBFT):
 
 $(ANIMATION_LIB):
 	@make -s -C $(ANIMATION_DIR)
-	-echo Hello | cat ne fait rien, peut etre cat a un problème
 
 # Nettoyage
 clean:

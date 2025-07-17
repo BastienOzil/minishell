@@ -52,6 +52,8 @@ void	execute_pipeline(t_cmd *cmd_list, char ***envp);
 
 //builtins
 int	    echo_builtin(char **args);
+void	print_cd_error(char *path);
+int	    is_directory(char *path);
 int	    cd_builtin(char **args);
 int	    pwd_builtin(void);
 char    **dup_env(char **envp);
