@@ -150,11 +150,19 @@ void	execute_all(t_cmd *cmd, char ***envp)
 {
 	if (!cmd)
 		return ;
-	
-	if (cmd->next)
-		execute_pipeline(cmd, envp);
+
+	if (cmd->type == NODE_PIPELINE)
+	{
+		t_cmd *flat = linearize_pipeline(cmd);
+		execute_pipeline(flat, envp);
+		return;
+	}
 	else
+	{
 		execute_cmd(cmd, envp);
+		return;
+	}
 }
+
 
 

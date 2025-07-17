@@ -160,4 +160,7 @@ void move_cursor(int row, int col);
 int int_to_str(int n, char *str);
 int ft_random_digit(void);
 
+//utils.c 
+t_cmd	*linearize_pipeline(t_cmd *ast);
+
 #endif

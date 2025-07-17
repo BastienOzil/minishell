@@ -20,6 +20,11 @@ SRCS = main.c \
 	srcs/exec/redirect.c \
 	srcs/exec/pipe.c \
 	srcs/exec/exec_builtins.c \
+	srcs/exec/heredoc.c \
+	srcs/exec/pipe/pipe_exec.c \
+	srcs/exec/pipe/pipe_redir.c \
+	srcs/exec/pipe/pipe_run.c \
+	srcs/exec/pipe/pipe_utils.c \
 	srcs/parse/cleanup.c \
 	srcs/parse/error_messages.c \
 	srcs/parse/expansion.c \
@@ -74,6 +79,9 @@ $(OBJ_DIR)/%.o: srcs/builtins/%.c | $(OBJ_DIR)
 	$(CC) $(CFLAGS) -Iincludes -I$(LIBFT_DIR) -I$(ANIMATION_DIR)/includes -c $< -o $@
 
 $(OBJ_DIR)/%.o: srcs/exec/%.c | $(OBJ_DIR)
+	$(CC) $(CFLAGS) -Iincludes -I$(LIBFT_DIR) -I$(ANIMATION_DIR)/includes -c $< -o $@
+
+$(OBJ_DIR)/%.o: srcs/exec/pipe/%.c | $(OBJ_DIR)
 	$(CC) $(CFLAGS) -Iincludes -I$(LIBFT_DIR) -I$(ANIMATION_DIR)/includes -c $< -o $@
 
 $(OBJ_DIR)/%.o: srcs/parse/%.c | $(OBJ_DIR)

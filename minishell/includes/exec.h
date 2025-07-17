@@ -3,18 +3,6 @@
 
 #include "shared.h"
 
-// executor
-// typedef struct s_cmd
-// {
-//     char **argv;
-//     char *infile;
-//     char *outfile;
-//     char *heredoc;
-//     int append;
-//     struct s_cmd *next;
-// } t_cmd;
-
-
 // executor.c
 void	ft_free_split(char **split);
 char	*get_path_var(char **envp);
@@ -26,13 +14,34 @@ void	execute_all(t_cmd *cmd, char ***envp);
 void	exec_output_redirection(t_cmd *cmd);
 void	exec_input_redirection(t_cmd *cmd);
 void	exec_append_redirection(t_cmd *cmd);
-void    exec_heredoc(t_cmd *cmd);
+//void    exec_heredoc(t_cmd *cmd);
 
-//pipe.c
+//______pipe_____
+// pipe_utils.c
+int		create_pipe(int pipefd[2]);
+pid_t	create_child_process(void);
+int		redirect_fd(int input_fd, int output_fd);
+void	close_unused_fds(int pipefd[2]);
+
+// pipe_exec.c
+void	execute_command(t_cmd *cmd, char **envp);
+void	run_child_process(t_cmd *cmd, int in_fd, int pipefd[2], char **envp);
+
+// pipe_redir.c
+void	handle_redirections(t_cmd *cmd);
+
+// pipe_run.c
+void	child_exec(t_cmd *cmd, int in_fd, int pipefd[2], char ***envp);
+void	handle_parent(t_cmd *cmd, int *in_fd, int pipefd[2]);
+void	wait_and_set_exit_status(void);
+
+// pipe.c
 void	execute_pipeline(t_cmd *cmd_list, char ***envp);
 
 //builtins
 int	    echo_builtin(char **args);
+void	print_cd_error(char *path);
+int	    is_directory(char *path);
 int	    cd_builtin(char **args);
 int	    pwd_builtin(void);
 char    **dup_env(char **envp);
@@ -52,5 +61,10 @@ void	remove_var(char ***envp, char *var);
 int	is_builtin(const char *cmd);
 int	exec_builtin(t_cmd *cmd, char ***envp);
 
+//heredoc.c
+int		open_tmp_heredoc(char *template_path);
+int		write_heredoc_lines(int fd, const char *delimiter);
+int		redirect_stdin_from_tmp(const char *path);
+void	exec_heredoc(t_cmd *cmd);
 
 #endif
