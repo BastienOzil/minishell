@@ -41,7 +41,10 @@ SRCS = main.c \
 	srcs/builtins/builtin_export.c \
 	srcs/builtins/builtin_pwd.c \
 	srcs/builtins/builtin_unset.c \
-	srcs/builtins/builtin_utils.c
+	srcs/builtins/builtin_utils.c \
+	srcs/signals/signal_handler.c \
+	srcs/signals/signal_setup.c \
+	srcs/signals/signal_utils.c 
 
 # On garde juste les noms des fichiers pour les .o
 OBJ_FILES = $(notdir $(SRCS:.c=.o))
@@ -74,6 +77,9 @@ $(OBJ_DIR)/%.o: srcs/exec/%.c | $(OBJ_DIR)
 	$(CC) $(CFLAGS) -Iincludes -I$(LIBFT_DIR) -I$(ANIMATION_DIR)/includes -c $< -o $@
 
 $(OBJ_DIR)/%.o: srcs/parse/%.c | $(OBJ_DIR)
+	$(CC) $(CFLAGS) -Iincludes -I$(LIBFT_DIR) -I$(ANIMATION_DIR)/includes -c $< -o $@
+
+$(OBJ_DIR)/%.o: srcs/signals/%.c | $(OBJ_DIR)
 	$(CC) $(CFLAGS) -Iincludes -I$(LIBFT_DIR) -I$(ANIMATION_DIR)/includes -c $< -o $@
 
 $(OBJ_DIR)/%.o: %.c | $(OBJ_DIR)
