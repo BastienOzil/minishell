@@ -3,18 +3,6 @@
 
 #include "shared.h"
 
-// executor
-// typedef struct s_cmd
-// {
-//     char **argv;
-//     char *infile;
-//     char *outfile;
-//     char *heredoc;
-//     int append;
-//     struct s_cmd *next;
-// } t_cmd;
-
-
 // executor.c
 void	ft_free_split(char **split);
 char	*get_path_var(char **envp);

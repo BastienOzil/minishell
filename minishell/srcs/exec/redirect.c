@@ -44,35 +44,28 @@ void exec_output_redirection(t_cmd *cmd)
 }
 
 // Version corrigée pour éviter les exit() dans les builtins
-void exec_input_redirection(t_cmd *cmd)
+void	exec_input_redirection(t_cmd *cmd)
 {
-    int fd;
+	int	fd;
 
-    if (!is_cmd_valid(cmd) || !cmd->infile)
-    {
-        if (is_builtin(cmd->args[0]))
-            return; // Ne pas exit() pour les builtins
-        puppetmaster_perror("invalid command or infile");
-        exit(EXIT_FAILURE);
-    }
-
-    fd = open(cmd->infile, O_RDONLY);
-    if (fd == -1)
-    {
-        puppetmaster_perror("open infile");
-        if (is_builtin(cmd->args[0]))
-            return; // Ne pas exit() pour les builtins
-        exit(EXIT_FAILURE);
-    }
-    if (dup2(fd, STDIN_FILENO) == -1)
-    {
-        puppetmaster_perror("dup2");
-        close(fd);
-        if (is_builtin(cmd->args[0]))
-            return; // Ne pas exit() pour les builtins
-        exit(EXIT_FAILURE);
-    }
-    close(fd);
+	fd = open(cmd->infile, O_RDONLY);
+	if (fd == -1)
+	{
+		ft_putstr_fd("minishell: ", 2);
+		perror(cmd->infile);
+		if (is_builtin(cmd->args[0]))
+			return;
+		exit(1);
+	}
+	if (dup2(fd, STDIN_FILENO) == -1)
+	{
+		perror("dup2");
+		close(fd);
+		if (is_builtin(cmd->args[0]))
+			return;
+		exit(1);
+	}
+	close(fd);
 }
 
 // Version corrigée pour éviter les exit() dans les builtins
