@@ -71,7 +71,7 @@ void	remove_var(char ***envp, char *var);
 int	is_builtin(const char *cmd);
 int	exec_builtin(t_cmd *cmd, char ***envp);
 
-//heredoc.h
+//heredoc.c
 int		open_tmp_heredoc(char *template_path);
 int		write_heredoc_lines(int fd, const char *delimiter);
 int		redirect_stdin_from_tmp(const char *path);
