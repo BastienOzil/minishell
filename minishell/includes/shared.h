@@ -11,12 +11,12 @@ typedef enum e_token_type
 	TOKEN_APPEND,
 	TOKEN_HEREDOC,
 	TOKEN_EOF,
-	TOKEN_AND,
-	TOKEN_OR,
-	TOKEN_LPAREN,
-	TOKEN_RPAREN,
-	TOKEN_DQUOTE,
-	TOKEN_SQUOTE
+	TOKEN_AND,		//---NEW
+	TOKEN_OR,		//---NEW
+	TOKEN_LPAREN, 	//---NEW
+	TOKEN_RPAREN, 	//---NEW
+	TOKEN_DQUOTE, 	//---NEW
+	TOKEN_SQUOTE 	//---NEW
 } t_token_type;
 
 typedef enum e_node_type

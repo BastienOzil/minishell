@@ -51,7 +51,7 @@ void exec_input_redirection(t_cmd *cmd)
     if (!is_cmd_valid(cmd) || !cmd->infile)
     {
         if (is_builtin(cmd->args[0]))
-            return;
+            return; // Ne pas exit() pour les builtins
         puppetmaster_perror("invalid command or infile");
         exit(EXIT_FAILURE);
     }
@@ -61,7 +61,7 @@ void exec_input_redirection(t_cmd *cmd)
     {
         puppetmaster_perror("open infile");
         if (is_builtin(cmd->args[0]))
-            return;
+            return; // Ne pas exit() pour les builtins
         exit(EXIT_FAILURE);
     }
     if (dup2(fd, STDIN_FILENO) == -1)
@@ -69,7 +69,7 @@ void exec_input_redirection(t_cmd *cmd)
         puppetmaster_perror("dup2");
         close(fd);
         if (is_builtin(cmd->args[0]))
-            return;
+            return; // Ne pas exit() pour les builtins
         exit(EXIT_FAILURE);
     }
     close(fd);
@@ -83,7 +83,7 @@ void exec_append_redirection(t_cmd *cmd)
     if (!is_cmd_valid(cmd) || !cmd->outfile)
     {
         if (is_builtin(cmd->args[0]))
-            return;
+            return; // Ne pas exit() pour les builtins
         puppetmaster_perror("invalid command or outfile for append");
         exit(EXIT_FAILURE);
     }
@@ -93,7 +93,7 @@ void exec_append_redirection(t_cmd *cmd)
     {
         puppetmaster_perror("open outfile (append)");
         if (is_builtin(cmd->args[0]))
-            return;
+            return; // Ne pas exit() pour les builtins
         exit(EXIT_FAILURE);
     }
     if (dup2(fd, STDOUT_FILENO) == -1)
@@ -101,7 +101,7 @@ void exec_append_redirection(t_cmd *cmd)
         puppetmaster_perror("dup2");
         close(fd);
         if (is_builtin(cmd->args[0]))
-            return;
+            return; // Ne pas exit() pour les builtins
         exit(EXIT_FAILURE);
     }
     close(fd);
@@ -118,7 +118,7 @@ void exec_heredoc(t_cmd *cmd)
     if (!is_cmd_valid(cmd))
     {
         if (is_builtin(cmd->args[0]))
-            return;
+            return; // Ne pas exit() pour les builtins
         exit(EXIT_FAILURE);
     }
 
@@ -127,7 +127,7 @@ void exec_heredoc(t_cmd *cmd)
     {
         puppetmaster_perror("heredoc delimiter is NULL");
         if (is_builtin(cmd->args[0]))
-            return;
+            return; // Ne pas exit() pour les builtins
         exit(EXIT_FAILURE);
     }
 
@@ -136,14 +136,14 @@ void exec_heredoc(t_cmd *cmd)
     {
         puppetmaster_perror("heredoc tmp file creation");
         if (is_builtin(cmd->args[0]))
-            return;
+            return; // Ne pas exit() pour les builtins
         exit(EXIT_FAILURE);
     }
 
     while (1)
     {
         line = readline("> ");
-        if (!line)
+        if (!line)  // EOF (Ctrl+D)
             break;
         if (ft_strcmp(line, delimiter) == 0)
         {
@@ -162,7 +162,7 @@ void exec_heredoc(t_cmd *cmd)
         puppetmaster_perror("heredoc reopen for reading");
         unlink(tmp_file);
         if (is_builtin(cmd->args[0]))
-            return;
+            return; // Ne pas exit() pour les builtins
         exit(EXIT_FAILURE);
     }
     
@@ -172,7 +172,7 @@ void exec_heredoc(t_cmd *cmd)
         close(fd);
         unlink(tmp_file);
         if (is_builtin(cmd->args[0]))
-            return;
+            return; // Ne pas exit() pour les builtins
         exit(EXIT_FAILURE);
     }
     

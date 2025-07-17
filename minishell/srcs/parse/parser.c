@@ -14,7 +14,7 @@ static void handle_quoted_token(t_parser *parser, t_cmd *node)
         if (value)
         {
             node->args = add_arg(node->args, value);
-            free(value);
+            free(value);  // Libère value APRÈS l'avoir ajouté
         }
     }
     else if (parser->current->type == TOKEN_SQUOTE)
