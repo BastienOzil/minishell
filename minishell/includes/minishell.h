@@ -42,6 +42,7 @@
 # include "parse.h"
 # include "exec.h"
 # include <sys/time.h>
+# include <sys/types.h>
 # include "../animation/includes/animation.h"
 
 

@@ -2,9 +2,18 @@
 
 int	open_tmp_heredoc(char *template_path)
 {
-	int	fd;
+	int		fd;
+	pid_t	pid;
+	char	*pid_str;
 
-	fd = mkstemp(template_path);
+	pid = getpid();
+	pid_str = ft_itoa(pid);
+	if (!pid_str)
+		return (-1);
+	ft_strlcpy(template_path, "/tmp/.heredoc_", 64);
+	ft_strlcat(template_path, pid_str, 64);
+	free(pid_str);
+	fd = open(template_path, O_CREAT | O_WRONLY | O_TRUNC, 0600);
 	if (fd == -1)
 		puppetmaster_perror("heredoc tmp file creation");
 	return (fd);
@@ -18,11 +27,11 @@ int	write_heredoc_lines(int fd, const char *delimiter)
 	{
 		line = readline("> ");
 		if (!line)
-			break;
+			break ;
 		if (ft_strcmp(line, delimiter) == 0)
 		{
 			free(line);
-			break;
+			break ;
 		}
 		write(fd, line, ft_strlen(line));
 		write(fd, "\n", 1);
@@ -53,11 +62,18 @@ int	redirect_stdin_from_tmp(const char *path)
 
 void	exec_heredoc(t_cmd *cmd)
 {
-	char	tmp_file[] = "/tmp/.heredoc_tmp_XXXXXX";
+	char	tmp_file[64];
+	char	*pid_str;
 	int		fd;
 
 	if (!cmd || !cmd->heredoc)
 		return ;
+	pid_str = ft_itoa(getpid());
+	if (!pid_str)
+		return ;
+	ft_strlcpy(tmp_file, "/tmp/.heredoc_", sizeof(tmp_file));
+	ft_strlcat(tmp_file, pid_str, sizeof(tmp_file));
+	free(pid_str);
 	fd = open_tmp_heredoc(tmp_file);
 	if (fd == -1)
 		return ;
