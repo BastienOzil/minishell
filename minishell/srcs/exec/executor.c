@@ -1,6 +1,5 @@
 #include "../includes/minishell.h"
 
-// Libère un tableau de chaînes
 void	ft_free_split(char **split)
 {
 	int	i = 0;
@@ -9,21 +8,19 @@ void	ft_free_split(char **split)
 	free(split);
 }
 
-// Récupère la valeur de la variable PATH
 char	*get_path_var(char **envp)
 {
 	int	i = 0;
 
 	while (envp[i])
 	{
-		if (strncmp(envp[i], "PATH=", 5) == 0)
-			return (envp[i] + 5); // saute "PATH="
+		if (ft_strncmp(envp[i], "PATH=", 5) == 0)
+			return (envp[i] + 5);
 		i++;
 	}
 	return (NULL);
 }
 
-// Construit le chemin vers la commande
 char	*find_path(char *cmd, char **envp)
 {
 	char	**paths;
@@ -32,8 +29,8 @@ char	*find_path(char *cmd, char **envp)
 	char	*full_path;
 	int		i = 0;
 
-	if (!cmd || strchr(cmd, '/')) // si déjà un chemin
-		return (strdup(cmd));
+	if (!cmd || ft_strchr(cmd, '/'))
+		return (ft_strdup(cmd));
 
 	path_var = get_path_var(envp);
 	if (!path_var)
@@ -60,27 +57,22 @@ char	*find_path(char *cmd, char **envp)
 	return (NULL);
 }
 
-// Version corrigée pour éviter les boucles infinies
 void	execute_cmd(t_cmd *cmd, char ***envp)
 {
 	pid_t	pid;
 	char	*path;
 	int		builtin_result;
 
-	// AJOUT DES VÉRIFICATIONS CRITIQUES
 	if (!cmd)
 		return ;
 	if (!cmd->args || !cmd->args[0])
 		return ;
 	
-	// Gestion des builtins SANS fork
 	if (is_builtin(cmd->args[0]))
 	{
-		// Sauvegarde des descripteurs originaux
 		int saved_stdout = dup(STDOUT_FILENO);
 		int saved_stdin = dup(STDIN_FILENO);
 		
-		// Applique les redirections si nécessaires
 		if (cmd->infile)
 			exec_input_redirection(cmd);
 		else if (cmd->heredoc)
@@ -91,10 +83,8 @@ void	execute_cmd(t_cmd *cmd, char ***envp)
 		else if (cmd->outfile)
 			exec_output_redirection(cmd);
 
-		// Exécute le builtin
 		builtin_result = exec_builtin(cmd, envp);
 		
-		// Restaure les descripteurs originaux
 		dup2(saved_stdout, STDOUT_FILENO);
 		dup2(saved_stdin, STDIN_FILENO);
 		close(saved_stdout);
@@ -104,7 +94,6 @@ void	execute_cmd(t_cmd *cmd, char ***envp)
 		return ;
 	}
 	
-	// Gestion des commandes externes avec fork
 	pid = fork();
 	if (pid < 0)
 	{
@@ -113,7 +102,6 @@ void	execute_cmd(t_cmd *cmd, char ***envp)
 	}
 	if (pid == 0)
 	{
-		// Processus enfant
 		if (cmd->infile)
 			exec_input_redirection(cmd);
 		else if (cmd->heredoc)
@@ -136,7 +124,6 @@ void	execute_cmd(t_cmd *cmd, char ***envp)
 	}
 	else
 	{
-		// Processus parent
 		int status;
 		waitpid(pid, &status, 0);
 		if (WIFEXITED(status))
@@ -163,6 +150,3 @@ void	execute_all(t_cmd *cmd, char ***envp)
 		return;
 	}
 }
-
-
-

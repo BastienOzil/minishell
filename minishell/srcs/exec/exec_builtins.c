@@ -1,12 +1,9 @@
 #include "../includes/minishell.h"
 
-//detections des appels de fonctions interne (echo, cd, pwd, env, export, unset, exit)
 int	is_builtin(const char *cmd)
 {
 	if (!cmd)
 		return (0);
-
-	// Affichage de debug (à commenter plus tard)
 	if (!ft_strcmp(cmd, "echo"))
 		return (1);
 	if (!ft_strcmp(cmd, "cd"))
@@ -21,7 +18,6 @@ int	is_builtin(const char *cmd)
 		return (1);
 	if (!ft_strcmp(cmd, "unset"))
 		return (1);
-
 	return (0);
 }
 

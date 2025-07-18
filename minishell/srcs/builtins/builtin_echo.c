@@ -3,26 +3,26 @@
 int	echo_builtin(char **args)
 {
 	int	i;
+	int	j;
 	int	newline;
 
 	i = 1;
 	newline = 1;
 	while (args[i] && args[i][0] == '-' && args[i][1] == 'n')
 	{
-		int j = 1;
+		j = 1;
 		while (args[i][j] == 'n')
 			j++;
-		if (args[i][j] != '\0')
-			break;
+		if (args[i][j])
+			break ;
 		newline = 0;
 		i++;
 	}
 	while (args[i])
 	{
-		write(1, args[i], strlen(args[i]));
-		if (args[i + 1])
+		write(1, args[i], ft_strlen(args[i]));
+		if (args[i++ + 1])
 			write(1, " ", 1);
-		i++;
 	}
 	if (newline)
 		write(1, "\n", 1);
