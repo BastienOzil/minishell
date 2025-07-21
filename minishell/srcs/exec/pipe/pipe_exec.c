@@ -1,6 +1,5 @@
 #include "../includes/minishell.h"
 
-
 void	execute_command(t_cmd *cmd, char **envp)
 {
 	char	*path;
@@ -8,14 +7,12 @@ void	execute_command(t_cmd *cmd, char **envp)
 	path = find_path(cmd->args[0], envp);
 	if (!path)
 	{
-		puppetmaster_perror(cmd->args[0]);
-		exit(127);
+		print_cmd_not_found(cmd->args[0]);
 	}
 	execve(path, cmd->args, envp);
 	puppetmaster_perror("execve");
 	exit(EXIT_FAILURE);
 }
-
 
 void	run_child_process(t_cmd *cmd, int in_fd, int pipefd[2], char **envp)
 {

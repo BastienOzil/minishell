@@ -2,6 +2,8 @@
 
 void	child_exec(t_cmd *cmd, int in_fd, int pipefd[2], char ***envp)
 {
+	int	code;
+
 	handle_redirections(cmd);
 	if (in_fd != 0)
 		redirect_fd(in_fd, STDIN_FILENO);
@@ -12,7 +14,7 @@ void	child_exec(t_cmd *cmd, int in_fd, int pipefd[2], char ***envp)
 	}
 	if (is_builtin(cmd->args[0]))
 	{
-		int	code = exec_builtin(cmd, envp);
+		code = exec_builtin(cmd, envp);
 		exit(code);
 	}
 	execute_command(cmd, *envp);
