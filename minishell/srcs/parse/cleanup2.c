@@ -1,25 +1,41 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   print_token.c                                      :+:      :+:    :+:   */
+/*   cleanup2.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bozil <bozil@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/24 14:10:32 by bozil             #+#    #+#             */
-/*   Updated: 2025/07/24 14:10:34 by bozil            ###   ########.fr       */
+/*   Created: 2025/07/24 11:43:44 by bozil             #+#    #+#             */
+/*   Updated: 2025/07/24 11:43:48 by bozil            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-// permet de voir dans le terminal quel type des token est l'argument passé en paramètre
-void	print_token(t_token *token)
+void	free_ast(t_cmd *ast)
 {
-	char	*types[] = {"WORD", "PIPE", "REDIR_IN", "REDIR_OUT", "APPEND",
-			"HEREDOC", "EOF"};
+	int	i;
 
-	printf("Type: %s", types[token->type]);
-	if (token->value)
-		printf(", Value: '%s'", token->value);
-	printf("\n");
+	if (!ast)
+		return ;
+	if (ast->args)
+	{
+		i = 0;
+		while (ast->args[i])
+			free(ast->args[i++]);
+		free(ast->args);
+	}
+	if (ast->infile)
+		free(ast->infile);
+	if (ast->outfile)
+		free(ast->outfile);
+	if (ast->heredoc)
+		free(ast->heredoc);
+	if (ast->left)
+		free_ast(ast->left);
+	if (ast->right)
+		free_ast(ast->right);
+	if (ast->next)
+		free_ast(ast->next);
+	free(ast);
 }
