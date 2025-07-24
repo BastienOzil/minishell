@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   exec_utils.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: bozil <bozil@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/07/24 14:57:18 by bozil             #+#    #+#             */
+/*   Updated: 2025/07/24 14:57:21 by bozil            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/minishell.h"
 
 void	ft_free_split(char **split)
@@ -76,34 +88,3 @@ char	*find_path(char *cmd, char **envp)
 		return (NULL);
 	return (search_in_paths(paths, cmd));
 }
-
-// char	*find_path(char *cmd, char **envp)
-// {
-// 	char	**paths;
-// 	char	*path_var;
-// 	char	*full;
-// 	int		i;
-
-// 	if (!cmd || ft_strchr(cmd, '/'))
-// 		return (ft_strdup(cmd));
-// 	path_var = get_path_var(envp);
-// 	if (!path_var)
-// 		return (NULL);
-// 	paths = ft_split(path_var, ':');
-// 	if (!paths)
-// 		return (NULL);
-// 	i = 0;
-// 	while (paths[i])
-// 	{
-// 		full = join_path(paths[i], cmd);
-// 		if (full && access(full, X_OK) == 0)
-// 		{
-// 			ft_free_split(paths);
-// 			return (full);
-// 		}
-// 		free(full);
-// 		i++;
-// 	}
-// 	ft_free_split(paths);
-// 	return (NULL);
-// }

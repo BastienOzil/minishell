@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   builtin_unset.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: bozil <bozil@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/07/24 14:59:19 by bozil             #+#    #+#             */
+/*   Updated: 2025/07/24 14:59:20 by bozil            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../includes/minishell.h"
 
 void	remove_var(char ***envp, char *var)
@@ -17,7 +29,7 @@ void	remove_var(char ***envp, char *var)
 	while ((*envp)[i])
 	{
 		if (!(ft_strncmp((*envp)[i], var, ft_strlen(var)) == 0
-			&& (*envp)[i][ft_strlen(var)] == '='))
+				&& (*envp)[i][ft_strlen(var)] == '='))
 		{
 			new_env[j] = ft_strdup((*envp)[i]);
 			j++;
