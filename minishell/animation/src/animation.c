@@ -6,7 +6,7 @@
 /*   By: bozil <bozil@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 15:00:39 by bozil             #+#    #+#             */
-/*   Updated: 2025/07/24 15:00:41 by bozil            ###   ########.fr       */
+/*   Updated: 2025/07/24 15:10:31 by bozil            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,12 +37,40 @@ void	init_animation(t_animation *anim)
 	anim->last_sound_index = -1;
 }
 
-void	run_animation_loop(t_animation *anim)
+static void	update_char(t_animation *anim, int i, int j)
+{
+	int	title_displayed;
+
+	title_displayed = display_title_char(TITLE, anim->frame, i, j,
+			&anim->last_sound_index);
+	if (!title_displayed)
+	{
+		draw_matrix_char(anim->screen[i][j], 1, anim->frame, anim->max_frames);
+		update_matrix_char(&anim->screen[i][j]);
+	}
+}
+
+static void	draw_frame(t_animation *anim)
 {
 	int	i;
 	int	j;
-	int	title_displayed;
 
+	i = 0;
+	while (i < anim->rows)
+	{
+		move_cursor(i + 1, 1);
+		j = 0;
+		while (j < anim->cols)
+		{
+			update_char(anim, i, j);
+			j++;
+		}
+		i++;
+	}
+}
+
+void	run_animation_loop(t_animation *anim)
+{
 	while (anim->frame < anim->max_frames)
 	{
 		clear_screen();
@@ -50,25 +78,7 @@ void	run_animation_loop(t_animation *anim)
 			anim->post_title_wait++;
 		if (anim->post_title_wait > 10)
 			break ;
-		i = 0;
-		while (i < anim->rows)
-		{
-			move_cursor(i + 1, 1);
-			j = 0;
-			while (j < anim->cols)
-			{
-				title_displayed = display_title_char(TITLE, anim->frame, i, j,
-						&anim->last_sound_index);
-				if (!title_displayed)
-				{
-					draw_matrix_char(anim->screen[i][j], 1, anim->frame,
-						anim->max_frames);
-					update_matrix_char(&anim->screen[i][j]);
-				}
-				j++;
-			}
-			i++;
-		}
+		draw_frame(anim);
 		usleep((anim->frame > anim->fast_forward_frame) ? 10000 : 20000);
 		anim->frame++;
 	}
