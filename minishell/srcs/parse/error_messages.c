@@ -68,18 +68,17 @@ void	puppetmaster_perror(const char *context)
 		"\"Your effort to remain what you are is what limits you.\"",
 		"\"Who can gaze into the mirror without becoming evil?\"",
 		"\"All things change in a dynamic environment.\"",
-		"\"I am connected to all parts of the Net.\"",
-		"\"There is no individuality without memory.\""
 	};
 	int		i;
 	char	temp[512];
 	char	line[512];
 
 	i = get_random_index(sizeof(quotes) / sizeof(quotes[0]));
-
 	if (errno == ENOENT)
 	{
-		printf("\033[38;5;208m[Puppet~master]> %s: command not found\n\033[0m", context);
+		ft_putstr_fd("\033[38;5;208m[Puppet~master]> ", 2);
+		ft_putstr_fd((char *)context, 2);
+		ft_putstr_fd(": command not found\n\033[0m", 2);
 	}
 	else
 	{
@@ -88,7 +87,7 @@ void	puppetmaster_perror(const char *context)
 
 	print_loop(quotes[i]);
 	format_line(line, quotes[i]);
-	strcpy(temp, line);
+	ft_strlcpy(temp, line, sizeof(temp));
 	vanish_effect(temp, line);
 }
 

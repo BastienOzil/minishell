@@ -41,7 +41,9 @@
 # include "shared.h"
 # include "parse.h"
 # include "exec.h"
+# include "signals.h"
 # include <sys/time.h>
+# include <sys/types.h>
 # include "../animation/includes/animation.h"
 
 

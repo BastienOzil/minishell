@@ -1,6 +1,6 @@
 #include "../../includes/minishell.h"
 
-char **dup_env(char **envp)
+char	**dup_env(char **envp)
 {
 	int		i;
 	char	**new_env;
@@ -21,11 +21,11 @@ char **dup_env(char **envp)
 	return (new_env);
 }
 
-
 int	env_builtin(char ***envp)
 {
-	int	i = 0;
+	int	i;
 
+	i = 0;
 	while ((*envp)[i])
 	{
 		if ((*envp)[i][0] && ft_strchr((*envp)[i], '='))
@@ -34,4 +34,3 @@ int	env_builtin(char ***envp)
 	}
 	return (0);
 }
-

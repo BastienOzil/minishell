@@ -1,7 +1,5 @@
 #include "../includes/minishell.h"
 
-
-
 void	handle_redirections(t_cmd *cmd)
 {
 	if (cmd->infile)

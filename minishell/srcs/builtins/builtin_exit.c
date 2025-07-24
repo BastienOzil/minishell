@@ -2,18 +2,20 @@
 
 int	exit_builtin(char **args)
 {
-	printf("exit\n");
+	ft_putstr_fd("exit\n", 1);
 	if (!args[1])
 		exit(0);
 	if (!ft_is_numeric(args[1]))
 	{
-		fprintf(stderr, "exit: %s: numeric argument required\n", args[1]);
+		ft_putstr_fd("exit: ", 2);
+		ft_putstr_fd(args[1], 2);
+		ft_putstr_fd(": numeric argument required\n", 2);
 		exit(2);
 	}
 	if (args[2])
 	{
-		fprintf(stderr, "exit: too many arguments\n");
+		ft_putstr_fd("exit: too many arguments\n", 2);
 		return (1);
 	}
-	exit(atoi(args[1]) % 256);
+	exit(ft_atoi(args[1]) % 256);
 }

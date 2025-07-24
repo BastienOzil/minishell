@@ -162,5 +162,6 @@ int ft_random_digit(void);
 
 //utils.c 
 t_cmd	*linearize_pipeline(t_cmd *ast);
+void	print_cmd_not_found(const char *cmd);
 
 #endif

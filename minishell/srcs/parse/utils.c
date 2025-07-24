@@ -31,3 +31,15 @@ t_cmd	*linearize_pipeline(t_cmd *ast)
 	tail->next = linearize_pipeline(ast->right);
 	return (list);
 }
+
+void	print_cmd_not_found(const char *cmd)
+{
+	int	tty_fd;
+
+	errno = ENOENT;
+	tty_fd = open("/dev/tty", O_WRONLY);
+	if (tty_fd != -1)
+		dup2(tty_fd, STDERR_FILENO);
+	puppetmaster_perror(cmd);
+	exit(127);
+}

@@ -17,6 +17,7 @@ ANIMATION_DIR = animation
 
 SRCS = main.c \
 	srcs/exec/executor.c \
+	srcs/exec/exec_utils.c \
 	srcs/exec/redirect.c \
 	srcs/exec/pipe.c \
 	srcs/exec/exec_builtins.c \

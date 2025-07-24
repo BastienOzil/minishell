@@ -23,4 +23,3 @@ void	execute_pipeline(t_cmd *cmd_list, char ***envp)
 	}
 	wait_and_set_exit_status();
 }
-

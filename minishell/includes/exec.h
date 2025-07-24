@@ -3,10 +3,15 @@
 
 #include "shared.h"
 
-// executor.c
+// exec_utils.c
 void	ft_free_split(char **split);
 char	*get_path_var(char **envp);
+char	*join_path(char *dir, char *cmd);
 char	*find_path(char *cmd, char **envp);
+
+// executor.c
+void	execute_builtin_with_redirs(t_cmd *cmd, char ***envp);
+void	execute_external_cmd(t_cmd *cmd, char ***envp);
 void    execute_cmd(t_cmd *cmd, char ***envp);
 void	execute_all(t_cmd *cmd, char ***envp);
 
