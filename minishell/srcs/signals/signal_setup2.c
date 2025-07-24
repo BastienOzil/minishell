@@ -1,25 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   print_token.c                                      :+:      :+:    :+:   */
+/*   signal_setup2.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bozil <bozil@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/24 14:10:32 by bozil             #+#    #+#             */
-/*   Updated: 2025/07/24 14:10:34 by bozil            ###   ########.fr       */
+/*   Created: 2025/07/24 14:12:00 by bozil             #+#    #+#             */
+/*   Updated: 2025/07/24 14:12:31 by bozil            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-// permet de voir dans le terminal quel type des token est l'argument passé en paramètre
-void	print_token(t_token *token)
+// Ignore tous les signaux
+void	ignore_signals(void)
 {
-	char	*types[] = {"WORD", "PIPE", "REDIR_IN", "REDIR_OUT", "APPEND",
-			"HEREDOC", "EOF"};
+	signal(SIGINT, SIG_IGN);
+	signal(SIGQUIT, SIG_IGN);
+}
 
-	printf("Type: %s", types[token->type]);
-	if (token->value)
-		printf(", Value: '%s'", token->value);
-	printf("\n");
+// Restaure le comportement par défaut des signaux
+void	restore_signals(void)
+{
+	signal(SIGINT, SIG_DFL);
+	signal(SIGQUIT, SIG_DFL);
 }

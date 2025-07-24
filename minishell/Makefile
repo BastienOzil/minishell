@@ -27,14 +27,23 @@ SRCS = main.c \
 	srcs/exec/pipe/pipe_run.c \
 	srcs/exec/pipe/pipe_utils.c \
 	srcs/parse/cleanup.c \
+	srcs/parse/cleanup2.c \
 	srcs/parse/error_messages.c \
 	srcs/parse/expansion.c \
+	srcs/parse/expansion2.c \
 	srcs/parse/handle_line.c \
+	srcs/parse/handle_line2.c \
 	srcs/parse/lexer_cmd.c \
+	srcs/parse/lexer_cmd2.c \
 	srcs/parse/lexer.c \
+	srcs/parse/lexer2.c \
+	srcs/parse/lexer3.c \
 	srcs/parse/logical_ops.c \
 	srcs/parse/parser_utils.c \
+	srcs/parse/parser_utils2.c \
+	srcs/parse/parser_utils3.c \
 	srcs/parse/parser.c \
+	srcs/parse/parser2.c \
 	srcs/parse/print_token.c \
 	srcs/parse/quote_parser.c \
 	srcs/parse/utils.c \
@@ -50,7 +59,9 @@ SRCS = main.c \
 	srcs/builtins/builtin_utils.c \
 	srcs/signals/signal_handler.c \
 	srcs/signals/signal_setup.c \
-	srcs/signals/signal_utils.c 
+	srcs/signals/signal_setup2.c \
+	srcs/signals/signal_utils.c \
+	srcs/signals/signal_utils2.c 
 
 # On garde juste les noms des fichiers pour les .o
 OBJ_FILES = $(notdir $(SRCS:.c=.o))

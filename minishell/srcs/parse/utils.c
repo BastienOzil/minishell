@@ -1,16 +1,28 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: bozil <bozil@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/07/24 14:10:51 by bozil             #+#    #+#             */
+/*   Updated: 2025/07/24 14:10:53 by bozil            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/minishell.h"
 
 // Vérifie si c'est un caractère d'espacement
-int is_space(char c)
+int	is_space(char c)
 {
-    return (c == ' ' || c == '\t' || c == '\n' || c == '\r');
+	return (c == ' ' || c == '\t' || c == '\n' || c == '\r');
 }
 
 // Vérifie si c'est un caractère spécial
-int is_special(char c)
+int	is_special(char c)
 {
-    return (c == '|' || c == '<' || c == '>' || c == '&' || 
-            c == '(' || c == ')' || c == '"' || c == '\'' || c == '$');
+	return (c == '|' || c == '<' || c == '>' || c == '&' || c == '(' || c == ')'
+		|| c == '"' || c == '\'' || c == '$');
 }
 
 //_____ajout de cette fonctin pour convertir les ast en liste chainée
@@ -23,7 +35,6 @@ t_cmd	*linearize_pipeline(t_cmd *ast)
 		return (NULL);
 	if (ast->type != NODE_PIPELINE)
 		return (ast);
-
 	list = linearize_pipeline(ast->left);
 	tail = list;
 	while (tail && tail->next)

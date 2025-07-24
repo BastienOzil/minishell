@@ -1,14 +1,26 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   vanish.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: bozil <bozil@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/07/24 14:11:00 by bozil             #+#    #+#             */
+/*   Updated: 2025/07/24 14:11:02 by bozil            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/minishell.h"
 
 // Crée un effet de disparition depuis les bord
 void	vanish_effect(char *temp, const char *ref)
 {
-	int		step;
-	int		len;
-	int		total;
-	int		prefix_len;
-	int		l;
-	int		r;
+	int	step;
+	int	len;
+	int	total;
+	int	prefix_len;
+	int	l;
+	int	r;
 
 	len = strlen(ref);
 	total = strlen(temp);

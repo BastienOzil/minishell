@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   expansion.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: bozil <bozil@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/07/24 11:45:28 by bozil             #+#    #+#             */
+/*   Updated: 2025/07/24 11:53:03 by bozil            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/minishell.h"
 
 // Obtient la valeur d'une variable d'environnement
@@ -67,60 +79,3 @@ char	*handle_var_expansion(char *str, int *i)
 	return (value);
 }
 
-// Fonction utilitaire pour joindre et libérer l'ancien résultat
-static char	*join_and_free(char *old_str, char *to_add)
-{
-	char	*new_str;
-
-	if (!old_str || !to_add)
-		return (NULL);
-	new_str = ft_strjoin(old_str, to_add);
-	free(old_str);
-	free(to_add);
-	return (new_str);
-}
-
-// VERSION CORRIGÉE - Expanse une chaîne contenant des variables
-char	*expand_string(char *str)
-{
-	char	*result;
-	char	*temp;
-	int		i;
-
-	if (!str)
-		return (NULL);
-	result = ft_strdup("");
-	if (!result)
-		return (NULL);
-	i = 0;
-	while (str[i])
-	{
-		if (str[i] == '$' && str[i + 1] && (ft_isalnum(str[i + 1])
-				|| str[i + 1] == '_' || str[i + 1] == '?'))
-		{
-			temp = handle_var_expansion(&str[i], &i);
-			if (!temp)
-			{
-				free(result);
-				return (NULL);
-			}
-			result = join_and_free(result, temp);
-			if (!result)
-				return (NULL);
-		}
-		else
-		{
-			temp = ft_substr(str, i, 1);
-			if (!temp)
-			{
-				free(result);
-				return (NULL);
-			}
-			result = join_and_free(result, temp);
-			if (!result)
-				return (NULL);
-		}
-		i++;
-	}
-	return (result);
-}
