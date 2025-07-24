@@ -1,4 +1,4 @@
-#include "../includes/signals.h"
+#include "../includes/minishell.h"
 
 // Configure les signaux
 void setup_signals_interactive(void)

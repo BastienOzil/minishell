@@ -29,6 +29,7 @@ int main(int argc, char **argv, char **envp)
 		char *prompt = "\001\033[1;32m\002[Puppet~master]> \001\033[0m\002";
 
 		//slow_type_prompt(prompt);
+		setup_signals_interactive();
 
 		line = readline(prompt);
 

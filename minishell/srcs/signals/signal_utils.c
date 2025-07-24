@@ -1,5 +1,4 @@
-#include "../includes/signals.h"
-#include <signal.h>
+#include "../includes/minishell.h"
 
 // Gère le statut de sortie en fonction du signal reçu
 void handle_signal_exit_status(int sig)

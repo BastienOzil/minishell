@@ -1,7 +1,7 @@
 #ifndef SIGNALS_H
 #define SIGNALS_H
 
-#include "minishell.h"
+#include "shared.h"
 
 extern volatile sig_atomic_t g_signal_received;
 
