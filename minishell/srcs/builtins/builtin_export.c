@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   builtin_export.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: bozil <bozil@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/07/24 14:59:03 by bozil             #+#    #+#             */
+/*   Updated: 2025/07/24 14:59:05 by bozil            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../includes/minishell.h"
 
 int	export_empty(char ***envp)
@@ -65,8 +77,7 @@ void	replace_val(char **args, char ***envp)
 	len = ft_strlen(var);
 	while ((*envp)[i])
 	{
-		if (ft_strncmp((*envp)[i], var, len) == 0
-			&& (*envp)[i][len] == '=')
+		if (ft_strncmp((*envp)[i], var, len) == 0 && (*envp)[i][len] == '=')
 		{
 			free((*envp)[i]);
 			(*envp)[i] = ft_strdup(args[1]);

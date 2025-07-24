@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   animation.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: bozil <bozil@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/07/24 15:00:39 by bozil             #+#    #+#             */
+/*   Updated: 2025/07/24 15:00:41 by bozil            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/animation.h"
 
 void	launch_animation(void)
@@ -45,10 +57,12 @@ void	run_animation_loop(t_animation *anim)
 			j = 0;
 			while (j < anim->cols)
 			{
-				title_displayed = display_title_char(TITLE, anim->frame, i, j, &anim->last_sound_index);
+				title_displayed = display_title_char(TITLE, anim->frame, i, j,
+						&anim->last_sound_index);
 				if (!title_displayed)
 				{
-					draw_matrix_char(anim->screen[i][j], 1, anim->frame, anim->max_frames);
+					draw_matrix_char(anim->screen[i][j], 1, anim->frame,
+						anim->max_frames);
 					update_matrix_char(&anim->screen[i][j]);
 				}
 				j++;
