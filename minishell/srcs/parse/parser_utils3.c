@@ -6,37 +6,22 @@
 /*   By: bozil <bozil@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 13:21:59 by bozil             #+#    #+#             */
-/*   Updated: 2025/07/24 13:43:14 by bozil            ###   ########.fr       */
+/*   Updated: 2025/07/25 11:21:15 by bozil            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-// Valide la syntaxe de redirection ET vérifie les redirections multiples
+// Valide la syntaxe de redirection
 int	validate_redir_syntax(t_parser *parser, t_cmd *node,
 		t_token_type redir_type)
 {
-	if (!parser || !parser->current || parser->current->type != TOKEN_WORD)
-	{
-		ft_putstr_fd("minishell: syntax error near redirection\n", 2);
+	if (!validate_redir_token(parser))
 		return (0);
-	}
-	if (redir_type == TOKEN_INFILE && node->infile)
-	{
-		ft_putstr_fd("minishell: multiple input redirections\n", 2);
+	if (!check_multiple_input(node, redir_type))
 		return (0);
-	}
-	if (redir_type == TOKEN_HEREDOC && node->heredoc)
-	{
-		ft_putstr_fd("minishell: multiple heredoc redirections\n", 2);
+	if (!check_multiple_output(node, redir_type))
 		return (0);
-	}
-	if ((redir_type == TOKEN_OUTFILE || redir_type == TOKEN_APPEND)
-		&& node->outfile)
-	{
-		ft_putstr_fd("minishell: multiple output redirections\n", 2);
-		return (0);
-	}
 	return (1);
 }
 
@@ -88,4 +73,33 @@ void	apply_redirection(t_parser *parser, t_cmd *node,
 		handle_output_redir(parser, node, 1);
 	else if (redir_type == TOKEN_HEREDOC)
 		handle_heredoc_redir(parser, node);
+}
+
+// Parse la redirection et l'applique à la boucle
+void	parse_redir(t_parser *parser, t_cmd *node)
+{
+	t_token_type	redir_type;
+
+	if (!parser || !parser->current || !node || parser->error)
+		return ;
+	redir_type = parser->current->type;
+	advance_token(parser);
+	if (!parser->current || parser->current->type != TOKEN_WORD)
+	{
+		if (!parser->current || parser->current->type == TOKEN_EOF)
+			ft_putstr_fd("minishell: syntax error near unexpected token `newline'\n", 2);
+		else if (is_redir_token(parser->current->type))
+			ft_putstr_fd("minishell: syntax error near unexpected token\n", 2);
+		else if (parser->current->type == TOKEN_PIPE)
+			ft_putstr_fd("minishell: syntax error near unexpected token `|'\n", 2);
+		parser->error = 1;
+		return ;
+	}
+	if (!validate_redir_syntax(parser, node, redir_type))
+	{
+		parser->error = 1;
+		return ;
+	}
+	apply_redirection(parser, node, redir_type);
+	advance_token(parser);
 }

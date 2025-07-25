@@ -39,6 +39,7 @@ SRCS = main.c \
 	srcs/parse/lexer2.c \
 	srcs/parse/lexer3.c \
 	srcs/parse/logical_ops.c \
+	srcs/parse/parser_error.c \
 	srcs/parse/parser_utils.c \
 	srcs/parse/parser_utils2.c \
 	srcs/parse/parser_utils3.c \
