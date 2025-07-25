@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bozil <bozil@student.42.fr>                +#+  +:+       +#+        */
+/*   By: aurelia <aurelia@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 14:58:21 by bozil             #+#    #+#             */
-/*   Updated: 2025/07/24 14:58:23 by bozil            ###   ########.fr       */
+/*   Updated: 2025/07/25 12:36:53 by aurelia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,10 @@ pid_t	create_child_process(void)
 
 	pid = fork();
 	if (pid < 0)
+	{
 		puppetmaster_perror("fork");
+		return (-1);
+	}
 	return (pid);
 }
 

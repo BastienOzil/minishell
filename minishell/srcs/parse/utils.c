@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bozil <bozil@student.42.fr>                +#+  +:+       +#+        */
+/*   By: aurelia <aurelia@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 14:10:51 by bozil             #+#    #+#             */
-/*   Updated: 2025/07/24 14:10:53 by bozil            ###   ########.fr       */
+/*   Updated: 2025/07/25 11:44:28 by aurelia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,4 +53,17 @@ void	print_cmd_not_found(const char *cmd)
 		dup2(tty_fd, STDERR_FILENO);
 	puppetmaster_perror(cmd);
 	exit(127);
+}
+
+void	ft_free_split(char **split)
+{
+	int	i;
+
+	i = 0;
+	while (split && split[i])
+	{
+		free(split[i]);
+		i++;
+	}
+	free(split);
 }
