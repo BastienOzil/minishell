@@ -6,15 +6,15 @@
 /*   By: bozil <bozil@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 14:59:03 by bozil             #+#    #+#             */
-/*   Updated: 2025/07/24 14:59:05 by bozil            ###   ########.fr       */
+/*   Updated: 2025/07/26 15:39:13 by bozil            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int	export_empty(char ***envp)
+int export_empty(char ***envp)
 {
-	int	i;
+	int i;
 
 	i = 0;
 	while ((*envp)[i])
@@ -25,21 +25,40 @@ int	export_empty(char ***envp)
 	return (0);
 }
 
-char	*is_arg_export(char *str)
+// Vérifie si un nom de variable est valide (lettres, chiffres, _)
+int is_valid_identifier(char *str)
 {
-	int		i;
-	int		size_var;
-	char	*var;
+	int i;
+
+	if (!str || !str[0])
+		return (0);
+	if (!ft_isalpha(str[0]) && str[0] != '_')
+		return (0);
+	i = 1;
+	while (str[i] && str[i] != '=')
+	{
+		if (!ft_isalnum(str[i]) && str[i] != '_')
+			return (0);
+		i++;
+	}
+	return (1);
+}
+
+char *get_var_name_from_export(char *str)
+{
+	int i;
+	int size_var;
+	char *var;
 
 	i = 0;
 	size_var = 0;
-	if (!ft_strchr(str, '='))
-		return (NULL);
+
 	while (str[i] && str[i] != '=')
 	{
 		size_var++;
 		i++;
 	}
+
 	var = malloc(size_var + 1);
 	if (!var)
 		return (NULL);
@@ -48,12 +67,12 @@ char	*is_arg_export(char *str)
 	return (var);
 }
 
-void	free_envp(char ***envp)
+void free_envp(char ***envp)
 {
-	int	i;
+	int i;
 
 	if (!envp || !(*envp))
-		return ;
+		return;
 	i = 0;
 	while ((*envp)[i])
 	{
@@ -64,46 +83,26 @@ void	free_envp(char ***envp)
 	*envp = NULL;
 }
 
-void	replace_val(char **args, char ***envp)
+void replace_val(char *arg, char ***envp)
 {
-	int		i;
-	int		len;
-	char	*var;
+	int i;
+	int len;
+	char *var;
 
-	i = 0;
-	var = is_arg_export(args[1]);
+	var = get_var_name_from_export(arg);
 	if (!var)
-		return ;
+		return;
 	len = ft_strlen(var);
+	i = 0;
 	while ((*envp)[i])
 	{
 		if (ft_strncmp((*envp)[i], var, len) == 0 && (*envp)[i][len] == '=')
 		{
 			free((*envp)[i]);
-			(*envp)[i] = ft_strdup(args[1]);
-			break ;
+			(*envp)[i] = ft_strdup(arg);
+			break;
 		}
 		i++;
 	}
 	free(var);
-}
-
-int	export_builtin(char **args, char ***envp)
-{
-	char	*var;
-
-	if (!args[1])
-		return (export_empty(envp));
-	var = is_arg_export(args[1]);
-	if (!var)
-		return (1);
-	if (is_var_exist(var, envp))
-	{
-		replace_val(args, envp);
-		free(var);
-		return (1);
-	}
-	add_var(envp, args[1]);
-	free(var);
-	return (0);
 }

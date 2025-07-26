@@ -55,6 +55,7 @@ SRCS = main.c \
 	srcs/builtins/builtin_env.c \
 	srcs/builtins/builtin_exit.c \
 	srcs/builtins/builtin_export.c \
+	srcs/builtins/builtin_export2.c \
 	srcs/builtins/builtin_pwd.c \
 	srcs/builtins/builtin_unset.c \
 	srcs/builtins/builtin_utils.c \
