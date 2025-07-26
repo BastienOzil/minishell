@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signal_utils2.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bozil <bozil@student.42.fr>                +#+  +:+       +#+        */
+/*   By: aurelia <aurelia@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 14:13:16 by bozil             #+#    #+#             */
-/*   Updated: 2025/07/24 14:13:46 by bozil            ###   ########.fr       */
+/*   Updated: 2025/07/26 10:12:27 by aurelia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,5 +43,5 @@ int	wait_for_child(pid_t pid)
 // Vérifie si le processus actuel doit être interrompu
 int	should_interrupt(void)
 {
-	return (g_signal_received == SIGINT);
+	return (g_exit_status == SIGINT_CODE);
 }
