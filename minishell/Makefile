@@ -19,6 +19,8 @@ SRCS = main.c \
 	srcs/exec/executor.c \
 	srcs/exec/exec_utils.c \
 	srcs/exec/redirect.c \
+	srcs/exec/redirect2.c \
+	srcs/exec/redirect3.c \
 	srcs/exec/pipe.c \
 	srcs/exec/exec_builtins.c \
 	srcs/exec/heredoc.c \
@@ -43,6 +45,7 @@ SRCS = main.c \
 	srcs/parse/parser_utils.c \
 	srcs/parse/parser_utils2.c \
 	srcs/parse/parser_utils3.c \
+	srcs/parse/parser_utils4.c \
 	srcs/parse/parser.c \
 	srcs/parse/parser2.c \
 	srcs/parse/print_token.c \

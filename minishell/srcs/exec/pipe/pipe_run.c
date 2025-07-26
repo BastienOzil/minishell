@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe_run.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aurelia <aurelia@student.42.fr>            +#+  +:+       +#+        */
+/*   By: bozil <bozil@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 14:58:15 by bozil             #+#    #+#             */
-/*   Updated: 2025/07/26 16:59:44 by aurelia          ###   ########.fr       */
+/*   Updated: 2025/07/26 19:49:58 by bozil            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ void	child_exec(t_cmd *cmd, int in_fd, int pipefd[2], char ***envp)
 
 	if (!cmd || !cmd->args || !cmd->args[0])
 		exit(127);
-	handle_redirections(cmd);
 	if (in_fd != 0)
 		redirect_fd(in_fd, STDIN_FILENO);
 	if (cmd->next && pipefd[1] != -1)
@@ -26,6 +25,8 @@ void	child_exec(t_cmd *cmd, int in_fd, int pipefd[2], char ***envp)
 		redirect_fd(pipefd[1], STDOUT_FILENO);
 		close_unused_fds(pipefd);
 	}
+	handle_redirections(cmd);
+	
 	if (is_builtin(cmd->args[0]))
 	{
 		code = exec_builtin(cmd, envp);

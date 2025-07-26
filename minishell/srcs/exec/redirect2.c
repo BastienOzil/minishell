@@ -1,37 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   redirect.c                                         :+:      :+:    :+:   */
+/*   redirect2.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bozil <bozil@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/24 14:57:48 by bozil             #+#    #+#             */
-/*   Updated: 2025/07/26 20:03:04 by bozil            ###   ########.fr       */
+/*   Created: 2025/07/26 19:55:58 by bozil             #+#    #+#             */
+/*   Updated: 2025/07/26 20:03:27 by bozil            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-static int	is_cmd_valid(t_cmd *cmd)
+static void	handle_input_error(t_cmd *cmd, const char *file)
 {
-	if (!cmd)
-	{
-		puppetmaster_perror("cmd is NULL");
-		return (0);
-	}
-	return (1);
-}
-
-static void	handle_output_error(t_cmd *cmd, const char *file)
-{
+	ft_putstr_fd("minishell: ", 2);
+	perror(file);
 	if (is_builtin(cmd->args[0]))
 	{
-		ft_putstr_fd("minishell: ", 2);
-		perror(file);
 		g_exit_status = 1;
 		return ;
 	}
-	puppetmaster_perror("open outfile");
 	exit(EXIT_FAILURE);
 }
 
@@ -48,30 +37,22 @@ static void	handle_dup2_error(t_cmd *cmd, int fd)
 	exit(EXIT_FAILURE);
 }
 
-void	exec_output_redirection(t_cmd *cmd)
+void	exec_input_redirection(t_cmd *cmd)
 {
 	int	fd;
 
-	if (!is_cmd_valid(cmd) || !cmd->outfile)
-	{
-		if (is_builtin(cmd->args[0]))
-		{
-			g_exit_status = 1;
-			return ;
-		}
-		puppetmaster_perror("invalid command or outfile");
-		exit(EXIT_FAILURE);
-	}
-	fd = open(cmd->outfile, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	fd = open(cmd->infile, O_RDONLY);
 	if (fd == -1)
 	{
-		handle_output_error(cmd, cmd->outfile);
+		handle_input_error(cmd, cmd->infile);
 		return ;
 	}
-	if (dup2(fd, STDOUT_FILENO) == -1)
+	if (dup2(fd, STDIN_FILENO) == -1)
 	{
 		handle_dup2_error(cmd, fd);
 		return ;
 	}
 	close(fd);
 }
+
+
