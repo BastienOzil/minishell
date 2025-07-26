@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bozil <bozil@student.42.fr>                +#+  +:+       +#+        */
+/*   By: aurelia <aurelia@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 13:54:43 by bozil             #+#    #+#             */
-/*   Updated: 2025/07/25 10:32:27 by bozil            ###   ########.fr       */
+/*   Updated: 2025/07/26 10:41:42 by aurelia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,10 +38,40 @@ static t_cmd *create_pipeline_node(t_cmd *left, t_cmd *right)
 }
 
 // Parse une séquence de commandes reliées par des pipes
-t_cmd *parse_pipeline(t_parser *parser)
+// t_cmd *parse_pipeline(t_parser *parser)
+// {
+// 	t_cmd *left;
+// 	t_cmd *pipeline;
+
+// 	if (!parser || !parser->current)
+// 		return (NULL);
+// 	left = parse_command(parser);
+// 	if (!left)
+// 		return (NULL);
+// 	while (match_token(parser, TOKEN_PIPE))
+// 	{
+// 		advance_token(parser);
+// 		if (!validate_pipe_syntax(parser))
+// 		{
+// 			free_ast(left);
+// 			return (NULL);
+// 		}
+// 		pipeline = create_pipeline_node(left, parse_command(parser));
+// 		if (!pipeline || !pipeline->right)
+// 		{
+// 			free_ast(pipeline);
+// 			return (NULL);
+// 		}
+// 		left = pipeline;
+// 	}
+// 	return (left);
+// }
+
+t_cmd	*parse_pipeline(t_parser *parser)
 {
-	t_cmd *left;
-	t_cmd *pipeline;
+	t_cmd	*left;
+	t_cmd	*right;
+	t_cmd	*pipeline;
 
 	if (!parser || !parser->current)
 		return (NULL);
@@ -56,16 +86,24 @@ t_cmd *parse_pipeline(t_parser *parser)
 			free_ast(left);
 			return (NULL);
 		}
-		pipeline = create_pipeline_node(left, parse_command(parser));
-		if (!pipeline || !pipeline->right)
+		right = parse_command(parser);
+		if (!right)
 		{
-			free_ast(pipeline);
+			free_ast(left);
+			return (NULL);
+		}
+		pipeline = create_pipeline_node(left, right);
+		if (!pipeline)
+		{
+			free_ast(left);
+			free_ast(right);
 			return (NULL);
 		}
 		left = pipeline;
 	}
 	return (left);
 }
+
 
 // Point d'entrée principal du parser
 t_cmd *parse(t_token *tokens)

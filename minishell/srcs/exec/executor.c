@@ -6,7 +6,7 @@
 /*   By: aurelia <aurelia@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 14:57:28 by bozil             #+#    #+#             */
-/*   Updated: 2025/07/25 12:48:54 by aurelia          ###   ########.fr       */
+/*   Updated: 2025/07/26 13:04:12 by aurelia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,8 +60,8 @@ void	execute_fork_and_wait(t_cmd *cmd, char ***envp)
 
 void	execute_cmd(t_cmd *cmd, char ***envp)
 {
-	int	stdin_copy;
-	int	stdout_copy;
+	int		stdin_copy;
+	int		stdout_copy;
 
 	if (!cmd || !cmd->args || !cmd->args[0])
 		return ;

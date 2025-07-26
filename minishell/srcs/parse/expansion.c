@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expansion.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bozil <bozil@student.42.fr>                +#+  +:+       +#+        */
+/*   By: aurelia <aurelia@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 11:45:28 by bozil             #+#    #+#             */
-/*   Updated: 2025/07/24 11:53:03 by bozil            ###   ########.fr       */
+/*   Updated: 2025/07/26 12:04:03 by aurelia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,25 +57,26 @@ t_token	*handle_variable(t_lexer *lexer)
 	return (new_token(TOKEN_WORD, value));
 }
 
-char	*handle_var_expansion(char *str, int *i)
+char *handle_var_expansion(char *str, int *i)
 {
-	char	*name;
-	char	*value;
-	int		start;
-
-	if (str[1] == '?')
-	{
-		*i += 2;
-		return (ft_itoa(g_exit_status));
-	}
-	(*i)++;
-	start = *i;
-	while (str[*i] && (ft_isalnum(str[*i]) || str[*i] == '_'))
-		(*i)++;
-	name = ft_substr(str, start, *i - start);
-	(*i)--;
-	value = get_env_value(name);
-	free(name);
-	return (value);
+    char *name;
+    char *value;
+    int start;
+    
+    if (str[*i + 1] == '?')  // Vérifiez str[1] -> str[*i + 1]
+    {
+        *i += 2;
+        return (ft_itoa(g_exit_status));
+    }
+    
+    (*i)++;
+    start = *i;
+    while (str[*i] && (ft_isalnum(str[*i]) || str[*i] == '_'))
+        (*i)++;
+    
+    name = ft_substr(str, start, *i - start);
+    value = get_env_value(name);
+    free(name);
+    return (value ? ft_strdup(value) : ft_strdup(""));
 }
 
