@@ -6,16 +6,16 @@
 /*   By: aurelia <aurelia@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 11:46:06 by bozil             #+#    #+#             */
-/*   Updated: 2025/07/26 13:03:53 by aurelia          ###   ########.fr       */
+/*   Updated: 2025/07/26 13:03:53 y aurelia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
 // Fonction utilitaire pour joindre et libérer l'ancien résultat
-static char	*join_and_free(char *old_str, char *to_add)
+static char *join_and_free(char *old_str, char *to_add)
 {
-	char	*new_str;
+	char *new_str;
 
 	if (!old_str || !to_add)
 		return (NULL);
@@ -25,23 +25,27 @@ static char	*join_and_free(char *old_str, char *to_add)
 	return (new_str);
 }
 
-static char	*process_variable(char *str, int *i, char *result)
+// Gère l'index correctement
+static char *process_variable(char *str, int *i, char *result)
 {
-	char	*temp;
+	char *temp;
+	int local_i;
 
-	temp = handle_var_expansion(&str[*i], i);
+	local_i = 0;
+	temp = handle_var_expansion(&str[*i], &local_i);
 	if (!temp)
 	{
 		free(result);
 		return (NULL);
 	}
+	*i += local_i;
 	result = join_and_free(result, temp);
 	return (result);
 }
 
-static char	*process_character(char *str, int *i, char *result)
+static char *process_character(char *str, int *i, char *result)
 {
-	char	*temp;
+	char *temp;
 
 	temp = ft_substr(str, *i, 1);
 	if (!temp)
@@ -54,10 +58,10 @@ static char	*process_character(char *str, int *i, char *result)
 	return (result);
 }
 
-char	*expand_string(char *str)
+char *expand_string(char *str)
 {
-	char	*result;
-	int		i;
+	char *result;
+	int i;
 
 	if (!str)
 		return (NULL);
@@ -67,8 +71,8 @@ char	*expand_string(char *str)
 	i = 0;
 	while (str[i])
 	{
-		if (str[i] == '$' && str[i + 1] && (ft_isalnum(str[i + 1]) || str[i
-				+ 1] == '_' || str[i + 1] == '?'))
+		if (str[i] == '$' && str[i + 1] &&
+			(ft_isalnum(str[i + 1]) || str[i + 1] == '_' || str[i + 1] == '?'))
 			result = process_variable(str, &i, result);
 		else
 			result = process_character(str, &i, result);

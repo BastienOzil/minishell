@@ -6,17 +6,18 @@
 /*   By: bozil <bozil@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 14:10:41 by bozil             #+#    #+#             */
-/*   Updated: 2025/07/24 14:10:42 by bozil            ###   ########.fr       */
+/*   Updated: 2025/07/26 14:55:43 by bozil            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-// Lit une chaîne entre guillemets doubles
-char	*get_double_quoted_string(t_lexer *lexer)
+// Lit une chaîne entre guillemets doubles ET effectue l'expansion
+char *get_double_quoted_string(t_lexer *lexer)
 {
-	int		start;
-	char	*result;
+	int start;
+	char *raw_content;
+	char *expanded_content;
 
 	lexer->i++;
 	start = lexer->i;
@@ -28,16 +29,26 @@ char	*get_double_quoted_string(t_lexer *lexer)
 	}
 	if (lexer->input[lexer->i] != '"')
 		return (NULL);
-	result = ft_substr(lexer->input, start, lexer->i - start);
+
+	// Extraire le contenu brut
+	raw_content = ft_substr(lexer->input, start, lexer->i - start);
 	lexer->i++;
-	return (result);
+
+	if (!raw_content)
+		return (NULL);
+
+	// Effectuer l'expansion des variables pour les guillemets doubles
+	expanded_content = expand_string(raw_content);
+	free(raw_content);
+
+	return (expanded_content ? expanded_content : ft_strdup(""));
 }
 
-// Lit une chaîne entre guillemets simples
-char	*get_single_quoted_string(t_lexer *lexer)
+// Lit une chaîne entre guillemets simples (pas d'expansion)
+char *get_single_quoted_string(t_lexer *lexer)
 {
-	int		start;
-	char	*result;
+	int start;
+	char *result;
 
 	lexer->i++;
 	start = lexer->i;
@@ -51,9 +62,9 @@ char	*get_single_quoted_string(t_lexer *lexer)
 }
 
 // Gère les guillemets dans le lexer
-t_token	*handle_quotes(t_lexer *lexer)
+t_token *handle_quotes(t_lexer *lexer)
 {
-	char	*value;
+	char *value;
 
 	if (lexer->input[lexer->i] == '"')
 	{
@@ -73,7 +84,7 @@ t_token	*handle_quotes(t_lexer *lexer)
 }
 
 // Vérifie si c'est un caractère de guillemet
-int	is_quote(char c)
+int is_quote(char c)
 {
 	return (c == '"' || c == '\'');
 }
