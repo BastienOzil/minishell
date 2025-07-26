@@ -6,7 +6,7 @@
 /*   By: aurelia <aurelia@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 14:14:44 by bozil             #+#    #+#             */
-/*   Updated: 2025/07/24 19:45:21 by aurelia          ###   ########.fr       */
+/*   Updated: 2025/07/26 10:25:09 by aurelia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,11 @@ static void	run_minishell(char **my_env)
 		setup_signals_interactive();
 		line = readline(prompt);
 		if (!line)
-			break ;
+		{
+			write(1, "exit\n", 5);
+			free_array(my_env);
+			exit(g_exit_status);
+		}
 		if (*line)
 			add_history(line);
 		handle_line(line, &my_env);
@@ -52,6 +56,7 @@ int	main(int argc, char **argv, char **envp)
 		exit(EXIT_FAILURE);
 	}
 	run_minishell(my_env);
+	free_array(my_env);
 	printf("exit\n");
 	return (0);
 }
