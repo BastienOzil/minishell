@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   redirect.c                                         :+:      :+:    :+:   */
+/*   redirect3.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bozil <bozil@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/24 14:57:48 by bozil             #+#    #+#             */
-/*   Updated: 2025/07/26 20:03:04 by bozil            ###   ########.fr       */
+/*   Created: 2025/07/26 20:01:55 by bozil             #+#    #+#             */
+/*   Updated: 2025/07/26 20:06:32 by bozil            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ static void	handle_dup2_error(t_cmd *cmd, int fd)
 	exit(EXIT_FAILURE);
 }
 
-void	exec_output_redirection(t_cmd *cmd)
+void	exec_append_redirection(t_cmd *cmd)
 {
 	int	fd;
 
@@ -59,10 +59,10 @@ void	exec_output_redirection(t_cmd *cmd)
 			g_exit_status = 1;
 			return ;
 		}
-		puppetmaster_perror("invalid command or outfile");
+		puppetmaster_perror("invalid command or outfile for append");
 		exit(EXIT_FAILURE);
 	}
-	fd = open(cmd->outfile, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	fd = open(cmd->outfile, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	if (fd == -1)
 	{
 		handle_output_error(cmd, cmd->outfile);

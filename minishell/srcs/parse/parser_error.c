@@ -6,7 +6,7 @@
 /*   By: bozil <bozil@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/25 10:00:00 by bozil             #+#    #+#             */
-/*   Updated: 2025/07/25 10:49:41 by bozil            ###   ########.fr       */
+/*   Updated: 2025/07/26 19:45:26 by bozil            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,29 +45,18 @@ int validate_redir_token(t_parser *parser)
     return (1);
 }
 
-// Vérifie les redirections multiples pour input
+// Bash utilise la dernière redirection d'entrée spécifiée
 int check_multiple_input(t_cmd *node, t_token_type type)
 {
-    if (type == TOKEN_INFILE && node->infile)
-    {
-        ft_putstr_fd("minishell: multiple input redirections\n", 2);
-        return (0);
-    }
-    if (type == TOKEN_HEREDOC && node->heredoc)
-    {
-        ft_putstr_fd("minishell: multiple heredoc redirections\n", 2);
-        return (0);
-    }
+    (void)node;
+    (void)type;
     return (1);
 }
-
-// Vérifie les redirections multiples pour output
+ 
+// Bash utilise la dernière redirection de sortie spécifiée
 int check_multiple_output(t_cmd *node, t_token_type type)
 {
-    if ((type == TOKEN_OUTFILE || type == TOKEN_APPEND) && node->outfile)
-    {
-        ft_putstr_fd("minishell: multiple output redirections\n", 2);
-        return (0);
-    }
+    (void)node;
+    (void)type;
     return (1);
 }
