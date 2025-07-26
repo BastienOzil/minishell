@@ -76,6 +76,9 @@ int handle_single_export_arg(char *arg, char ***envp);
 int export_builtin(char **args, char ***envp);
 int is_valid_identifier(char *str);
 char *get_var_name_from_export(char *str);
+int is_directory(char *path);
+void print_cd_error(char *path);
+int count_args_cd(char **args);
 
 // exec_builtin.c
 int is_builtin(const char *cmd);
