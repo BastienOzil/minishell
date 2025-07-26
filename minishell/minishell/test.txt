@@ -1,2 +1,0 @@
-hello
-[?2004h[1;32m[Puppet~master]> [0m^C[?2004l
