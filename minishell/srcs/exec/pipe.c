@@ -6,7 +6,7 @@
 /*   By: aurelia <aurelia@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 14:57:54 by bozil             #+#    #+#             */
-/*   Updated: 2025/07/24 21:07:13 by aurelia          ###   ########.fr       */
+/*   Updated: 2025/07/26 16:59:19 by aurelia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@ void	execute_pipeline(t_cmd *cmd_list, char ***envp)
 	in_fd = 0;
 	while (cmd)
 	{
+		pipefd[0] = -1;
+		pipefd[1] = -1;
 		if (cmd->next && create_pipe(pipefd) == -1)
 			return ;
 		pid = create_child_process();

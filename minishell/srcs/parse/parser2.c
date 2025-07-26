@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser2.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bozil <bozil@student.42.fr>                +#+  +:+       +#+        */
+/*   By: aurelia <aurelia@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 13:57:21 by bozil             #+#    #+#             */
-/*   Updated: 2025/07/24 13:58:44 by bozil            ###   ########.fr       */
+/*   Updated: 2025/07/26 16:55:48 by aurelia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 static void	handle_quoted_token(t_parser *parser, t_cmd *node)
 {
 	char	*value;
+	char	*arg;
 
 	if (!parser || !parser->current || !node)
 		return ;
@@ -30,17 +31,33 @@ static void	handle_quoted_token(t_parser *parser, t_cmd *node)
 	}
 	else if (parser->current->type == TOKEN_SQUOTE)
 	{
-		node->args = add_arg(node->args, parser->current->value);
+		arg = ft_strdup(parser->current->value);
+		if (!arg)
+		{
+			perror("ft_strdup");
+			exit(EXIT_FAILURE);
+		}
+		node->args = add_arg(node->args, arg);
 	}
 	advance_token(parser);
 }
 
+// Traite les tokens simples
 static void	handle_word_token(t_parser *parser, t_cmd *node)
 {
-	node->args = add_arg(node->args, parser->current->value);
+	char	*arg;
+
+	arg = ft_strdup(parser->current->value);
+	if (!arg)
+	{
+		perror("ft_strdup");
+		exit(EXIT_FAILURE);
+	}
+	node->args = add_arg(node->args, arg);
 	advance_token(parser);
 }
 
+// Gère les quotes et redirections
 static void	handle_quote_or_redir(t_parser *parser, t_cmd *node)
 {
 	if (parser->current->type == TOKEN_DQUOTE
@@ -52,10 +69,11 @@ static void	handle_quote_or_redir(t_parser *parser, t_cmd *node)
 		advance_token(parser);
 }
 
+// Vérifie fin de commande
 static int	is_end_of_command(t_token_type type)
 {
-	return (type == TOKEN_PIPE || type == TOKEN_EOF || type == TOKEN_AND
-		|| type == TOKEN_OR);
+	return (type == TOKEN_PIPE || type == TOKEN_EOF
+		|| type == TOKEN_AND || type == TOKEN_OR);
 }
 
 // Parse une commande simple avec ses arguments et redirections

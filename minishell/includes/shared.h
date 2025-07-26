@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shared.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bozil <bozil@student.42.fr>                +#+  +:+       +#+        */
+/*   By: aurelia <aurelia@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 15:00:02 by bozil             #+#    #+#             */
-/*   Updated: 2025/07/24 15:00:03 by bozil            ###   ########.fr       */
+/*   Updated: 2025/07/26 17:09:39 by aurelia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ typedef struct s_cmd
 	char				*outfile;
 	int					append;
 	char				*heredoc;
+	int					freed;
 	struct s_cmd		*left;
 	struct s_cmd		*right;
 	struct s_cmd		*next;

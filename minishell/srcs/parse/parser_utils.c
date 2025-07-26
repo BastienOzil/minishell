@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bozil <bozil@student.42.fr>                +#+  +:+       +#+        */
+/*   By: aurelia <aurelia@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 13:21:23 by bozil             #+#    #+#             */
-/*   Updated: 2025/07/25 11:21:04 by bozil            ###   ########.fr       */
+/*   Updated: 2025/07/26 18:54:58 by aurelia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ t_cmd	*new_node(t_node_type type)
 	node->outfile = NULL;
 	node->append = 0;
 	node->heredoc = NULL;
+	node->freed = 0;
 	return (node);
 }
 

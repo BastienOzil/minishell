@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_unset.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bozil <bozil@student.42.fr>                +#+  +:+       +#+        */
+/*   By: aurelia <aurelia@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 14:59:19 by bozil             #+#    #+#             */
-/*   Updated: 2025/07/24 14:59:20 by bozil            ###   ########.fr       */
+/*   Updated: 2025/07/26 16:12:27 by aurelia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,18 +43,15 @@ void	remove_var(char ***envp, char *var)
 
 int	unset_builtin(char **args, char ***envp)
 {
-	char	*var;
+	int	i;
 
-	if (!args[1])
-		return (export_empty(envp));
-	var = ft_strdup(args[1]);
-	if (!var)
-		return (1);
-	if (is_var_exist(var, envp))
+	i = 1;
+	while (args[i])
 	{
-		remove_var(envp, var);
-		free(var);
-		return (1);
+		if (is_var_exist(args[i], envp))
+			remove_var(envp, args[i]);
+		i++;
 	}
 	return (0);
 }
+
