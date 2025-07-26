@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bozil <bozil@student.42.fr>                +#+  +:+       +#+        */
+/*   By: aurelia <aurelia@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 14:57:54 by bozil             #+#    #+#             */
-/*   Updated: 2025/07/24 14:57:56 by bozil            ###   ########.fr       */
+/*   Updated: 2025/07/24 21:07:13 by aurelia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ void	execute_pipeline(t_cmd *cmd_list, char ***envp)
 {
 	t_cmd	*cmd;
 	pid_t	pid;
+	pid_t	last_pid;
 	int		in_fd;
 	int		pipefd[2];
 
@@ -30,8 +31,9 @@ void	execute_pipeline(t_cmd *cmd_list, char ***envp)
 			child_exec(cmd, in_fd, pipefd, envp);
 		if (pid < 0)
 			return ;
+		last_pid = pid;
 		handle_parent(cmd, &in_fd, pipefd);
 		cmd = cmd->next;
 	}
-	wait_and_set_exit_status();
+	wait_and_set_exit_status(last_pid);
 }

@@ -1,19 +1,6 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   title_display.c                                    :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: bozil <bozil@student.42.fr>                +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/24 15:01:06 by bozil             #+#    #+#             */
-/*   Updated: 2025/07/24 15:01:08 by bozil            ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "../includes/animation.h"
 
-int	display_title_char(const char *title, int frame, int i, int j,
-		int *last_sound_index)
+int	display_title_char(const char *title, int frame, int i, int j, int *last_sound_index)
 {
 	int	title_len;
 	int	rows;
@@ -22,8 +9,8 @@ int	display_title_char(const char *title, int frame, int i, int j,
 
 	title_len = strlen(title);
 	get_terminal_size(&rows, &cols);
-	if (i == rows / 2 && j >= (cols - title_len) / 2 && j < (cols + title_len)
-		/ 2)
+	if (i == rows / 2 && j >= (cols - title_len) / 2 
+		&& j < (cols + title_len) / 2)
 	{
 		ti = j - (cols - title_len) / 2;
 		if (should_display_title_char(frame, ti))

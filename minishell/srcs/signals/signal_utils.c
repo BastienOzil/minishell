@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signal_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bozil <bozil@student.42.fr>                +#+  +:+       +#+        */
+/*   By: aurelia <aurelia@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 14:12:41 by bozil             #+#    #+#             */
-/*   Updated: 2025/07/24 14:13:51 by bozil            ###   ########.fr       */
+/*   Updated: 2025/07/26 10:14:23 by aurelia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,11 +38,11 @@ int	signal_to_exit_code(int sig)
 // Remet à zéro l'état des signaux
 void	reset_signal_state(void)
 {
-	g_signal_received = 0;
+	g_exit_status = 0;
 }
 
 // Vérifie si un signal a été reçu
 int	signal_pending(void)
 {
-	return (g_signal_received != 0);
+	return (g_exit_status != 0);
 }

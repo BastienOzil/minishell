@@ -3,27 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   exec_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bozil <bozil@student.42.fr>                +#+  +:+       +#+        */
+/*   By: aurelia <aurelia@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 14:57:18 by bozil             #+#    #+#             */
-/*   Updated: 2025/07/24 14:57:21 by bozil            ###   ########.fr       */
+/*   Updated: 2025/07/25 11:44:16 by aurelia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-
-void	ft_free_split(char **split)
-{
-	int	i;
-
-	i = 0;
-	while (split && split[i])
-	{
-		free(split[i]);
-		i++;
-	}
-	free(split);
-}
 
 char	*get_path_var(char **envp)
 {
@@ -87,4 +74,18 @@ char	*find_path(char *cmd, char **envp)
 	if (!paths)
 		return (NULL);
 	return (search_in_paths(paths, cmd));
+}
+
+void	execute_command(t_cmd *cmd, char **envp)
+{
+	char	*path;
+
+	path = find_path(cmd->args[0], envp);
+	if (!path)
+	{
+		print_cmd_not_found(cmd->args[0]);
+	}
+	execve(path, cmd->args, envp);
+	puppetmaster_perror("execve");
+	exit(EXIT_FAILURE);
 }

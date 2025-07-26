@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bozil <bozil@student.42.fr>                +#+  +:+       +#+        */
+/*   By: aurelia <aurelia@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 14:59:53 by bozil             #+#    #+#             */
-/*   Updated: 2025/07/24 14:59:54 by bozil            ###   ########.fr       */
+/*   Updated: 2025/07/26 10:08:26 by aurelia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 # include "shared.h"
 # include <signal.h>
 
-extern volatile sig_atomic_t	g_signal_received;
+extern int g_exit_status;
 
 // Codes de signaux
 # define SIGINT_CODE 130

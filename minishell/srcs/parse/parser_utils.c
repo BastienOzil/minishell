@@ -6,7 +6,7 @@
 /*   By: bozil <bozil@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 13:21:23 by bozil             #+#    #+#             */
-/*   Updated: 2025/07/24 13:25:48 by bozil            ###   ########.fr       */
+/*   Updated: 2025/07/25 11:21:04 by bozil            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,26 +52,5 @@ int	is_redir_token(t_token_type type)
 {
 	return (type == TOKEN_INFILE || type == TOKEN_OUTFILE
 		|| type == TOKEN_APPEND || type == TOKEN_HEREDOC);
-}
-
-// Parse la redirection et l'applique à la boucle - VERSION CORRIGÉE
-void	parse_redir(t_parser *parser, t_cmd *node)
-{
-	t_token_type	redir_type;
-
-	if (!parser || !parser->current || !node || parser->error)
-		return ;
-	redir_type = parser->current->type;
-	advance_token(parser);
-	if (!validate_redir_syntax(parser, node, redir_type))
-	{
-		parser->error = 1;
-		if (parser->current)
-			advance_token(parser);
-		return ;
-	}
-	apply_redirection(parser, node, redir_type);
-	if (parser->current)
-		advance_token(parser);
 }
 

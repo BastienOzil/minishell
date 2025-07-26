@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_builtins.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bozil <bozil@student.42.fr>                +#+  +:+       +#+        */
+/*   By: aurelia <aurelia@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 14:56:59 by bozil             #+#    #+#             */
-/*   Updated: 2025/07/24 14:57:03 by bozil            ###   ########.fr       */
+/*   Updated: 2025/07/24 21:57:15 by aurelia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,10 @@ int	exec_builtin(t_cmd *cmd, char ***envp)
 	if (!ft_strcmp(cmd->args[0], "env"))
 		return (env_builtin(envp));
 	if (!ft_strcmp(cmd->args[0], "exit"))
-		return (exit_builtin(cmd->args));
+    {
+        int code = exit_builtin(cmd->args);
+        exit(code);
+    }
 	if (!ft_strcmp(cmd->args[0], "export"))
 		return (export_builtin(cmd->args, envp));
 	if (!ft_strcmp(cmd->args[0], "unset"))

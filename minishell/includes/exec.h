@@ -6,7 +6,7 @@
 /*   By: bozil <bozil@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 15:00:22 by bozil             #+#    #+#             */
-/*   Updated: 2025/07/24 15:00:23 by bozil            ###   ########.fr       */
+/*   Updated: 2025/07/25 10:13:57 by bozil            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@ void	execute_all(t_cmd *cmd, char ***envp);
 void	exec_output_redirection(t_cmd *cmd);
 void	exec_input_redirection(t_cmd *cmd);
 void	exec_append_redirection(t_cmd *cmd);
-// void    exec_heredoc(t_cmd *cmd);
 
 //______pipe_____
 // pipe_utils.c
@@ -50,7 +49,7 @@ void	handle_redirections(t_cmd *cmd);
 // pipe_run.c
 void	child_exec(t_cmd *cmd, int in_fd, int pipefd[2], char ***envp);
 void	handle_parent(t_cmd *cmd, int *in_fd, int pipefd[2]);
-void	wait_and_set_exit_status(void);
+void	wait_and_set_exit_status(pid_t last_pid);
 
 // pipe.c
 void	execute_pipeline(t_cmd *cmd_list, char ***envp);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bozil <bozil@student.42.fr>                +#+  +:+       +#+        */
+/*   By: aurelia <aurelia@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 14:57:28 by bozil             #+#    #+#             */
-/*   Updated: 2025/07/24 14:57:30 by bozil            ###   ########.fr       */
+/*   Updated: 2025/07/26 13:04:12 by aurelia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,6 @@ void	execute_builtin_with_redirs(t_cmd *cmd, char ***envp)
 
 void	execute_external_cmd(t_cmd *cmd, char ***envp)
 {
-	char	*path;
-
 	if (cmd->infile)
 		exec_input_redirection(cmd);
 	else if (cmd->heredoc)
@@ -40,12 +38,7 @@ void	execute_external_cmd(t_cmd *cmd, char ***envp)
 		exec_append_redirection(cmd);
 	else if (cmd->outfile)
 		exec_output_redirection(cmd);
-	path = find_path(cmd->args[0], *envp);
-	if (!path)
-		print_cmd_not_found(cmd->args[0]);
-	execve(path, cmd->args, *envp);
-	puppetmaster_perror("execve");
-	exit(EXIT_FAILURE);
+	execute_command(cmd, *envp);
 }
 
 void	execute_fork_and_wait(t_cmd *cmd, char ***envp)
@@ -53,12 +46,9 @@ void	execute_fork_and_wait(t_cmd *cmd, char ***envp)
 	pid_t	pid;
 	int		status;
 
-	pid = fork();
-	if (pid < 0)
-	{
-		puppetmaster_perror("fork");
+	pid = create_child_process();
+	if (pid == -1)
 		return ;
-	}
 	if (pid == 0)
 		execute_external_cmd(cmd, envp);
 	waitpid(pid, &status, 0);
@@ -70,8 +60,8 @@ void	execute_fork_and_wait(t_cmd *cmd, char ***envp)
 
 void	execute_cmd(t_cmd *cmd, char ***envp)
 {
-	int	stdin_copy;
-	int	stdout_copy;
+	int		stdin_copy;
+	int		stdout_copy;
 
 	if (!cmd || !cmd->args || !cmd->args[0])
 		return ;
@@ -91,14 +81,14 @@ void	execute_cmd(t_cmd *cmd, char ***envp)
 
 void	execute_all(t_cmd *cmd, char ***envp)
 {
-	t_cmd	*flat;
+	t_cmd	*exec_list;
 
 	if (!cmd)
 		return ;
 	if (cmd->type == NODE_PIPELINE)
 	{
-		flat = linearize_pipeline(cmd);
-		execute_pipeline(flat, envp);
+		exec_list = linearize_pipeline(cmd);
+		execute_pipeline(exec_list, envp);
 		return ;
 	}
 	execute_cmd(cmd, envp);

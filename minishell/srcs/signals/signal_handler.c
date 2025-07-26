@@ -3,22 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   signal_handler.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bozil <bozil@student.42.fr>                +#+  +:+       +#+        */
+/*   By: aurelia <aurelia@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 14:11:26 by bozil             #+#    #+#             */
-/*   Updated: 2025/07/24 14:11:29 by bozil            ###   ########.fr       */
+/*   Updated: 2025/07/26 10:11:20 by aurelia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-volatile sig_atomic_t	g_signal_received = 0;
-
 // SIGINT (Ctrl+C) en mode interactif
 void	sigint_handler(int sig)
 {
 	(void)sig;
-	g_signal_received = SIGINT;
 	g_exit_status = SIGINT_CODE;
 	write(STDOUT_FILENO, "\n", 1);
 	rl_on_new_line();
@@ -36,7 +33,6 @@ void	sigquit_handler(int sig)
 void	sigint_heredoc_handler(int sig)
 {
 	(void)sig;
-	g_signal_received = SIGINT;
 	g_exit_status = SIGINT_CODE;
 	write(STDOUT_FILENO, "\n", 1);
 	close(STDIN_FILENO);
@@ -46,7 +42,6 @@ void	sigint_heredoc_handler(int sig)
 void	sigint_child_handler(int sig)
 {
 	(void)sig;
-	g_signal_received = SIGINT;
 	write(STDOUT_FILENO, "\n", 1);
 	exit(SIGINT_CODE);
 }
@@ -55,7 +50,6 @@ void	sigint_child_handler(int sig)
 void	sigquit_child_handler(int sig)
 {
 	(void)sig;
-	g_signal_received = SIGQUIT;
 	write(STDOUT_FILENO, "Quit (core dumped)\n", 19);
 	exit(SIGQUIT_CODE);
 }

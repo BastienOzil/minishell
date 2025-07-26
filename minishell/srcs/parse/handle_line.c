@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_line.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bozil <bozil@student.42.fr>                +#+  +:+       +#+        */
+/*   By: aurelia <aurelia@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 11:53:36 by bozil             #+#    #+#             */
-/*   Updated: 2025/07/24 12:10:52 by bozil            ###   ########.fr       */
+/*   Updated: 2025/07/26 09:28:29 by aurelia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,16 +48,21 @@ t_token	*tokenize(char *input)
 	while (1)
 	{
 		new_tok = get_next_token(&lexer);
-		if (!new_tok || new_tok->type == TOKEN_EOF)
+		if (!new_tok)
 		{
-			if (new_tok)
-				add_token_to_list(&tokens, &current, new_tok);
+			free_tokens(tokens);
+			return (NULL);
+		}
+		if (new_tok->type == TOKEN_EOF)
+		{
+			add_token_to_list(&tokens, &current, new_tok);
 			break ;
 		}
 		add_token_to_list(&tokens, &current, new_tok);
 	}
 	return (tokens);
 }
+
 
 // Traite la ligne de commande complète
 void	handle_line(char *line, char ***envp)
@@ -69,10 +74,7 @@ void	handle_line(char *line, char ***envp)
 		return ;
 	tokens = tokenize(line);
 	if (!tokens)
-	{
-		ft_putstr_fd("Erreur lors de la tokenisation\n", 2);
 		return ;
-	}
 	ast = parse(tokens);
 	if (!ast)
 	{
@@ -82,4 +84,6 @@ void	handle_line(char *line, char ***envp)
 	}
 	execute_all(ast, envp);
 	free_tokens(tokens);
+	free_ast(ast);
 }
+
