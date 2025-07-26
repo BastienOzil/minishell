@@ -51,7 +51,6 @@ SRCS = main.c \
 	srcs/parse/vanish.c \
 	srcs/parse/wildcard.c \
 	srcs/builtins/builtin_cd.c \
-	srcs/builtins/builtin_cd2.c \
 	srcs/builtins/builtin_echo.c \
 	srcs/builtins/builtin_env.c \
 	srcs/builtins/builtin_exit.c \
