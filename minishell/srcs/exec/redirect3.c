@@ -6,7 +6,7 @@
 /*   By: bozil <bozil@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/26 20:01:55 by bozil             #+#    #+#             */
-/*   Updated: 2025/07/26 20:06:32 by bozil            ###   ########.fr       */
+/*   Updated: 2025/07/28 11:21:29 by bozil            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ static void	handle_dup2_error(t_cmd *cmd, int fd)
 	exit(EXIT_FAILURE);
 }
 
-void	exec_append_redirection(t_cmd *cmd)
+int	exec_append_redirection(t_cmd *cmd)
 {
 	int	fd;
 
@@ -57,7 +57,7 @@ void	exec_append_redirection(t_cmd *cmd)
 		if (is_builtin(cmd->args[0]))
 		{
 			g_exit_status = 1;
-			return ;
+			return (-1);
 		}
 		puppetmaster_perror("invalid command or outfile for append");
 		exit(EXIT_FAILURE);
@@ -66,12 +66,13 @@ void	exec_append_redirection(t_cmd *cmd)
 	if (fd == -1)
 	{
 		handle_output_error(cmd, cmd->outfile);
-		return ;
+		return (-1);
 	}
 	if (dup2(fd, STDOUT_FILENO) == -1)
 	{
 		handle_dup2_error(cmd, fd);
-		return ;
+		return (-1);
 	}
 	close(fd);
+	return (0);
 }
