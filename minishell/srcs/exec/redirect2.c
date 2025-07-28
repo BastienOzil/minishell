@@ -6,7 +6,7 @@
 /*   By: bozil <bozil@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/26 19:55:58 by bozil             #+#    #+#             */
-/*   Updated: 2025/07/28 11:21:02 by bozil            ###   ########.fr       */
+/*   Updated: 2025/07/28 15:00:21 by bozil            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,11 @@
 static void	handle_input_error(t_cmd *cmd, const char *file)
 {
 	ft_putstr_fd("minishell: ", 2);
-	perror(file);
-	if (is_builtin(cmd->args[0]))
+	ft_putstr_fd((char *)file, 2);
+	ft_putstr_fd(": ", 2);
+	ft_putstr_fd(strerror(errno), 2);
+	ft_putstr_fd("\n", 2);
+	if (cmd && cmd->args && cmd->args[0] && is_builtin(cmd->args[0]))
 	{
 		g_exit_status = 1;
 		return ;
@@ -27,7 +30,7 @@ static void	handle_input_error(t_cmd *cmd, const char *file)
 static void	handle_dup2_error(t_cmd *cmd, int fd)
 {
 	close(fd);
-	if (is_builtin(cmd->args[0]))
+	if (cmd && cmd->args && cmd->args[0] && is_builtin(cmd->args[0]))
 	{
 		perror("dup2");
 		g_exit_status = 1;
@@ -41,6 +44,8 @@ int	exec_input_redirection(t_cmd *cmd)
 {
 	int	fd;
 
+	if (!cmd || !cmd->infile)
+		return (-1);
 	fd = open(cmd->infile, O_RDONLY);
 	if (fd == -1)
 	{

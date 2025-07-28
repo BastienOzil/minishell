@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aurelia <aurelia@student.42.fr>            +#+  +:+       +#+        */
+/*   By: bozil <bozil@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 14:57:18 by bozil             #+#    #+#             */
-/*   Updated: 2025/07/26 16:26:21 by aurelia          ###   ########.fr       */
+/*   Updated: 2025/07/28 15:16:21 by bozil            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,19 +74,4 @@ char	*find_path(char *cmd, char **envp)
 	if (!paths)
 		return (NULL);
 	return (search_in_paths(paths, cmd));
-}
-
-void	execute_command(t_cmd *cmd, char **envp)
-{
-	char	*path;
-
-	path = find_path(cmd->args[0], envp);
-	if (!path)
-	{
-		print_cmd_not_found(cmd->args[0]);
-		exit(127);
-	}
-	execve(path, cmd->args, envp);
-	puppetmaster_perror("execve");
-	exit(EXIT_FAILURE);
 }
