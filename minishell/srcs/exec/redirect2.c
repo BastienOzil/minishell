@@ -6,7 +6,7 @@
 /*   By: bozil <bozil@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/26 19:55:58 by bozil             #+#    #+#             */
-/*   Updated: 2025/07/26 20:03:27 by bozil            ###   ########.fr       */
+/*   Updated: 2025/07/28 11:21:02 by bozil            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ static void	handle_dup2_error(t_cmd *cmd, int fd)
 	exit(EXIT_FAILURE);
 }
 
-void	exec_input_redirection(t_cmd *cmd)
+int	exec_input_redirection(t_cmd *cmd)
 {
 	int	fd;
 
@@ -45,14 +45,13 @@ void	exec_input_redirection(t_cmd *cmd)
 	if (fd == -1)
 	{
 		handle_input_error(cmd, cmd->infile);
-		return ;
+		return (-1);
 	}
 	if (dup2(fd, STDIN_FILENO) == -1)
 	{
 		handle_dup2_error(cmd, fd);
-		return ;
+		return (-1);
 	}
 	close(fd);
+	return (0);
 }
-
-

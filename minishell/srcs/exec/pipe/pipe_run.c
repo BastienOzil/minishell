@@ -6,7 +6,7 @@
 /*   By: bozil <bozil@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 14:58:15 by bozil             #+#    #+#             */
-/*   Updated: 2025/07/26 19:49:58 by bozil            ###   ########.fr       */
+/*   Updated: 2025/07/28 11:25:31 by bozil            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,8 @@ void	child_exec(t_cmd *cmd, int in_fd, int pipefd[2], char ***envp)
 		redirect_fd(pipefd[1], STDOUT_FILENO);
 		close_unused_fds(pipefd);
 	}
-	handle_redirections(cmd);
+	if (handle_redirections(cmd) == -1)
+		exit(1);
 	
 	if (is_builtin(cmd->args[0]))
 	{

@@ -6,7 +6,7 @@
 /*   By: bozil <bozil@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 15:00:22 by bozil             #+#    #+#             */
-/*   Updated: 2025/07/26 20:00:35 by bozil            ###   ########.fr       */
+/*   Updated: 2025/07/28 11:26:36 by bozil            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,9 @@ void execute_cmd(t_cmd *cmd, char ***envp);
 void execute_all(t_cmd *cmd, char ***envp);
 
 // redirect.c
-void exec_output_redirection(t_cmd *cmd);
-void exec_input_redirection(t_cmd *cmd);
-void exec_append_redirection(t_cmd *cmd);
+int exec_output_redirection(t_cmd *cmd);
+int exec_input_redirection(t_cmd *cmd);
+int exec_append_redirection(t_cmd *cmd);
 
 //______pipe_____
 // pipe_utils.c
@@ -44,7 +44,7 @@ void execute_command(t_cmd *cmd, char **envp);
 void run_child_process(t_cmd *cmd, int in_fd, int pipefd[2], char **envp);
 
 // pipe_redir.c
-void handle_redirections(t_cmd *cmd);
+int handle_redirections(t_cmd *cmd);
 
 // pipe_run.c
 void child_exec(t_cmd *cmd, int in_fd, int pipefd[2], char ***envp);
