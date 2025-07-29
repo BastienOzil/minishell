@@ -74,7 +74,7 @@ void	handle_line(char *line, char ***envp)
 	ast = parse(tokens);
 	if (!ast)
 	{
-		ft_putstr_fd("Erreur lors du parsing\n", 2);
+		//ft_putstr_fd("Erreur lors du parsing\n", 2);
 		free_tokens(tokens);
 		return ;
 	}
@@ -82,4 +82,3 @@ void	handle_line(char *line, char ***envp)
 	free_tokens(tokens);
 	free_ast(ast);
 }
-

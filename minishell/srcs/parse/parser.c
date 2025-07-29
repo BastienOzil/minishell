@@ -72,15 +72,21 @@ t_cmd	*parse_pipeline(t_parser *parser)
 	return (left);
 }
 
-
-t_cmd *parse(t_token *tokens)
+t_cmd	*parse(t_token *tokens)
 {
-	t_parser parser;
+	t_parser	parser;
+	t_cmd		*ast;
 
 	if (!tokens)
 		return (NULL);
 	parser.tokens = tokens;
 	parser.current = tokens;
 	parser.error = 0;
-	return (parse_logical(&parser));
+	ast = parse_logical(&parser);
+	if (parser.error)
+	{
+		free_ast(ast);
+		return (NULL);
+	}
+	return (ast);
 }
