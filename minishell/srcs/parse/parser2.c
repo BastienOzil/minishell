@@ -6,7 +6,7 @@
 /*   By: aurelia <aurelia@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 13:57:21 by bozil             #+#    #+#             */
-/*   Updated: 2025/07/26 16:55:48 by aurelia          ###   ########.fr       */
+/*   Updated: 2025/07/28 17:07:01 by aurelia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,44 @@ static int	is_end_of_command(t_token_type type)
 		|| type == TOKEN_AND || type == TOKEN_OR);
 }
 
+static int	count_non_empty(char **args)
+{
+	int	i;
+	int	count;
+
+	i = 0;
+	count = 0;
+	while (args[i])
+	{
+		if (*args[i])
+			count++;
+		i++;
+	}
+	return (count);
+}
+
+char	**remove_empty_args(char **args)
+{
+	char	**new;
+	int		i;
+	int		j;
+
+	new = malloc(sizeof(char *) * (count_non_empty(args) + 1));
+	if (!new)
+		return (NULL);
+	i = 0;
+	j = 0;
+	while (args[i])
+	{
+		if (*args[i])
+			new[j++] = ft_strdup(args[i]);
+		i++;
+	}
+	new[j] = NULL;
+	ft_free_split(args);
+	return (new);
+}
+
 // Parse une commande simple avec ses arguments et redirections
 t_cmd	*parse_command(t_parser *parser)
 {
@@ -95,5 +133,6 @@ t_cmd	*parse_command(t_parser *parser)
 		else
 			handle_quote_or_redir(parser, node);
 	}
+	node->args = remove_empty_args(node->args);
 	return (node);
 }

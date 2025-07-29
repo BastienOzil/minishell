@@ -3,25 +3,93 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_export.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bozil <bozil@student.42.fr>                +#+  +:+       +#+        */
+/*   By: aurelia <aurelia@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 14:59:03 by bozil             #+#    #+#             */
-/*   Updated: 2025/07/26 15:39:13 by bozil            ###   ########.fr       */
+/*   Updated: 2025/07/28 16:37:45 by aurelia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int export_empty(char ***envp)
+char	**ft_dup_split(char **tab)
 {
-	int i;
+	char	**copy;
+	int		i;
 
+	if (!tab)
+		return (NULL);
 	i = 0;
-	while ((*envp)[i])
+	while (tab[i])
+		i++;
+	copy = malloc(sizeof(char *) * (i + 1));
+	if (!copy)
+		return (NULL);
+	i = 0;
+	while (tab[i])
 	{
-		printf("declare -x %s\n", (*envp)[i]);
+		copy[i] = ft_strdup(tab[i]);
+		if (!copy[i])
+			return (ft_free_split(copy), NULL);
 		i++;
 	}
+	copy[i] = NULL;
+	return (copy);
+}
+
+char	**ft_sort_env(char **env)
+{
+	char	**copy;
+	char	*tmp;
+	int		i;
+	int		j;
+
+	copy = ft_dup_split(env);
+	if (!copy)
+		return (NULL);
+	i = 0;
+	while (copy[i])
+	{
+		j = i + 1;
+		while (copy[j])
+		{
+			if (ft_strcmp(copy[i], copy[j]) > 0)
+			{
+				tmp = copy[i];
+				copy[i] = copy[j];
+				copy[j] = tmp;
+			}
+			j++;
+		}
+		i++;
+	}
+	return (copy);
+}
+
+int export_empty(char ***envp)
+{
+	char	**sorted;
+	int		i;
+	char	*equal;
+
+	sorted = ft_sort_env(*envp);
+	if (!sorted)
+		return (1);
+	i = 0;
+	while (sorted[i])
+	{
+		equal = ft_strchr(sorted[i], '=');
+		if (equal)
+		{
+			*equal = '\0';
+			printf("declare -x %s=\"%s\"\n", sorted[i], equal + 1);
+			*equal = '=';
+		}
+		else
+			printf("declare -x %s\n", sorted[i]);
+		i++;
+	}
+	ft_free_split(sorted);
 	return (0);
 }
 
