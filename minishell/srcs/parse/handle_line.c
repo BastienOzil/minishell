@@ -3,16 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   handle_line.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aurelia <aurelia@student.42.fr>            +#+  +:+       +#+        */
+/*   By: bozil <bozil@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 11:53:36 by bozil             #+#    #+#             */
-/*   Updated: 2025/07/26 09:28:29 by aurelia          ###   ########.fr       */
+/*   Updated: 2025/07/29 18:57:56 by bozil            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-// initialise lexer
 void	init_lexer(t_lexer *lexer, char *input)
 {
 	lexer->input = input;
@@ -34,7 +33,6 @@ static void	add_token_to_list(t_token **tokens, t_token **current,
 	}
 }
 
-// Transforme une ligne de commande en liste de tokens
 t_token	*tokenize(char *input)
 {
 	t_lexer	lexer;
@@ -63,8 +61,6 @@ t_token	*tokenize(char *input)
 	return (tokens);
 }
 
-
-// Traite la ligne de commande complète
 void	handle_line(char *line, char ***envp)
 {
 	t_token	*tokens;

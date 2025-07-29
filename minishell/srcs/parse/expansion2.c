@@ -12,7 +12,6 @@
 
 #include "../includes/minishell.h"
 
-// Fonction utilitaire pour joindre et libérer l'ancien résultat
 static char *join_and_free(char *old_str, char *to_add)
 {
 	char *new_str;
@@ -25,7 +24,6 @@ static char *join_and_free(char *old_str, char *to_add)
 	return (new_str);
 }
 
-// Gère l'index correctement
 static char *process_variable(char *str, int *i, char *result)
 {
 	char *temp;

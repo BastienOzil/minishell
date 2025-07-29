@@ -6,7 +6,7 @@
 /*   By: bozil <bozil@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 14:57:28 by bozil             #+#    #+#             */
-/*   Updated: 2025/07/28 15:04:37 by bozil            ###   ########.fr       */
+/*   Updated: 2025/07/28 11:21:40 by bozil            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,41 +15,48 @@
 void	execute_builtin_with_redirs(t_cmd *cmd, char ***envp)
 {
 	int	result;
-	int	input_ok;
-	int	output_ok;
 
-	input_ok = 1;
-	output_ok = 1;
-	if (cmd->append && cmd->outfile)
-		output_ok = (exec_append_redirection(cmd) == 0);
-	else if (cmd->outfile)
-		output_ok = (exec_output_redirection(cmd) == 0);
 	if (cmd->infile)
-		input_ok = (exec_input_redirection(cmd) == 0);
+	{
+		if (exec_input_redirection(cmd) == -1)
+			return ;
+	}
 	else if (cmd->heredoc)
 		exec_heredoc(cmd);
-	if (output_ok && input_ok)
+	if (cmd->append)
 	{
-		result = exec_builtin(cmd, envp);
-		g_exit_status = result;
+		if (exec_append_redirection(cmd) == -1)
+			return ;
 	}
+	else if (cmd->outfile)
+	{
+		if (exec_output_redirection(cmd) == -1)
+			return ;
+	}
+	result = exec_builtin(cmd, envp);
+	g_exit_status = result;
 }
 
 void	execute_external_cmd(t_cmd *cmd, char ***envp)
 {
-	int	output_ok;
-
-	output_ok = 1;
-	if (cmd->append && cmd->outfile)
-		output_ok = (exec_append_redirection(cmd) == 0);
-	else if (cmd->outfile)
-		output_ok = (exec_output_redirection(cmd) == 0);
 	if (cmd->infile)
-		exec_input_redirection(cmd);
+	{
+		if (exec_input_redirection(cmd) == -1)
+			return ;
+	}
 	else if (cmd->heredoc)
 		exec_heredoc(cmd);
-	if (output_ok)
-		execute_command(cmd, *envp);
+	if (cmd->append)
+	{
+		if (exec_append_redirection(cmd) == -1)
+			return ;
+	}
+	else if (cmd->outfile)
+	{
+		if (exec_output_redirection(cmd) == -1)
+			return ;
+	}
+	execute_command(cmd, *envp);
 }
 
 void	execute_fork_and_wait(t_cmd *cmd, char ***envp)

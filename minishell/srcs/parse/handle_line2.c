@@ -6,7 +6,7 @@
 /*   By: bozil <bozil@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 11:54:21 by bozil             #+#    #+#             */
-/*   Updated: 2025/07/24 12:10:49 by bozil            ###   ########.fr       */
+/*   Updated: 2025/07/29 18:58:02 by bozil            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,6 @@ static void	print_redirections(t_cmd *node, int depth)
 		print_file_redirect(node->heredoc, "HEREDOC: ", depth, 0);
 }
 
-// Affiche une commande avec ses arguments
 static void	print_command_node(t_cmd *node, int depth)
 {
 	int	i;

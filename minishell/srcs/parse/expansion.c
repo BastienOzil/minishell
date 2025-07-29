@@ -6,13 +6,12 @@
 /*   By: bozil <bozil@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 11:45:28 by bozil             #+#    #+#             */
-/*   Updated: 2025/07/26 15:21:17 by bozil            ###   ########.fr       */
+/*   Updated: 2025/07/29 18:57:33 by bozil            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-// Obtient la valeur d'une variable d'environnement
 char *get_env_value(char *var_name)
 {
 	char *value;
@@ -25,7 +24,6 @@ char *get_env_value(char *var_name)
 	return (ft_strdup(value));
 }
 
-// Lit le nom d'une variable après $
 char *get_var_name(t_lexer *lexer)
 {
 	int start;
@@ -41,7 +39,6 @@ char *get_var_name(t_lexer *lexer)
 	return (ft_substr(lexer->input, start, lexer->i - start));
 }
 
-// Gère l'expansion des variables $VAR
 t_token *handle_variable(t_lexer *lexer)
 {
 	char *var_name;
