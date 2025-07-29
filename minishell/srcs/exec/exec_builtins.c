@@ -6,7 +6,7 @@
 /*   By: aurelia <aurelia@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 14:56:59 by bozil             #+#    #+#             */
-/*   Updated: 2025/07/24 21:57:15 by aurelia          ###   ########.fr       */
+/*   Updated: 2025/07/29 21:26:13 by aurelia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,8 @@ int	is_builtin(const char *cmd)
 
 int	exec_builtin(t_cmd *cmd, char ***envp)
 {
+	int	code;
+
 	if (!ft_strcmp(cmd->args[0], "echo"))
 		return (echo_builtin(cmd->args));
 	if (!ft_strcmp(cmd->args[0], "cd"))
@@ -44,10 +46,10 @@ int	exec_builtin(t_cmd *cmd, char ***envp)
 	if (!ft_strcmp(cmd->args[0], "env"))
 		return (env_builtin(envp));
 	if (!ft_strcmp(cmd->args[0], "exit"))
-    {
-        int code = exit_builtin(cmd->args);
-        exit(code);
-    }
+	{
+		code = exit_builtin(cmd->args);
+		exit(code);
+	}
 	if (!ft_strcmp(cmd->args[0], "export"))
 		return (export_builtin(cmd->args, envp));
 	if (!ft_strcmp(cmd->args[0], "unset"))

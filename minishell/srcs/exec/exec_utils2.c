@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_utils2.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bozil <bozil@student.42.fr>                +#+  +:+       +#+        */
+/*   By: aurelia <aurelia@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 19:28:10 by bozil             #+#    #+#             */
-/*   Updated: 2025/07/29 19:41:27 by bozil            ###   ########.fr       */
+/*   Updated: 2025/07/29 21:24:56 by aurelia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,4 +38,3 @@ char	*join_path(char *dir, char *cmd)
 	free(tmp);
 	return (full);
 }
-
