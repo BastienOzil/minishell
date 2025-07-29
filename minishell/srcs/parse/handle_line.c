@@ -6,7 +6,7 @@
 /*   By: bozil <bozil@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 11:53:36 by bozil             #+#    #+#             */
-/*   Updated: 2025/07/29 18:57:56 by bozil            ###   ########.fr       */
+/*   Updated: 2025/07/29 20:22:46 by bozil            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,6 @@ void	handle_line(char *line, char ***envp)
 	ast = parse(tokens);
 	if (!ast)
 	{
-		ft_putstr_fd("Erreur lors du parsing\n", 2);
 		free_tokens(tokens);
 		return ;
 	}
