@@ -6,90 +6,22 @@
 /*   By: bozil <bozil@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 14:59:03 by bozil             #+#    #+#             */
-/*   Updated: 2025/07/29 11:41:49 by bozil            ###   ########.fr       */
+/*   Updated: 2025/07/29 19:01:57 by bozil            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-char	**ft_dup_split(char **tab)
-{
-	char	**copy;
-	int		i;
-
-	if (!tab)
-		return (NULL);
-	i = 0;
-	while (tab[i])
-		i++;
-	copy = malloc(sizeof(char *) * (i + 1));
-	if (!copy)
-		return (NULL);
-	i = 0;
-	while (tab[i])
-	{
-		copy[i] = ft_strdup(tab[i]);
-		if (!copy[i])
-			return (ft_free_split(copy), NULL);
-		i++;
-	}
-	copy[i] = NULL;
-	return (copy);
-}
-
-char	**ft_sort_env(char **env)
-{
-	char	**copy;
-	char	*tmp;
-	int		i;
-	int		j;
-
-	copy = ft_dup_split(env);
-	if (!copy)
-		return (NULL);
-	i = 0;
-	while (copy[i])
-	{
-		j = i + 1;
-		while (copy[j])
-		{
-			if (ft_strcmp(copy[i], copy[j]) > 0)
-			{
-				tmp = copy[i];
-				copy[i] = copy[j];
-				copy[j] = tmp;
-			}
-			j++;
-		}
-		i++;
-	}
-	return (copy);
-}
-
 int export_empty(char ***envp)
 {
-	char	**sorted;
-	int		i;
-	char	*equal;
+	int i;
 
-	sorted = ft_sort_env(*envp);
-	if (!sorted)
-		return (1);
 	i = 0;
-	while (sorted[i])
+	while ((*envp)[i])
 	{
-		equal = ft_strchr(sorted[i], '=');
-		if (equal)
-		{
-			*equal = '\0';
-			printf("declare -x %s=\"%s\"\n", sorted[i], equal + 1);
-			*equal = '=';
-		}
-		else
-			printf("declare -x %s\n", sorted[i]);
+		printf("declare -x %s\n", (*envp)[i]);
 		i++;
 	}
-	ft_free_split(sorted);
 	return (0);
 }
 
@@ -150,15 +82,22 @@ void free_envp(char ***envp)
 	*envp = NULL;
 }
 
-void replace_val(char *arg, char ***envp)
+void	replace_val(char *arg, char ***envp)
 {
-	int i;
-	int len;
-	char *var;
+	int		i;
+	int		len;
+	char	*var;
+	char	*new_val;
 
 	var = get_var_name_from_export(arg);
 	if (!var)
-		return;
+		return ;
+	new_val = ft_strdup(arg);
+	if (!new_val)
+	{
+		free(var);
+		return ;
+	}
 	len = ft_strlen(var);
 	i = 0;
 	while ((*envp)[i])
@@ -166,10 +105,9 @@ void replace_val(char *arg, char ***envp)
 		if (ft_strncmp((*envp)[i], var, len) == 0 && (*envp)[i][len] == '=')
 		{
 			free((*envp)[i]);
-			(*envp)[i] = ft_strdup(arg);
-			break;
+			(*envp)[i] = new_val;
+			break ;
 		}
 		i++;
 	}
-	free(var);
 }

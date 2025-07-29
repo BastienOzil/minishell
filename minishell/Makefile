@@ -18,7 +18,7 @@ ANIMATION_DIR = animation
 SRCS = main.c \
 	srcs/exec/executor.c \
 	srcs/exec/exec_utils.c \
-	srcs/exec/exec_cmd.c \
+	srcs/exec/exec_utils2.c \
 	srcs/exec/redirect.c \
 	srcs/exec/redirect2.c \
 	srcs/exec/redirect3.c \
@@ -64,6 +64,7 @@ SRCS = main.c \
 	srcs/builtins/builtin_pwd.c \
 	srcs/builtins/builtin_unset.c \
 	srcs/builtins/builtin_utils.c \
+	srcs/builtins/builtin_utils2.c \
 	srcs/signals/signal_handler.c \
 	srcs/signals/signal_setup.c \
 	srcs/signals/signal_setup2.c \

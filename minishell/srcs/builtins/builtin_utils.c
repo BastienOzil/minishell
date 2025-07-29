@@ -6,7 +6,7 @@
 /*   By: bozil <bozil@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 14:59:24 by bozil             #+#    #+#             */
-/*   Updated: 2025/07/24 14:59:26 by bozil            ###   ########.fr       */
+/*   Updated: 2025/07/29 19:03:08 by bozil            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,25 +28,57 @@ int	is_var_exist(char *var, char ***envp)
 	return (0);
 }
 
-void	add_var(char ***envp, char *arg)
+static char	**create_new_env_array(int size)
 {
-	int		i;
 	char	**new_env;
+
+	new_env = malloc(sizeof(char *) * (size + 2));
+	if (!new_env)
+		return (NULL);
+	return (new_env);
+}
+
+static void	transfer_env_vars(char **new_env, char ***envp)
+{
+	int	i;
+
+	i = 0;
+	while ((*envp)[i])
+	{
+		new_env[i] = (*envp)[i];
+		i++;
+	}
+}
+
+static int	count_env_vars(char ***envp)
+{
+	int	i;
 
 	i = 0;
 	while ((*envp)[i])
 		i++;
-	new_env = malloc(sizeof(char *) * (i + 2));
-	if (!new_env)
+	return (i);
+}
+
+void	add_var(char ***envp, char *arg)
+{
+	int		i;
+	char	**new_env;
+	char	*new_var;
+
+	new_var = ft_strdup(arg);
+	if (!new_var)
 		return ;
-	i = 0;
-	while ((*envp)[i])
+	i = count_env_vars(envp);
+	new_env = create_new_env_array(i);
+	if (!new_env)
 	{
-		new_env[i] = ft_strdup((*envp)[i]);
-		i++;
+		free(new_var);
+		return ;
 	}
-	new_env[i] = ft_strdup(arg);
+	transfer_env_vars(new_env, envp);
+	new_env[i] = new_var;
 	new_env[i + 1] = NULL;
-	free_envp(envp);
+	free(*envp);
 	*envp = new_env;
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bozil <bozil@student.42.fr>                +#+  +:+       +#+        */
+/*   By: aurelia <aurelia@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 15:00:10 by bozil             #+#    #+#             */
-/*   Updated: 2025/07/29 11:44:26 by bozil            ###   ########.fr       */
+/*   Updated: 2025/07/26 13:03:43 by aurelia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,9 @@ typedef struct s_parser
 	int error;
 } t_parser;
 
+// ============================================================================
 // FONCTIONS DE LEXING/TOKENISATION
+// ============================================================================
 
 // handle_line.c
 void init_lexer(t_lexer *lexer, char *input);
@@ -92,7 +94,9 @@ int match_pattern(char *pattern, char *str);
 int count_matches(char *pattern);
 char **fill_matches(char *pattern, int count);
 
+// ============================================================================
 // FONCTIONS DE PARSING
+// ============================================================================
 
 // parser.c
 t_cmd *parse_command(t_parser *parser);
@@ -116,7 +120,9 @@ int validate_redir_token(t_parser *parser);
 int check_multiple_input(t_cmd *node, t_token_type type);
 int check_multiple_output(t_cmd *node, t_token_type type);
 
+// ============================================================================
 // FONCTIONS UTILITAIRES
+// ============================================================================
 
 // cleanup.c
 void free_redir(t_redir *redir);
@@ -134,7 +140,9 @@ void puppetmaster_perror(const char *context);
 void print_loop(const char *quote);
 void format_line(char *dst, const char *quote);
 
+// ============================================================================
 // ANIMATION
+// ============================================================================
 
 // vanish.c
 void vanish_blank(char *temp, int l, int r);

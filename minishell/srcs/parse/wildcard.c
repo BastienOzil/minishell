@@ -6,12 +6,13 @@
 /*   By: bozil <bozil@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 14:11:10 by bozil             #+#    #+#             */
-/*   Updated: 2025/07/29 11:40:39 by bozil            ###   ########.fr       */
+/*   Updated: 2025/07/24 14:11:12 by bozil            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
+// Vérifie si un motif correspond à une chaîne
 int	match_pattern(char *pattern, char *str)
 {
 	if (!*pattern && !*str)
@@ -29,6 +30,7 @@ int	match_pattern(char *pattern, char *str)
 	return (0);
 }
 
+// Compte les fichiers correspondant au motif
 int	count_matches(char *pattern)
 {
 	DIR				*dir;
@@ -50,6 +52,7 @@ int	count_matches(char *pattern)
 	return (count);
 }
 
+// Remplit un tableau avec les fichiers correspondants
 char	**fill_matches(char *pattern, int count)
 {
 	DIR				*dir;
@@ -76,6 +79,7 @@ char	**fill_matches(char *pattern, int count)
 	return (matches);
 }
 
+// Expanse les wildcards dans un token
 char	**expand_wildcard(char *pattern)
 {
 	int		count;

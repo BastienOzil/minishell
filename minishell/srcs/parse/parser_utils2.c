@@ -6,12 +6,13 @@
 /*   By: bozil <bozil@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 13:22:48 by bozil             #+#    #+#             */
-/*   Updated: 2025/07/29 11:39:01 by bozil            ###   ########.fr       */
+/*   Updated: 2025/07/24 13:54:27 by bozil            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
+// compte le nombre d'arguments dans le tableau
 static int	count_args(char **args)
 {
 	int	count;
@@ -25,6 +26,7 @@ static int	count_args(char **args)
 	return (count);
 }
 
+// Libère un tableau d'arguments
 static void	free_arg_array(char **args)
 {
 	int	i;

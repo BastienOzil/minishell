@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shared.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bozil <bozil@student.42.fr>                +#+  +:+       +#+        */
+/*   By: aurelia <aurelia@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 15:00:02 by bozil             #+#    #+#             */
-/*   Updated: 2025/07/29 11:44:32 by bozil            ###   ########.fr       */
+/*   Updated: 2025/07/26 17:09:39 by aurelia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ typedef enum e_node_type
 	NODE_SUBSHELL
 }						t_node_type;
 
+// modification du nom cmd pour la fonction free_ast
 typedef struct s_cmd
 {
 	t_node_type			type;

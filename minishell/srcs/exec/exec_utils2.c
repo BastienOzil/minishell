@@ -1,25 +1,41 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   print_token.c                                      :+:      :+:    :+:   */
+/*   exec_utils2.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bozil <bozil@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/24 14:10:32 by bozil             #+#    #+#             */
-/*   Updated: 2025/07/24 14:10:34 by bozil            ###   ########.fr       */
+/*   Created: 2025/07/29 19:28:10 by bozil             #+#    #+#             */
+/*   Updated: 2025/07/29 19:41:27 by bozil            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-// permet de voir dans le terminal quel type des token est l'argument passé en paramètre
-void	print_token(t_token *token)
+char	*get_path_var(char **envp)
 {
-	char	*types[] = {"WORD", "PIPE", "REDIR_IN", "REDIR_OUT", "APPEND",
-			"HEREDOC", "EOF"};
+	int	i;
 
-	printf("Type: %s", types[token->type]);
-	if (token->value)
-		printf(", Value: '%s'", token->value);
-	printf("\n");
+	i = 0;
+	while (envp[i])
+	{
+		if (ft_strncmp(envp[i], "PATH=", 5) == 0)
+			return (envp[i] + 5);
+		i++;
+	}
+	return (NULL);
 }
+
+char	*join_path(char *dir, char *cmd)
+{
+	char	*tmp;
+	char	*full;
+
+	tmp = ft_strjoin(dir, "/");
+	if (!tmp)
+		return (NULL);
+	full = ft_strjoin(tmp, cmd);
+	free(tmp);
+	return (full);
+}
+

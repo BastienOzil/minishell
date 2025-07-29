@@ -6,12 +6,13 @@
 /*   By: bozil <bozil@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/26 20:13:09 by bozil             #+#    #+#             */
-/*   Updated: 2025/07/29 11:39:13 by bozil            ###   ########.fr       */
+/*   Updated: 2025/07/26 20:13:39 by bozil            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
+// Parse la redirection et l'applique à la boucle
 void	parse_redir(t_parser *parser, t_cmd *node)
 {
 	t_token_type	redir_type;

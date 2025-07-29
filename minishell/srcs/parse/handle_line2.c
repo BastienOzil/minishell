@@ -6,7 +6,7 @@
 /*   By: bozil <bozil@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 11:54:21 by bozil             #+#    #+#             */
-/*   Updated: 2025/07/29 11:37:46 by bozil            ###   ########.fr       */
+/*   Updated: 2025/07/29 18:58:02 by bozil            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ static void	print_command_node(t_cmd *node, int depth)
 	}
 	ft_putstr_fd("\n", 1);
 }
-
+// Affiche de facon recursive les synthaxes
 void	print_ast(t_cmd *node, int depth)
 {
 	int i;

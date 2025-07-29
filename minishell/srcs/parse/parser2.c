@@ -3,15 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   parser2.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aurgeorg <aurgeorg@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bozil <bozil@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 13:57:21 by bozil             #+#    #+#             */
-/*   Updated: 2025/07/29 14:25:22 by aurgeorg         ###   ########.fr       */
+/*   Updated: 2025/07/29 19:52:41 by bozil            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
+// Traite les tokens quotés et les ajoute comme arguments
 static void	handle_quoted_token(t_parser *parser, t_cmd *node)
 {
 	char	*value;
@@ -41,6 +42,7 @@ static void	handle_quoted_token(t_parser *parser, t_cmd *node)
 	advance_token(parser);
 }
 
+// Traite les tokens simples
 static void	handle_word_token(t_parser *parser, t_cmd *node)
 {
 	char	*arg;
@@ -52,9 +54,11 @@ static void	handle_word_token(t_parser *parser, t_cmd *node)
 		exit(EXIT_FAILURE);
 	}
 	node->args = add_arg(node->args, arg);
+	free(arg);
 	advance_token(parser);
 }
 
+// Gère les quotes et redirections
 static void	handle_quote_or_redir(t_parser *parser, t_cmd *node)
 {
 	if (parser->current->type == TOKEN_DQUOTE
@@ -66,52 +70,14 @@ static void	handle_quote_or_redir(t_parser *parser, t_cmd *node)
 		advance_token(parser);
 }
 
+// Vérifie fin de commande
 static int	is_end_of_command(t_token_type type)
 {
 	return (type == TOKEN_PIPE || type == TOKEN_EOF
 		|| type == TOKEN_AND || type == TOKEN_OR);
 }
 
-static int	count_non_empty(char **args)
-{
-	int	i;
-	int	count;
-
-	i = 0;
-	count = 0;
-	while (args[i])
-	{
-		if (*args[i])
-			count++;
-		i++;
-	}
-	return (count);
-}
-
-char	**remove_empty_args(char **args)
-{
-	char	**new;
-	int		i;
-	int		j;
-
-	if (!args)
-		return (NULL);
-	new = malloc(sizeof(char *) * (count_non_empty(args) + 1));
-	if (!new)
-		return (NULL);
-	i = 0;
-	j = 0;
-	while (args[i])
-	{
-		if (*args[i])
-			new[j++] = ft_strdup(args[i]);
-		i++;
-	}
-	new[j] = NULL;
-	ft_free_split(args);
-	return (new);
-}
-
+// Parse une commande simple avec ses arguments et redirections
 t_cmd	*parse_command(t_parser *parser)
 {
 	t_cmd	*node;
@@ -130,7 +96,5 @@ t_cmd	*parse_command(t_parser *parser)
 		else
 			handle_quote_or_redir(parser, node);
 	}
-	if (!parser->error)
-		node->args = remove_empty_args(node->args);
 	return (node);
 }

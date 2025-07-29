@@ -1,17 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lexer_cmd2.c                                       :+:      :+:    :+:   */
+/*   lexer_cmd3.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bozil <bozil@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/25 10:38:21 by bozil             #+#    #+#             */
-/*   Updated: 2025/07/29 11:38:01 by bozil            ###   ########.fr       */
+/*   Updated: 2025/07/25 10:38:45 by bozil            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
+// Gère les opérateurs logiques &&
 t_token *handle_and(t_lexer *lexer)
 {
     if (lexer->input[lexer->i + 1] == '&')
@@ -23,6 +24,7 @@ t_token *handle_and(t_lexer *lexer)
     return (new_token(TOKEN_WORD, ft_strdup("&")));
 }
 
+// Gère les opérateurs logiques ||
 t_token *handle_or(t_lexer *lexer)
 {
     if (lexer->input[lexer->i + 1] == '|')
@@ -33,6 +35,7 @@ t_token *handle_or(t_lexer *lexer)
     return (handle_pipe(lexer));
 }
 
+// Gère les parenthèses
 t_token *handle_parentheses(t_lexer *lexer)
 {
     if (lexer->input[lexer->i] == '(')

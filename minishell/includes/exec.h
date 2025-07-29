@@ -6,7 +6,7 @@
 /*   By: bozil <bozil@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 15:00:22 by bozil             #+#    #+#             */
-/*   Updated: 2025/07/29 11:42:52 by bozil            ###   ########.fr       */
+/*   Updated: 2025/07/28 11:26:36 by bozil            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,6 @@ int handle_redirections(t_cmd *cmd);
 void child_exec(t_cmd *cmd, int in_fd, int pipefd[2], char ***envp);
 void handle_parent(t_cmd *cmd, int *in_fd, int pipefd[2]);
 void wait_and_set_exit_status(pid_t last_pid);
-//______________
 
 // pipe.c
 void execute_pipeline(t_cmd *cmd_list, char ***envp);
