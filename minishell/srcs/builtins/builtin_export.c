@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_export.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aurelia <aurelia@student.42.fr>            +#+  +:+       +#+        */
+/*   By: bozil <bozil@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 14:59:03 by bozil             #+#    #+#             */
-/*   Updated: 2025/07/28 16:37:45 by aurelia          ###   ########.fr       */
+/*   Updated: 2025/07/29 11:41:49 by bozil            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,6 @@ int export_empty(char ***envp)
 	return (0);
 }
 
-// Vérifie si un nom de variable est valide (lettres, chiffres, _)
 int is_valid_identifier(char *str)
 {
 	int i;

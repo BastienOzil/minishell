@@ -6,13 +6,11 @@
 /*   By: bozil <bozil@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 13:03:58 by bozil             #+#    #+#             */
-/*   Updated: 2025/07/24 13:21:33 by bozil            ###   ########.fr       */
+/*   Updated: 2025/07/29 11:38:29 by bozil            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-
-// Parse les expressions logiques (AND/OR)
 
 static t_cmd	*create_logical_node(t_cmd *left, t_token_type op_type,
 		t_parser *parser)

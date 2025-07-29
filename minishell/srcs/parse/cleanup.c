@@ -3,16 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   cleanup.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aurelia <aurelia@student.42.fr>            +#+  +:+       +#+        */
+/*   By: bozil <bozil@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 11:44:21 by bozil             #+#    #+#             */
-/*   Updated: 2025/07/26 17:12:16 by aurelia          ###   ########.fr       */
+/*   Updated: 2025/07/29 11:36:47 by bozil            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-// Libère les ordres de redirections - VERSION CORRIGÉE
 void	free_redir(t_redir *redir)
 {
 	t_redir	*tmp;
@@ -20,7 +19,6 @@ void	free_redir(t_redir *redir)
 	while (redir)
 	{
 		tmp = redir->next;
-		// Libérer le champ file de la structure t_redir
 		if (redir->file)
 			free(redir->file);
 		free(redir);
@@ -28,7 +26,6 @@ void	free_redir(t_redir *redir)
 	}
 }
 
-// Fonction pour libérer les tokens
 void	free_tokens(t_token *tokens)
 {
 	t_token	*current;
@@ -45,7 +42,6 @@ void	free_tokens(t_token *tokens)
 	}
 }
 
-// Libère les arguments
 void	free_args(char **args)
 {
 	int	i;
@@ -61,7 +57,6 @@ void	free_args(char **args)
 	free(args);
 }
 
-// Libère un tableau de chaînes (déjà correcte)
 void	free_array(char **arr)
 {
 	int	i;
@@ -77,7 +72,6 @@ void	free_array(char **arr)
 	free(arr);
 }
 
-// Nettoyage complet en cas d'erreur
 void	cleanup_all(t_token *tokens, t_cmd *ast, char **env_copy)
 {
 	if (tokens)

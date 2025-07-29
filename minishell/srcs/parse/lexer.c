@@ -6,20 +6,18 @@
 /*   By: bozil <bozil@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 12:12:47 by bozil             #+#    #+#             */
-/*   Updated: 2025/07/24 12:53:54 by bozil            ###   ########.fr       */
+/*   Updated: 2025/07/29 11:38:13 by bozil            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-// ignore les espaces
 void	skip_spaces(t_lexer *lexer)
 {
 	while (lexer->input[lexer->i] && is_space(lexer->input[lexer->i]))
 		lexer->i++;
 }
 
-// lit un mot jusqu'au prochain espace ou caractère spécial
 char	*get_word(t_lexer *lexer)
 {
 	int	start;
@@ -31,14 +29,12 @@ char	*get_word(t_lexer *lexer)
 	return (ft_substr(lexer->input, start, lexer->i - start));
 }
 
-// Fonction utilitaire pour vérifier si c'est un caractère spécial sauf quotes et $
 int	is_special_except_quotes_and_dollar(char c)
 {
 	return (c == '|' || c == '<' || c == '>' || c == '&' || c == '('
 		|| c == ')');
 }
 
-// cree un nouveau token
 t_token	*new_token(t_token_type type, char *value)
 {
 	t_token	*token;
@@ -52,7 +48,6 @@ t_token	*new_token(t_token_type type, char *value)
 	return (token);
 }
 
-// récupère le token suivant
 t_token	*get_next_token(t_lexer *lexer)
 {
 	skip_spaces(lexer);

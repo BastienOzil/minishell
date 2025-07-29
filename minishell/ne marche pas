@@ -1,0 +1,6 @@
+Liste des commandes qui ne fonctionnent pas:
+
+cat |
+Ne doit pas retourner un message d'erreur mais activer le cat 
+
+

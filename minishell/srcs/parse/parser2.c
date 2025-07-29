@@ -3,16 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   parser2.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aurelia <aurelia@student.42.fr>            +#+  +:+       +#+        */
+/*   By: bozil <bozil@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 13:57:21 by bozil             #+#    #+#             */
-/*   Updated: 2025/07/28 17:07:01 by aurelia          ###   ########.fr       */
+/*   Updated: 2025/07/29 11:39:51 by bozil            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-// Traite les tokens quotés et les ajoute comme arguments
 static void	handle_quoted_token(t_parser *parser, t_cmd *node)
 {
 	char	*value;
@@ -42,7 +41,6 @@ static void	handle_quoted_token(t_parser *parser, t_cmd *node)
 	advance_token(parser);
 }
 
-// Traite les tokens simples
 static void	handle_word_token(t_parser *parser, t_cmd *node)
 {
 	char	*arg;
@@ -57,7 +55,6 @@ static void	handle_word_token(t_parser *parser, t_cmd *node)
 	advance_token(parser);
 }
 
-// Gère les quotes et redirections
 static void	handle_quote_or_redir(t_parser *parser, t_cmd *node)
 {
 	if (parser->current->type == TOKEN_DQUOTE
@@ -69,7 +66,6 @@ static void	handle_quote_or_redir(t_parser *parser, t_cmd *node)
 		advance_token(parser);
 }
 
-// Vérifie fin de commande
 static int	is_end_of_command(t_token_type type)
 {
 	return (type == TOKEN_PIPE || type == TOKEN_EOF
@@ -114,7 +110,6 @@ char	**remove_empty_args(char **args)
 	return (new);
 }
 
-// Parse une commande simple avec ses arguments et redirections
 t_cmd	*parse_command(t_parser *parser)
 {
 	t_cmd	*node;

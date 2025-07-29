@@ -6,17 +6,14 @@
 /*   By: bozil <bozil@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 15:00:17 by bozil             #+#    #+#             */
-/*   Updated: 2025/07/24 15:00:18 by bozil            ###   ########.fr       */
+/*   Updated: 2025/07/29 11:44:04 by bozil            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-// ============================================================================
 // MACROS ET CONSTANTES
-// ============================================================================
-
 # define PROMPT_COLOR "\001\033[1;32m\002"
 # define RESET_COLOR "\001\033[0m\002"
 # define ERROR_COLOR "\033[1;31m"
@@ -33,9 +30,7 @@
 # define EXIT_CANNOT_EXECUTE 126
 # define EXIT_COMMAND_NOT_FOUND 127
 
-// =========================================================================
 // INCLUDES
-// =========================================================================
 # include "../animation/includes/animation.h"
 # include "../utils/libft/libft.h"
 # include "exec.h"
@@ -58,10 +53,7 @@
 # include <termios.h>
 # include <unistd.h>
 
-// =========================================================================
 // STRUCTURES PROPRE A MINISHELL
-// =========================================================================
-
 extern int			g_exit_status;
 
 typedef struct s_env
@@ -78,15 +70,7 @@ typedef struct s_shell
 	int				exit_status;
 }					t_shell;
 
-// =========================================================================
 // DÉCLARATIONS DE FONCTIONS SPÉCIFIQUES
-// =========================================================================
-
-// handle_line.c
-// void init_lexer(t_lexer *lexer, char *input);
-// t_token *tokenize(char *input);
-// void print_ast(t_cmd *node, int depth);
-// void handle_line(char *line);
 
 // error_message.c
 void				print_loop(const char *quote);

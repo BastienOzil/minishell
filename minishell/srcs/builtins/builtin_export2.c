@@ -3,16 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_export2.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aurelia <aurelia@student.42.fr>            +#+  +:+       +#+        */
+/*   By: bozil <bozil@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/26 15:38:57 by bozil             #+#    #+#             */
-/*   Updated: 2025/07/28 16:36:47 by aurelia          ###   ########.fr       */
+/*   Updated: 2025/07/29 11:41:57 by bozil            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-// Gère un seul argument d'export
 int handle_single_export_arg(char *arg, char ***envp)
 {
 	char *var_name;

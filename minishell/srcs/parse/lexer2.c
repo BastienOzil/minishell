@@ -6,7 +6,7 @@
 /*   By: bozil <bozil@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 12:15:32 by bozil             #+#    #+#             */
-/*   Updated: 2025/07/26 15:21:56 by bozil            ###   ########.fr       */
+/*   Updated: 2025/07/29 11:38:19 by bozil            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ char *join_and_update(char *result, char *new_str)
 	return (temp);
 }
 
-// Version corrigée - pas de double expansion
 char *handle_double_quote(t_lexer *lexer, char *result)
 {
 	char *quoted;
@@ -46,7 +45,6 @@ char *handle_single_quote(t_lexer *lexer, char *result)
 	return (result);
 }
 
-// Gérer le $ isolé
 char *handle_variable2(t_lexer *lexer, char *result)
 {
 	char *var_name;

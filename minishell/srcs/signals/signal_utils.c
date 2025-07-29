@@ -3,16 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   signal_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aurelia <aurelia@student.42.fr>            +#+  +:+       +#+        */
+/*   By: bozil <bozil@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 14:12:41 by bozil             #+#    #+#             */
-/*   Updated: 2025/07/26 10:14:23 by aurelia          ###   ########.fr       */
+/*   Updated: 2025/07/29 11:36:14 by bozil            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-// Gère le statut de sortie en fonction du signal reçu
 void	handle_signal_exit_status(int sig)
 {
 	if (sig == SIGINT)
@@ -21,7 +20,6 @@ void	handle_signal_exit_status(int sig)
 		g_exit_status = SIGQUIT_CODE;
 }
 
-// Convertit un signal en code de sortie
 int	signal_to_exit_code(int sig)
 {
 	switch (sig)
@@ -31,17 +29,15 @@ int	signal_to_exit_code(int sig)
 	case SIGQUIT:
 		return (SIGQUIT_CODE);
 	default:
-		return (sig + 128); // 128 pour la convention Unix
+		return (sig + 128);
 	}
 }
 
-// Remet à zéro l'état des signaux
 void	reset_signal_state(void)
 {
 	g_exit_status = 0;
 }
 
-// Vérifie si un signal a été reçu
 int	signal_pending(void)
 {
 	return (g_exit_status != 0);

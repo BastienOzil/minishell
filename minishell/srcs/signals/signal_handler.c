@@ -3,16 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   signal_handler.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aurelia <aurelia@student.42.fr>            +#+  +:+       +#+        */
+/*   By: bozil <bozil@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 14:11:26 by bozil             #+#    #+#             */
-/*   Updated: 2025/07/26 10:11:20 by aurelia          ###   ########.fr       */
+/*   Updated: 2025/07/29 11:35:41 by bozil            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-// SIGINT (Ctrl+C) en mode interactif
 void	sigint_handler(int sig)
 {
 	(void)sig;
@@ -23,13 +22,11 @@ void	sigint_handler(int sig)
 	rl_redisplay();
 }
 
-// SIGQUIT (Ctrl+\) en mode interactif
 void	sigquit_handler(int sig)
 {
 	(void)sig;
 }
 
-// SIGINT pendant un heredoc
 void	sigint_heredoc_handler(int sig)
 {
 	(void)sig;
@@ -38,7 +35,6 @@ void	sigint_heredoc_handler(int sig)
 	close(STDIN_FILENO);
 }
 
-// SIGINT enfant
 void	sigint_child_handler(int sig)
 {
 	(void)sig;
@@ -46,7 +42,6 @@ void	sigint_child_handler(int sig)
 	exit(SIGINT_CODE);
 }
 
-// Handler pour SIGQUIT enfant
 void	sigquit_child_handler(int sig)
 {
 	(void)sig;

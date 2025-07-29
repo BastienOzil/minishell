@@ -3,16 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   error_messages.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aurelia <aurelia@student.42.fr>            +#+  +:+       +#+        */
+/*   By: bozil <bozil@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 11:44:31 by bozil             #+#    #+#             */
-/*   Updated: 2025/07/26 12:24:24 by aurelia          ###   ########.fr       */
+/*   Updated: 2025/07/29 11:37:10 by bozil            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-// valeur numérique aleatoire
 int	get_random_index(int max)
 {
 	struct timeval	tv;
@@ -21,7 +20,6 @@ int	get_random_index(int max)
 	return (tv.tv_usec % max);
 }
 
-// Affiche le message avec effet de clignotement
 static void	display_blinking_message(const char *quote)
 {
 	const char	*prefix = "\033[38;5;208m[?] ";
@@ -46,40 +44,10 @@ static void	display_blinking_message(const char *quote)
 	}
 }
 
-// fait clignoter l'erreur
 void	print_loop(const char *quote)
 {
 	display_blinking_message(quote);
 }
-
-// void	puppetmaster_perror(const char *context)
-// {
-// 	int		i;
-// 	char	temp[512];
-// 	char	line[512];
-
-// 	const char *quotes[] = {
-// 		"\"Your effort to remain what you are is what limits you.\"",
-// 		"\"Who can gaze into the mirror without becoming evil?\"",
-// 		"\"All things change in a dynamic environment.\"",
-// 	};
-// 	i = get_random_index(sizeof(quotes) / sizeof(quotes[0]));
-// 	if (errno == ENOENT)
-// 	{
-// 		ft_putstr_fd("\033[38;5;208m[Puppet~master]> ", 2);
-// 		ft_putstr_fd((char *)context, 2);
-// 		ft_putstr_fd(": command not found\n\033[0m", 2);
-// 	}
-// 	else
-// 	{
-// 		perror(context);
-// 	}
-// 	print_loop(quotes[i]);
-// 	format_line(line, quotes[i]);
-// 	ft_strlcpy(temp, line, sizeof(temp));
-// 	vanish_effect(temp, line);
-// }
-
 
 void	puppetmaster_perror(const char *context)
 {
@@ -93,7 +61,6 @@ void	puppetmaster_perror(const char *context)
 		perror(context);
 }
 
-// les caractères devienent orange
 void	format_line(char *dst, const char *quote)
 {
 	const char	*prefix = "\033[38;5;208m[?] ";

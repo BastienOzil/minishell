@@ -3,16 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   parser_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aurelia <aurelia@student.42.fr>            +#+  +:+       +#+        */
+/*   By: bozil <bozil@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 13:21:23 by bozil             #+#    #+#             */
-/*   Updated: 2025/07/26 18:54:58 by aurelia          ###   ########.fr       */
+/*   Updated: 2025/07/29 11:38:51 by bozil            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-// Crée une nouvelle boucle AST du type spécifié
 t_cmd	*new_node(t_node_type type)
 {
 	t_cmd	*node;
@@ -33,14 +32,12 @@ t_cmd	*new_node(t_node_type type)
 	return (node);
 }
 
-// Avance au token suivant dans le parser
 void	advance_token(t_parser *parser)
 {
 	if (parser && parser->current)
 		parser->current = parser->current->next;
 }
 
-// Vérifie si le token courant correspond au type donné
 int	match_token(t_parser *parser, t_token_type type)
 {
 	if (!parser || !parser->current)
@@ -48,7 +45,6 @@ int	match_token(t_parser *parser, t_token_type type)
 	return (parser->current->type == type);
 }
 
-// Vérifie si le token est un opérateur de redirection
 int	is_redir_token(t_token_type type)
 {
 	return (type == TOKEN_INFILE || type == TOKEN_OUTFILE

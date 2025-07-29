@@ -3,29 +3,26 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aurelia <aurelia@student.42.fr>            +#+  +:+       +#+        */
+/*   By: bozil <bozil@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 14:10:51 by bozil             #+#    #+#             */
-/*   Updated: 2025/07/25 11:44:28 by aurelia          ###   ########.fr       */
+/*   Updated: 2025/07/29 11:40:25 by bozil            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-// Vérifie si c'est un caractère d'espacement
 int	is_space(char c)
 {
 	return (c == ' ' || c == '\t' || c == '\n' || c == '\r');
 }
 
-// Vérifie si c'est un caractère spécial
 int	is_special(char c)
 {
 	return (c == '|' || c == '<' || c == '>' || c == '&' || c == '(' || c == ')'
 		|| c == '"' || c == '\'' || c == '$');
 }
 
-//_____ajout de cette fonctin pour convertir les ast en liste chainée
 t_cmd	*linearize_pipeline(t_cmd *ast)
 {
 	t_cmd	*list;
