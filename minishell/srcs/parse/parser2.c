@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser2.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bozil <bozil@student.42.fr>                +#+  +:+       +#+        */
+/*   By: aurgeorg <aurgeorg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 13:57:21 by bozil             #+#    #+#             */
-/*   Updated: 2025/07/29 11:39:51 by bozil            ###   ########.fr       */
+/*   Updated: 2025/07/29 14:25:22 by aurgeorg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,8 @@ char	**remove_empty_args(char **args)
 	int		i;
 	int		j;
 
+	if (!args)
+		return (NULL);
 	new = malloc(sizeof(char *) * (count_non_empty(args) + 1));
 	if (!new)
 		return (NULL);
@@ -128,6 +130,7 @@ t_cmd	*parse_command(t_parser *parser)
 		else
 			handle_quote_or_redir(parser, node);
 	}
-	node->args = remove_empty_args(node->args);
+	if (!parser->error)
+		node->args = remove_empty_args(node->args);
 	return (node);
 }
