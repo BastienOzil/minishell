@@ -6,26 +6,27 @@
 /*   By: bozil <bozil@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 14:10:51 by bozil             #+#    #+#             */
-/*   Updated: 2025/07/30 10:01:33 by bozil            ###   ########.fr       */
+/*   Updated: 2025/07/30 16:19:06 by bozil            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-int is_space(char c)
+int	is_space(char c)
 {
 	return (c == ' ' || c == '\t' || c == '\n' || c == '\r');
 }
 
-int is_special(char c)
+int	is_special(char c)
 {
-	return (c == '|' || c == '<' || c == '>' || c == '&' || c == '(' || c == ')' || c == '"' || c == '\'' || c == '$');
+	return (c == '|' || c == '<' || c == '>' || c == '&' || c == '(' || c == ')'
+		|| c == '"' || c == '\'' || c == '$');
 }
 
-t_cmd *linearize_pipeline(t_cmd *ast)
+t_cmd	*linearize_pipeline(t_cmd *ast)
 {
-	t_cmd *list;
-	t_cmd *tail;
+	t_cmd	*list;
+	t_cmd	*tail;
 
 	if (!ast)
 		return (NULL);
@@ -39,9 +40,9 @@ t_cmd *linearize_pipeline(t_cmd *ast)
 	return (list);
 }
 
-void print_cmd_not_found(const char *cmd)
+void	print_cmd_not_found(const char *cmd)
 {
-	int tty_fd;
+	int	tty_fd;
 
 	errno = ENOENT;
 	tty_fd = open("/dev/tty", O_WRONLY);
@@ -51,9 +52,9 @@ void print_cmd_not_found(const char *cmd)
 	exit(127);
 }
 
-void ft_free_split(char **split)
+void	ft_free_split(char **split)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (split && split[i])

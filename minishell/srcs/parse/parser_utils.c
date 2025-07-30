@@ -6,15 +6,15 @@
 /*   By: bozil <bozil@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 13:21:23 by bozil             #+#    #+#             */
-/*   Updated: 2025/07/30 09:59:17 by bozil            ###   ########.fr       */
+/*   Updated: 2025/07/30 16:18:02 by bozil            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-t_cmd *new_node(t_node_type type)
+t_cmd	*new_node(t_node_type type)
 {
-	t_cmd *node;
+	t_cmd	*node;
 
 	node = malloc(sizeof(t_cmd));
 	if (!node)
@@ -32,21 +32,21 @@ t_cmd *new_node(t_node_type type)
 	return (node);
 }
 
-void advance_token(t_parser *parser)
+void	advance_token(t_parser *parser)
 {
 	if (parser && parser->current)
 		parser->current = parser->current->next;
 }
 
-int match_token(t_parser *parser, t_token_type type)
+int	match_token(t_parser *parser, t_token_type type)
 {
 	if (!parser || !parser->current)
 		return (0);
 	return (parser->current->type == type);
 }
 
-int is_redir_token(t_token_type type)
+int	is_redir_token(t_token_type type)
 {
-	return (type == TOKEN_INFILE || type == TOKEN_OUTFILE || 
-		type == TOKEN_APPEND || type == TOKEN_HEREDOC);
+	return (type == TOKEN_INFILE || type == TOKEN_OUTFILE
+		|| type == TOKEN_APPEND || type == TOKEN_HEREDOC);
 }
