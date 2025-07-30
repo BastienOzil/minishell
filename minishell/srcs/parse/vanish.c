@@ -6,7 +6,7 @@
 /*   By: bozil <bozil@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 14:11:00 by bozil             #+#    #+#             */
-/*   Updated: 2025/07/30 16:17:47 by bozil            ###   ########.fr       */
+/*   Updated: 2025/07/30 17:02:31 by bozil            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,9 @@ void	vanish_effect(char *temp, const char *ref)
 {
 	t_vanish	vanish;
 
-	vanish.len = strlen(ref);
-	vanish.total = strlen(temp);
-	vanish.prefix_len = strlen("\033[38;5;208m[?] ");
+	vanish.len = ft_strlen(ref);
+	vanish.total = ft_strlen(temp);
+	vanish.prefix_len = ft_strlen("\033[38;5;208m[?] ");
 	vanish.step = 0;
 	while (vanish.step <= vanish.len / 2)
 	{

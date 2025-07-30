@@ -6,7 +6,7 @@
 /*   By: bozil <bozil@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 11:54:21 by bozil             #+#    #+#             */
-/*   Updated: 2025/07/30 16:31:41 by bozil            ###   ########.fr       */
+/*   Updated: 2025/07/30 16:59:31 by bozil            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ static void	print_command_node(t_cmd *node, int depth)
 
 void	print_ast(t_cmd *node, int depth)
 {
-	int i;
+	int	i;
 
 	if (!node)
 		return ;

@@ -6,7 +6,7 @@
 /*   By: bozil <bozil@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 13:03:58 by bozil             #+#    #+#             */
-/*   Updated: 2025/07/30 16:31:26 by bozil            ###   ########.fr       */
+/*   Updated: 2025/07/30 16:57:25 by bozil            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,10 @@ static t_cmd	*create_logical_node(t_cmd *left, t_token_type op_type,
 {
 	t_cmd	*logical;
 
-	logical = new_node(op_type == TOKEN_AND ? NODE_AND : NODE_OR);
+	if (op_type == TOKEN_AND)
+		logical = new_node(NODE_AND);
+	else
+		logical = new_node(NODE_OR);
 	if (!logical)
 	{
 		free_ast(left);

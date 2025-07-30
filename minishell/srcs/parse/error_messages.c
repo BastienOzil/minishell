@@ -6,7 +6,7 @@
 /*   By: bozil <bozil@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 11:44:31 by bozil             #+#    #+#             */
-/*   Updated: 2025/07/30 16:31:52 by bozil            ###   ########.fr       */
+/*   Updated: 2025/07/30 17:04:38 by bozil            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,25 +22,26 @@ int	get_random_index(int max)
 
 static void	display_blinking_message(const char *quote)
 {
-	const char	*prefix = "\033[38;5;208m[?] ";
-	const char	*reset = "\033[0m";
-	const char	*clear = "\033[K";
-	const char	*carriage = "\r";
-	int			j;
-	int			len;
+	t_error	error;
 
-	j = 0;
-	len = strlen(quote);
-	while (j < 100)
+	error.prefix = "\033[38;5;208m[?] ";
+	error.reset = "\033[0m";
+	error.clear = "\033[K";
+	error.carriage = "\r";
+	error.j;
+	error.len;
+	error.j = 0;
+	error.len = strlen(quote);
+	while (error.j < 100)
 	{
-		write(2, clear, strlen(clear));
+		write(2, error.clear, strlen(error.clear));
 		usleep(200);
-		write(2, prefix, strlen(prefix));
-		write(2, quote, len);
-		write(2, reset, strlen(reset));
-		write(2, carriage, strlen(carriage));
+		write(2, error.prefix, strlen(error.prefix));
+		write(2, quote, error.len);
+		write(2, error.reset, strlen(error.reset));
+		write(2, error.carriage, strlen(error.carriage));
 		usleep(10000);
-		j++;
+		error.j++;
 	}
 }
 

@@ -6,7 +6,7 @@
 /*   By: bozil <bozil@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/25 10:00:00 by bozil             #+#    #+#             */
-/*   Updated: 2025/07/30 16:31:23 by bozil            ###   ########.fr       */
+/*   Updated: 2025/07/30 16:53:32 by bozil            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,7 @@
 static void	print_token_error(t_token_type type)
 {
 	if (type == TOKEN_EOF)
-		ft_putstr_fd("minishell: syntax error near unexpected token `newline'\n",
-			2);
+		error_newline();
 	else if (type == TOKEN_PIPE)
 		ft_putstr_fd("minishell: syntax error near unexpected token `|'\n", 2);
 	else if (type == TOKEN_OUTFILE)
