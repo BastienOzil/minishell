@@ -5,43 +5,52 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: bozil <bozil@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/30 10:09:43 by bozil             #+#    #+#             */
-/*   Updated: 2025/07/30 10:09:46 by bozil            ###   ########.fr       */
+/*   Created: 2025/07/30 17:45:09 by bozil             #+#    #+#             */
+/*   Updated: 2025/07/30 18:07:42 by bozil            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/animation.h"
 
-int display_title_char(const char *title, int frame, int i, int j, int *last_sound_index)
+size_t	anim_strlen(const char *str)
 {
-	int title_len;
-	int rows;
-	int cols;
-	int ti;
+	int	i;
 
-	title_len = strlen(title);
-	get_terminal_size(&rows, &cols);
-	if (i == rows / 2 && j >= (cols - title_len) / 2 && j < (cols + title_len) / 2)
+	i = 0;
+	while (str[i] != '\0')
 	{
-		ti = j - (cols - title_len) / 2;
-		if (should_display_title_char(frame, ti))
+		i++;
+	}
+	return (i);
+}
+
+int	display_title_char(t_animation animation)
+{
+	animation.title_len = anim_strlen(animation.title);
+	get_terminal_size(&animation.rows, &animation.cols);
+	if (animation.i == animation.rows / 2 && animation.j >= (animation.cols
+			- animation.title_len) / 2 && animation.j < (animation.cols
+			+ animation.title_len) / 2)
+	{
+		animation.ti = animation.j - (animation.cols - animation.title_len) / 2;
+		if (should_display_title_char(animation.frame, animation.ti))
 		{
 			write(1, "\033[1;92m", 7);
-			write(1, &title[ti], 1);
+			write(1, &animation.title[animation.ti], 1);
 			write(1, "\033[0m", 4);
-			check_title_sound(ti, last_sound_index);
+			check_title_sound(animation.ti, &animation.last_sound_index);
 			return (1);
 		}
 	}
 	return (0);
 }
 
-int should_display_title_char(int frame, int ti)
+int	should_display_title_char(int frame, int ti)
 {
 	return (frame > (ti * 3));
 }
 
-void check_title_sound(int ti, int *last_sound_index)
+void	check_title_sound(int ti, int *last_sound_index)
 {
 	if (ti > *last_sound_index)
 	{
@@ -51,11 +60,11 @@ void check_title_sound(int ti, int *last_sound_index)
 	}
 }
 
-void display_final_title(const char *title)
+void	display_final_title(const char *title)
 {
-	int rows;
-	int cols;
-	int title_len;
+	int	rows;
+	int	cols;
+	int	title_len;
 
 	title_len = strlen(title);
 	get_terminal_size(&rows, &cols);

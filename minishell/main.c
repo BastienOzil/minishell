@@ -6,23 +6,23 @@
 /*   By: bozil <bozil@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 14:14:44 by bozil             #+#    #+#             */
-/*   Updated: 2025/07/30 10:51:37 by bozil            ###   ########.fr       */
+/*   Updated: 2025/07/30 17:22:28 by bozil            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/minishell.h"
 
-int g_exit_status = 0;
+int			g_exit_status = 0;
 
-void init_readline(void)
+void	init_readline(void)
 {
 	rl_bind_key('\t', rl_insert);
 }
 
-static void run_minishell(char **my_env)
+static void	run_minishell(char **my_env)
 {
-	char *line;
-	char *prompt;
+	char	*line;
+	char	*prompt;
 
 	while (1)
 	{
@@ -42,9 +42,9 @@ static void run_minishell(char **my_env)
 	}
 }
 
-int main(int argc, char **argv, char **envp)
+int	main(int argc, char **argv, char **envp)
 {
-	char **my_env;
+	char	**my_env;
 
 	(void)argc;
 	(void)argv;

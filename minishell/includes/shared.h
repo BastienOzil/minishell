@@ -3,17 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   shared.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aurelia <aurelia@student.42.fr>            +#+  +:+       +#+        */
+/*   By: bozil <bozil@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 15:00:02 by bozil             #+#    #+#             */
-/*   Updated: 2025/07/26 17:09:39 by aurelia          ###   ########.fr       */
+/*   Updated: 2025/07/30 17:22:10 by bozil            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef SHARED_H
 # define SHARED_H
 
-// Types de tokens
 typedef enum e_token_type
 {
 	TOKEN_WORD,
@@ -41,7 +40,6 @@ typedef enum e_node_type
 	NODE_SUBSHELL
 }						t_node_type;
 
-// modification du nom cmd pour la fonction free_ast
 typedef struct s_cmd
 {
 	t_node_type			type;
@@ -56,7 +54,6 @@ typedef struct s_cmd
 	struct s_cmd		*next;
 }						t_cmd;
 
-// Structures partagées
 typedef struct s_redir
 {
 	t_token_type		type;
