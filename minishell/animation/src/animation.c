@@ -1,17 +1,29 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   animation.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: bozil <bozil@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/07/30 10:10:14 by bozil             #+#    #+#             */
+/*   Updated: 2025/07/30 10:11:05 by bozil            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/animation.h"
 
-void	launch_animation(void)
+void launch_animation(void)
 {
-	t_animation	anim;
+	t_animation anim;
 
 	init_animation(&anim);
 	run_animation_loop(&anim);
 	display_final_title(TITLE);
 }
 
-void	init_animation(t_animation *anim)
+void init_animation(t_animation *anim)
 {
-	int	title_len;
+	int title_len;
 
 	title_len = strlen(TITLE);
 	srand(time(NULL));
@@ -25,37 +37,3 @@ void	init_animation(t_animation *anim)
 	anim->last_sound_index = -1;
 }
 
-void	run_animation_loop(t_animation *anim)
-{
-	int	i;
-	int	j;
-	int	title_displayed;
-
-	while (anim->frame < anim->max_frames)
-	{
-		clear_screen();
-		if (anim->frame > anim->title_done_frame)
-			anim->post_title_wait++;
-		if (anim->post_title_wait > 10)
-			break ;
-		i = 0;
-		while (i < anim->rows)
-		{
-			move_cursor(i + 1, 1);
-			j = 0;
-			while (j < anim->cols)
-			{
-				title_displayed = display_title_char(TITLE, anim->frame, i, j, &anim->last_sound_index);
-				if (!title_displayed)
-				{
-					draw_matrix_char(anim->screen[i][j], 1, anim->frame, anim->max_frames);
-					update_matrix_char(&anim->screen[i][j]);
-				}
-				j++;
-			}
-			i++;
-		}
-		usleep((anim->frame > anim->fast_forward_frame) ? 10000 : 20000);
-		anim->frame++;
-	}
-}

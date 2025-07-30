@@ -6,21 +6,20 @@
 /*   By: bozil <bozil@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 14:11:00 by bozil             #+#    #+#             */
-/*   Updated: 2025/07/24 14:11:02 by bozil            ###   ########.fr       */
+/*   Updated: 2025/07/30 10:01:44 by bozil            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-// Crée un effet de disparition depuis les bord
-void	vanish_effect(char *temp, const char *ref)
+void vanish_effect(char *temp, const char *ref)
 {
-	int	step;
-	int	len;
-	int	total;
-	int	prefix_len;
-	int	l;
-	int	r;
+	int step;
+	int len;
+	int total;
+	int prefix_len;
+	int l;
+	int r;
 
 	len = strlen(ref);
 	total = strlen(temp);
@@ -37,8 +36,7 @@ void	vanish_effect(char *temp, const char *ref)
 	vanish_write("", 0);
 }
 
-// Remplace les caractères par des espaces
-void	vanish_blank(char *temp, int l, int r)
+void vanish_blank(char *temp, int l, int r)
 {
 	if (l < r)
 	{
@@ -49,11 +47,10 @@ void	vanish_blank(char *temp, int l, int r)
 		temp[l] = ' ';
 }
 
-// Ecrit la chaine puis nettoya la ligne
-void	vanish_write(const char *str, int len)
+void vanish_write(const char *str, int len)
 {
-	const char	*clear = "\033[K";
-	const char	*carriage = "\r";
+	const char *clear = "\033[K";
+	const char *carriage = "\r";
 
 	write(2, clear, strlen(clear));
 	if (len > 0)

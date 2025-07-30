@@ -6,13 +6,13 @@
 /*   By: bozil <bozil@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 12:52:56 by bozil             #+#    #+#             */
-/*   Updated: 2025/07/24 12:58:43 by bozil            ###   ########.fr       */
+/*   Updated: 2025/07/30 09:58:17 by bozil            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-static char	*handle_char(t_lexer *lexer, char *result)
+static char *handle_char(t_lexer *lexer, char *result)
 {
 	if (lexer->input[lexer->i] == '"')
 		result = handle_double_quote(lexer, result);
@@ -25,15 +25,15 @@ static char	*handle_char(t_lexer *lexer, char *result)
 	return (result);
 }
 
-static int	is_end_of_word(char c)
+static int is_end_of_word(char c)
 {
 	return (is_space(c) || is_special_except_quotes_and_dollar(c));
 }
 
-t_token	*get_complex_word(t_lexer *lexer)
+t_token *get_complex_word(t_lexer *lexer)
 {
-	char	*result;
-	int		has_content;
+	char *result;
+	int has_content;
 
 	result = ft_strdup("");
 	has_content = 0;
@@ -48,4 +48,3 @@ t_token	*get_complex_word(t_lexer *lexer)
 		return (free(result), NULL);
 	return (new_token(TOKEN_WORD, result));
 }
-

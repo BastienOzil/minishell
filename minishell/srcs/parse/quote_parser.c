@@ -6,13 +6,12 @@
 /*   By: bozil <bozil@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 14:10:41 by bozil             #+#    #+#             */
-/*   Updated: 2025/07/26 14:55:43 by bozil            ###   ########.fr       */
+/*   Updated: 2025/07/30 10:01:16 by bozil            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-// Lit une chaîne entre guillemets doubles ET effectue l'expansion
 char *get_double_quoted_string(t_lexer *lexer)
 {
 	int start;
@@ -29,22 +28,17 @@ char *get_double_quoted_string(t_lexer *lexer)
 	}
 	if (lexer->input[lexer->i] != '"')
 		return (NULL);
-
-	// Extraire le contenu brut
 	raw_content = ft_substr(lexer->input, start, lexer->i - start);
 	lexer->i++;
 
 	if (!raw_content)
 		return (NULL);
-
-	// Effectuer l'expansion des variables pour les guillemets doubles
 	expanded_content = expand_string(raw_content);
 	free(raw_content);
 
 	return (expanded_content ? expanded_content : ft_strdup(""));
 }
 
-// Lit une chaîne entre guillemets simples (pas d'expansion)
 char *get_single_quoted_string(t_lexer *lexer)
 {
 	int start;
@@ -61,7 +55,6 @@ char *get_single_quoted_string(t_lexer *lexer)
 	return (result);
 }
 
-// Gère les guillemets dans le lexer
 t_token *handle_quotes(t_lexer *lexer)
 {
 	char *value;
@@ -83,7 +76,6 @@ t_token *handle_quotes(t_lexer *lexer)
 	return (NULL);
 }
 
-// Vérifie si c'est un caractère de guillemet
 int is_quote(char c)
 {
 	return (c == '"' || c == '\'');

@@ -6,20 +6,20 @@
 /*   By: bozil <bozil@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 11:53:36 by bozil             #+#    #+#             */
-/*   Updated: 2025/07/29 18:57:56 by bozil            ###   ########.fr       */
+/*   Updated: 2025/07/30 09:57:01 by bozil            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	init_lexer(t_lexer *lexer, char *input)
+void init_lexer(t_lexer *lexer, char *input)
 {
 	lexer->input = input;
 	lexer->i = 0;
 }
 
-static void	add_token_to_list(t_token **tokens, t_token **current,
-		t_token *new_tok)
+static void add_token_to_list(t_token **tokens, t_token **current,
+							  t_token *new_tok)
 {
 	if (!*tokens)
 	{
@@ -33,12 +33,12 @@ static void	add_token_to_list(t_token **tokens, t_token **current,
 	}
 }
 
-t_token	*tokenize(char *input)
+t_token *tokenize(char *input)
 {
-	t_lexer	lexer;
-	t_token	*tokens;
-	t_token	*current;
-	t_token	*new_tok;
+	t_lexer lexer;
+	t_token *tokens;
+	t_token *current;
+	t_token *new_tok;
 
 	init_lexer(&lexer, input);
 	tokens = NULL;
@@ -54,32 +54,30 @@ t_token	*tokenize(char *input)
 		if (new_tok->type == TOKEN_EOF)
 		{
 			add_token_to_list(&tokens, &current, new_tok);
-			break ;
+			break;
 		}
 		add_token_to_list(&tokens, &current, new_tok);
 	}
 	return (tokens);
 }
 
-void	handle_line(char *line, char ***envp)
+void handle_line(char *line, char ***envp)
 {
-	t_token	*tokens;
-	t_cmd	*ast;
+	t_token *tokens;
+	t_cmd *ast;
 
 	if (!line || !*line)
-		return ;
+		return;
 	tokens = tokenize(line);
 	if (!tokens)
-		return ;
+		return;
 	ast = parse(tokens);
 	if (!ast)
 	{
-		ft_putstr_fd("Erreur lors du parsing\n", 2);
 		free_tokens(tokens);
-		return ;
+		return;
 	}
 	execute_all(ast, envp);
 	free_tokens(tokens);
 	free_ast(ast);
 }
-

@@ -11,7 +11,8 @@ SOURCES = animation.c \
 	screen_utils.c \
 	matrix_effects.c \
 	title_display.c \
-	prompt_utils.c
+	prompt_utils.c \
+	run_animation.c
 
 SRCS = $(addprefix $(SRCDIR)/, $(SOURCES))
 OBJS = $(addprefix $(OBJDIR)/, $(SOURCES:.c=.o))

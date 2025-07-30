@@ -6,20 +6,19 @@
 /*   By: bozil <bozil@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 13:57:21 by bozil             #+#    #+#             */
-/*   Updated: 2025/07/29 19:52:41 by bozil            ###   ########.fr       */
+/*   Updated: 2025/07/30 10:00:47 by bozil            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-// Traite les tokens quotés et les ajoute comme arguments
-static void	handle_quoted_token(t_parser *parser, t_cmd *node)
+static void handle_quoted_token(t_parser *parser, t_cmd *node)
 {
-	char	*value;
-	char	*arg;
+	char *value;
+	char *arg;
 
 	if (!parser || !parser->current || !node)
-		return ;
+		return;
 	if (parser->current->type == TOKEN_DQUOTE)
 	{
 		value = expand_string(parser->current->value);
@@ -42,10 +41,9 @@ static void	handle_quoted_token(t_parser *parser, t_cmd *node)
 	advance_token(parser);
 }
 
-// Traite les tokens simples
-static void	handle_word_token(t_parser *parser, t_cmd *node)
+static void handle_word_token(t_parser *parser, t_cmd *node)
 {
-	char	*arg;
+	char *arg;
 
 	arg = ft_strdup(parser->current->value);
 	if (!arg)
@@ -58,11 +56,9 @@ static void	handle_word_token(t_parser *parser, t_cmd *node)
 	advance_token(parser);
 }
 
-// Gère les quotes et redirections
-static void	handle_quote_or_redir(t_parser *parser, t_cmd *node)
+static void handle_quote_or_redir(t_parser *parser, t_cmd *node)
 {
-	if (parser->current->type == TOKEN_DQUOTE
-		|| parser->current->type == TOKEN_SQUOTE)
+	if (parser->current->type == TOKEN_DQUOTE || parser->current->type == TOKEN_SQUOTE)
 		handle_quoted_token(parser, node);
 	else if (is_redir_token(parser->current->type))
 		parse_redir(parser, node);
@@ -70,17 +66,14 @@ static void	handle_quote_or_redir(t_parser *parser, t_cmd *node)
 		advance_token(parser);
 }
 
-// Vérifie fin de commande
-static int	is_end_of_command(t_token_type type)
+static int is_end_of_command(t_token_type type)
 {
-	return (type == TOKEN_PIPE || type == TOKEN_EOF
-		|| type == TOKEN_AND || type == TOKEN_OR);
+	return (type == TOKEN_PIPE || type == TOKEN_EOF || type == TOKEN_AND || type == TOKEN_OR);
 }
 
-// Parse une commande simple avec ses arguments et redirections
-t_cmd	*parse_command(t_parser *parser)
+t_cmd *parse_command(t_parser *parser)
 {
-	t_cmd	*node;
+	t_cmd *node;
 
 	if (!parser || !parser->current)
 		return (NULL);
@@ -90,7 +83,7 @@ t_cmd	*parse_command(t_parser *parser)
 	while (parser->current && !is_end_of_command(parser->current->type))
 	{
 		if (parser->error)
-			break ;
+			break;
 		if (parser->current->type == TOKEN_WORD)
 			handle_word_token(parser, node);
 		else

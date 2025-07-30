@@ -3,19 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   cleanup2.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aurelia <aurelia@student.42.fr>            +#+  +:+       +#+        */
+/*   By: bozil <bozil@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 11:43:44 by bozil             #+#    #+#             */
-/*   Updated: 2025/07/29 22:17:30 by aurelia          ###   ########.fr       */
+/*   Updated: 2025/07/30 09:56:30 by bozil            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void    free_ast(t_cmd *ast)
+void free_ast(t_cmd *ast)
 {
-    t_cmd    *next;
-    int        i;
+    t_cmd *next;
+    int i;
 
     while (ast)
     {
@@ -34,4 +34,4 @@ void    free_ast(t_cmd *ast)
         free(ast);
         ast = next;
     }
-} 
+}

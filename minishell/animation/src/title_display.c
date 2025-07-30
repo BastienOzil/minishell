@@ -1,16 +1,27 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   title_display.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: bozil <bozil@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/07/30 10:09:43 by bozil             #+#    #+#             */
+/*   Updated: 2025/07/30 10:09:46 by bozil            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/animation.h"
 
-int	display_title_char(const char *title, int frame, int i, int j, int *last_sound_index)
+int display_title_char(const char *title, int frame, int i, int j, int *last_sound_index)
 {
-	int	title_len;
-	int	rows;
-	int	cols;
-	int	ti;
+	int title_len;
+	int rows;
+	int cols;
+	int ti;
 
 	title_len = strlen(title);
 	get_terminal_size(&rows, &cols);
-	if (i == rows / 2 && j >= (cols - title_len) / 2 
-		&& j < (cols + title_len) / 2)
+	if (i == rows / 2 && j >= (cols - title_len) / 2 && j < (cols + title_len) / 2)
 	{
 		ti = j - (cols - title_len) / 2;
 		if (should_display_title_char(frame, ti))
@@ -25,12 +36,12 @@ int	display_title_char(const char *title, int frame, int i, int j, int *last_sou
 	return (0);
 }
 
-int	should_display_title_char(int frame, int ti)
+int should_display_title_char(int frame, int ti)
 {
 	return (frame > (ti * 3));
 }
 
-void	check_title_sound(int ti, int *last_sound_index)
+void check_title_sound(int ti, int *last_sound_index)
 {
 	if (ti > *last_sound_index)
 	{
@@ -40,11 +51,11 @@ void	check_title_sound(int ti, int *last_sound_index)
 	}
 }
 
-void	display_final_title(const char *title)
+void display_final_title(const char *title)
 {
-	int	rows;
-	int	cols;
-	int	title_len;
+	int rows;
+	int cols;
+	int title_len;
 
 	title_len = strlen(title);
 	get_terminal_size(&rows, &cols);
