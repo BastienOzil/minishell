@@ -6,7 +6,7 @@
 /*   By: bozil <bozil@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 13:21:23 by bozil             #+#    #+#             */
-/*   Updated: 2025/07/30 16:18:02 by bozil            ###   ########.fr       */
+/*   Updated: 2025/07/30 23:04:34 by bozil            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ t_cmd	*new_node(t_node_type type)
 	node->outfile = NULL;
 	node->append = 0;
 	node->heredoc = NULL;
+	node->heredoc_list = NULL;
 	node->freed = 0;
 	return (node);
 }

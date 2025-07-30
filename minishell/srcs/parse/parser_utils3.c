@@ -6,7 +6,7 @@
 /*   By: bozil <bozil@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 13:21:59 by bozil             #+#    #+#             */
-/*   Updated: 2025/07/30 16:31:14 by bozil            ###   ########.fr       */
+/*   Updated: 2025/07/30 22:52:52 by bozil            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,16 +48,18 @@ static void	handle_output_redir(t_parser *parser, t_cmd *node, int append)
 
 static void	handle_heredoc_redir(t_parser *parser, t_cmd *node)
 {
+	char	*delimiter;
+
 	if (!parser || !parser->current || !node)
 		return ;
+	
+	delimiter = parser->current->value;
+	if (!delimiter)
+		delimiter = parser->tokens->value;
+	add_heredoc_to_list(node, delimiter);
 	if (node->heredoc)
 		free(node->heredoc);
-	if (node->heredoc == NULL && parser->current->value == NULL)
-	{
-		node->heredoc = ft_strdup(parser->tokens->value);
-		return ;
-	}
-	node->heredoc = ft_strdup(parser->tokens->value);
+	node->heredoc = ft_strdup(delimiter);
 }
 
 void	apply_redirection(t_parser *parser, t_cmd *node,

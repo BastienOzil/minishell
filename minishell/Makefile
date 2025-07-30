@@ -25,6 +25,8 @@ SRCS = main.c \
 	srcs/exec/pipe.c \
 	srcs/exec/exec_builtins.c \
 	srcs/exec/heredoc.c \
+	srcs/exec/mult_heredoc.c \
+	srcs/exec/heredoc_utils.c \
 	srcs/exec/pipe/pipe_exec.c \
 	srcs/exec/pipe/pipe_redir.c \
 	srcs/exec/pipe/pipe_run.c \
