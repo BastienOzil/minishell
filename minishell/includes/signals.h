@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aurelia <aurelia@student.42.fr>            +#+  +:+       +#+        */
+/*   By: bozil <bozil@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 14:59:53 by bozil             #+#    #+#             */
-/*   Updated: 2025/07/26 10:08:26 by aurelia          ###   ########.fr       */
+/*   Updated: 2025/07/30 15:24:42 by bozil            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,16 @@ extern int g_exit_status;
 // Codes de signaux
 # define SIGINT_CODE 130
 # define SIGQUIT_CODE 131
+
+typedef struct s_vanish
+{
+	int l;
+    int r;
+    int step;
+    int len;
+    int total;
+    int prefix_len;
+} t_vanish;
 
 // signal_handlers.c
 void							sigint_handler(int sig);
