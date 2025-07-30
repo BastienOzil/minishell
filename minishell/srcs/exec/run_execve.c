@@ -6,7 +6,7 @@
 /*   By: aurelia <aurelia@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 14:57:18 by bozil             #+#    #+#             */
-/*   Updated: 2025/07/30 09:02:35 by aurelia          ###   ########.fr       */
+/*   Updated: 2025/07/30 12:47:28 by aurelia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,6 @@ void	exec_path(t_cmd *cmd, char **envp)
 	}
 	execve(path, cmd->args, envp);
 	free(path);
-	puppetmaster_perror("execve");
+	print_cmd_not_found(cmd->args[0]);
 	exit(EXIT_FAILURE);
 }
