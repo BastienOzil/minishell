@@ -1,26 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipe_exec.c                                        :+:      :+:    :+:   */
+/*   path_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aurelia <aurelia@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/24 14:58:08 by bozil             #+#    #+#             */
-/*   Updated: 2025/07/29 23:10:06 by aurelia          ###   ########.fr       */
+/*   Created: 2025/07/29 19:28:10 by bozil             #+#    #+#             */
+/*   Updated: 2025/07/30 09:11:53 by aurelia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	run_child_process(t_cmd *cmd, int in_fd, int pipefd[2], char **envp)
+char	*get_path_var(char **envp)
 {
-	if (in_fd != 0)
-		redirect_fd(in_fd, STDIN_FILENO);
-	if (cmd && cmd->next)
+	int	i;
+
+	i = 0;
+	while (envp[i])
 	{
-		redirect_fd(pipefd[1], STDOUT_FILENO);
-		close_unused_fds(pipefd);
+		if (ft_strncmp(envp[i], "PATH=", 5) == 0)
+			return (envp[i] + 5);
+		i++;
 	}
-	exec_path(cmd, envp);
-	exit(0);
+	return (NULL);
+}
+
+char	*join_path(char *dir, char *cmd)
+{
+	char	*tmp;
+	char	*full;
+
+	tmp = ft_strjoin(dir, "/");
+	if (!tmp)
+		return (NULL);
+	full = ft_strjoin(tmp, cmd);
+	free(tmp);
+	return (full);
 }

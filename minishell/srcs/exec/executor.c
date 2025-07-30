@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bozil <bozil@student.42.fr>                +#+  +:+       +#+        */
+/*   By: aurelia <aurelia@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 14:57:28 by bozil             #+#    #+#             */
-/*   Updated: 2025/07/28 11:21:40 by bozil            ###   ########.fr       */
+/*   Updated: 2025/07/29 23:10:06 by aurelia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void	execute_external_cmd(t_cmd *cmd, char ***envp)
 		if (exec_output_redirection(cmd) == -1)
 			return ;
 	}
-	execute_command(cmd, *envp);
+	exec_path(cmd, *envp);
 }
 
 void	execute_fork_and_wait(t_cmd *cmd, char ***envp)

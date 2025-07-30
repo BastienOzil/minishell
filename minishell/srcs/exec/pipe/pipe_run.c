@@ -6,7 +6,7 @@
 /*   By: aurelia <aurelia@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 14:58:15 by bozil             #+#    #+#             */
-/*   Updated: 2025/07/29 21:26:57 by aurelia          ###   ########.fr       */
+/*   Updated: 2025/07/29 23:10:06 by aurelia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	child_exec(t_cmd *cmd, int in_fd, int pipefd[2], char ***envp)
 		code = exec_builtin(cmd, envp);
 		exit(code);
 	}
-	execute_command(cmd, *envp);
+	exec_path(cmd, *envp);
 	puppetmaster_perror(cmd->args[0]);
 	exit(127);
 }

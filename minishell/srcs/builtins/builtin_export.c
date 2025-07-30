@@ -3,75 +3,67 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_export.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bozil <bozil@student.42.fr>                +#+  +:+       +#+        */
+/*   By: aurelia <aurelia@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/24 14:59:03 by bozil             #+#    #+#             */
-/*   Updated: 2025/07/29 19:01:57 by bozil            ###   ########.fr       */
+/*   Created: 2025/07/26 15:38:57 by bozil             #+#    #+#             */
+/*   Updated: 2025/07/30 10:20:08 by aurelia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int export_empty(char ***envp)
+int	handle_single_export_arg(char *arg, char ***envp)
 {
-	int i;
+	char	*var_name;
 
-	i = 0;
-	while ((*envp)[i])
+	if (!is_valid_identifier(arg))
 	{
-		printf("declare -x %s\n", (*envp)[i]);
-		i++;
+		write(STDERR_FILENO, "minishell: export: `", 20);
+		write(STDERR_FILENO, arg, ft_strlen(arg));
+		write(STDERR_FILENO, "': not a valid identifier\n", 26);
+		return (1);
 	}
+	var_name = get_var_name_from_export(arg);
+	if (!var_name)
+		return (1);
+	if (ft_strchr(arg, '='))
+	{
+		if (is_var_exist(var_name, envp))
+			replace_val(arg, envp);
+		else
+			add_var(envp, arg);
+	}
+	else
+	{
+	}
+	free(var_name);
 	return (0);
 }
 
-int is_valid_identifier(char *str)
+int	export_builtin(char **args, char ***envp)
 {
-	int i;
+	int	i;
+	int	exit_code;
 
-	if (!str || !str[0])
-		return (0);
-	if (!ft_isalpha(str[0]) && str[0] != '_')
-		return (0);
+	if (!args[1])
+		return (export_empty(envp));
+	exit_code = 0;
 	i = 1;
-	while (str[i] && str[i] != '=')
+	while (args[i])
 	{
-		if (!ft_isalnum(str[i]) && str[i] != '_')
-			return (0);
+		if (handle_single_export_arg(args[i], envp) != 0)
+			exit_code = 1;
 		i++;
 	}
-	return (1);
+	return (exit_code);
 }
 
-char *get_var_name_from_export(char *str)
+void	free_envp(char ***envp)
 {
-	int i;
-	int size_var;
-	char *var;
-
-	i = 0;
-	size_var = 0;
-
-	while (str[i] && str[i] != '=')
-	{
-		size_var++;
-		i++;
-	}
-
-	var = malloc(size_var + 1);
-	if (!var)
-		return (NULL);
-	ft_memcpy(var, str, size_var);
-	var[size_var] = '\0';
-	return (var);
-}
-
-void free_envp(char ***envp)
-{
-	int i;
+	int	i;
 
 	if (!envp || !(*envp))
-		return;
+		return ;
 	i = 0;
 	while ((*envp)[i])
 	{
@@ -80,34 +72,4 @@ void free_envp(char ***envp)
 	}
 	free(*envp);
 	*envp = NULL;
-}
-
-void	replace_val(char *arg, char ***envp)
-{
-	int		i;
-	int		len;
-	char	*var;
-	char	*new_val;
-
-	var = get_var_name_from_export(arg);
-	if (!var)
-		return ;
-	new_val = ft_strdup(arg);
-	if (!new_val)
-	{
-		free(var);
-		return ;
-	}
-	len = ft_strlen(var);
-	i = 0;
-	while ((*envp)[i])
-	{
-		if (ft_strncmp((*envp)[i], var, len) == 0 && (*envp)[i][len] == '=')
-		{
-			free((*envp)[i]);
-			(*envp)[i] = new_val;
-			break ;
-		}
-		i++;
-	}
 }

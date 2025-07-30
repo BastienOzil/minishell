@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   redirect3.c                                        :+:      :+:    :+:   */
+/*   redir_output.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bozil <bozil@student.42.fr>                +#+  +:+       +#+        */
+/*   By: aurelia <aurelia@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/26 20:01:55 by bozil             #+#    #+#             */
-/*   Updated: 2025/07/28 11:21:29 by bozil            ###   ########.fr       */
+/*   Created: 2025/07/24 14:57:48 by bozil             #+#    #+#             */
+/*   Updated: 2025/07/30 09:39:22 by aurelia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static int	is_cmd_valid(t_cmd *cmd)
 	return (1);
 }
 
-static void	handle_output_error(t_cmd *cmd, const char *file)
+void	handle_output_error(t_cmd *cmd, const char *file)
 {
 	if (is_builtin(cmd->args[0]))
 	{
@@ -48,7 +48,7 @@ static void	handle_dup2_error(t_cmd *cmd, int fd)
 	exit(EXIT_FAILURE);
 }
 
-int	exec_append_redirection(t_cmd *cmd)
+int	exec_output_redirection(t_cmd *cmd)
 {
 	int	fd;
 
@@ -59,10 +59,10 @@ int	exec_append_redirection(t_cmd *cmd)
 			g_exit_status = 1;
 			return (-1);
 		}
-		puppetmaster_perror("invalid command or outfile for append");
+		puppetmaster_perror("invalid command or outfile");
 		exit(EXIT_FAILURE);
 	}
-	fd = open(cmd->outfile, O_WRONLY | O_CREAT | O_APPEND, 0644);
+	fd = open(cmd->outfile, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (fd == -1)
 	{
 		handle_output_error(cmd, cmd->outfile);

@@ -17,11 +17,12 @@ ANIMATION_DIR = animation
 
 SRCS = main.c \
 	srcs/exec/executor.c \
-	srcs/exec/exec_utils.c \
-	srcs/exec/exec_utils2.c \
-	srcs/exec/redirect.c \
-	srcs/exec/redirect2.c \
-	srcs/exec/redirect3.c \
+	srcs/exec/exec_path.c \
+	srcs/exec/path_utils.c \
+	srcs/exec/run_execve.c \
+	srcs/exec/redir_output.c \
+	srcs/exec/redir_input.c \
+	srcs/exec/redir_append.c \
 	srcs/exec/pipe.c \
 	srcs/exec/exec_builtins.c \
 	srcs/exec/heredoc.c \
@@ -54,17 +55,17 @@ SRCS = main.c \
 	srcs/parse/utils.c \
 	srcs/parse/vanish.c \
 	srcs/parse/wildcard.c \
+	srcs/builtins/cd_utils.c \
 	srcs/builtins/builtin_cd.c \
-	srcs/builtins/builtin_cd2.c \
 	srcs/builtins/builtin_echo.c \
 	srcs/builtins/builtin_env.c \
 	srcs/builtins/builtin_exit.c \
+	srcs/builtins/export_utils.c \
 	srcs/builtins/builtin_export.c \
-	srcs/builtins/builtin_export2.c \
 	srcs/builtins/builtin_pwd.c \
 	srcs/builtins/builtin_unset.c \
-	srcs/builtins/builtin_utils.c \
-	srcs/builtins/builtin_utils2.c \
+	srcs/builtins/env_util.c \
+	srcs/builtins/env_dup.c \
 	srcs/signals/signal_handler.c \
 	srcs/signals/signal_setup.c \
 	srcs/signals/signal_setup2.c \

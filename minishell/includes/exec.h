@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bozil <bozil@student.42.fr>                +#+  +:+       +#+        */
+/*   By: aurelia <aurelia@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 15:00:22 by bozil             #+#    #+#             */
-/*   Updated: 2025/07/28 11:26:36 by bozil            ###   ########.fr       */
+/*   Updated: 2025/07/30 09:33:09 by aurelia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,15 @@
 
 #include "shared.h"
 
-// exec_utils.c
-void ft_free_split(char **split);
+// run_execve.c
+void exec_path(t_cmd *cmd, char **envp);
+
+//path_utils.c
 char *get_path_var(char **envp);
 char *join_path(char *dir, char *cmd);
+
+// exec_path.c
+void ft_free_split(char **split);
 char *find_path(char *cmd, char **envp);
 
 // executor.c
@@ -28,9 +33,10 @@ void execute_cmd(t_cmd *cmd, char ***envp);
 void execute_all(t_cmd *cmd, char ***envp);
 
 // redirect.c
-int exec_output_redirection(t_cmd *cmd);
-int exec_input_redirection(t_cmd *cmd);
-int exec_append_redirection(t_cmd *cmd);
+int     exec_output_redirection(t_cmd *cmd);
+int     exec_input_redirection(t_cmd *cmd);
+int     exec_append_redirection(t_cmd *cmd);
+void	handle_output_error(t_cmd *cmd, const char *file);
 
 //______pipe_____
 // pipe_utils.c
@@ -40,7 +46,6 @@ int redirect_fd(int input_fd, int output_fd);
 void close_unused_fds(int pipefd[2]);
 
 // pipe_exec.c
-void execute_command(t_cmd *cmd, char **envp);
 void run_child_process(t_cmd *cmd, int in_fd, int pipefd[2], char **envp);
 
 // pipe_redir.c
