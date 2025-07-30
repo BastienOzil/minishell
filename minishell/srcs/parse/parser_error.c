@@ -6,7 +6,7 @@
 /*   By: bozil <bozil@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/25 10:00:00 by bozil             #+#    #+#             */
-/*   Updated: 2025/07/29 20:16:44 by bozil            ###   ########.fr       */
+/*   Updated: 2025/07/30 09:58:36 by bozil            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ int check_multiple_input(t_cmd *node, t_token_type type)
     (void)type;
     return (1);
 }
- 
+
 int check_multiple_output(t_cmd *node, t_token_type type)
 {
     (void)node;

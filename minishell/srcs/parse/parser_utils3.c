@@ -6,15 +6,14 @@
 /*   By: bozil <bozil@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 13:21:59 by bozil             #+#    #+#             */
-/*   Updated: 2025/07/26 20:13:18 by bozil            ###   ########.fr       */
+/*   Updated: 2025/07/30 09:59:42 by bozil            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-// Valide la syntaxe de redirection
-int	validate_redir_syntax(t_parser *parser, t_cmd *node,
-		t_token_type redir_type)
+int validate_redir_syntax(t_parser *parser, t_cmd *node,
+						  t_token_type redir_type)
 {
 	if (!validate_redir_token(parser))
 		return (0);
@@ -25,23 +24,21 @@ int	validate_redir_syntax(t_parser *parser, t_cmd *node,
 	return (1);
 }
 
-// Redirige l'entrée et met a jour la boucle
-static void	handle_input_redir(t_parser *parser, t_cmd *node)
+static void handle_input_redir(t_parser *parser, t_cmd *node)
 {
 	if (!parser || !parser->current || !node)
-		return ;
+		return;
 	if (node->infile)
 		free(node->infile);
 	node->infile = ft_strdup(parser->current->value);
 }
 
-// Gère les redirections de sortie et met a jour la boucle
-static void	handle_output_redir(t_parser *parser, t_cmd *node, int append)
+static void handle_output_redir(t_parser *parser, t_cmd *node, int append)
 {
 	if (!parser || !parser->current || !parser->current->value)
 	{
 		ft_putstr_fd("minishell: redirection error\n", 2);
-		return ;
+		return;
 	}
 	if (node->outfile)
 		free(node->outfile);
@@ -49,22 +46,20 @@ static void	handle_output_redir(t_parser *parser, t_cmd *node, int append)
 	node->append = append;
 }
 
-// Gère un heredoc et met a jour la boucle
-static void	handle_heredoc_redir(t_parser *parser, t_cmd *node)
+static void handle_heredoc_redir(t_parser *parser, t_cmd *node)
 {
 	if (!parser || !parser->current || !node)
-		return ;
+		return;
 	if (node->heredoc)
 		free(node->heredoc);
 	node->heredoc = ft_strdup(parser->current->value);
 }
 
-// Applique la redirection selon son type
-void	apply_redirection(t_parser *parser, t_cmd *node,
-		t_token_type redir_type)
+void apply_redirection(t_parser *parser, t_cmd *node,
+					   t_token_type redir_type)
 {
 	if (!parser || !node)
-		return ;
+		return;
 	if (redir_type == TOKEN_INFILE)
 		handle_input_redir(parser, node);
 	else if (redir_type == TOKEN_OUTFILE)
@@ -74,5 +69,3 @@ void	apply_redirection(t_parser *parser, t_cmd *node,
 	else if (redir_type == TOKEN_HEREDOC)
 		handle_heredoc_redir(parser, node);
 }
-
-

@@ -6,14 +6,13 @@
 /*   By: bozil <bozil@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 14:11:10 by bozil             #+#    #+#             */
-/*   Updated: 2025/07/24 14:11:12 by bozil            ###   ########.fr       */
+/*   Updated: 2025/07/30 10:02:00 by bozil            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-// Vérifie si un motif correspond à une chaîne
-int	match_pattern(char *pattern, char *str)
+int match_pattern(char *pattern, char *str)
 {
 	if (!*pattern && !*str)
 		return (1);
@@ -30,12 +29,11 @@ int	match_pattern(char *pattern, char *str)
 	return (0);
 }
 
-// Compte les fichiers correspondant au motif
-int	count_matches(char *pattern)
+int count_matches(char *pattern)
 {
-	DIR				*dir;
-	struct dirent	*entry;
-	int				count;
+	DIR *dir;
+	struct dirent *entry;
+	int count;
 
 	dir = opendir(".");
 	if (!dir)
@@ -52,13 +50,12 @@ int	count_matches(char *pattern)
 	return (count);
 }
 
-// Remplit un tableau avec les fichiers correspondants
-char	**fill_matches(char *pattern, int count)
+char **fill_matches(char *pattern, int count)
 {
-	DIR				*dir;
-	struct dirent	*entry;
-	char			**matches;
-	int				i;
+	DIR *dir;
+	struct dirent *entry;
+	char **matches;
+	int i;
 
 	matches = malloc(sizeof(char *) * (count + 1));
 	if (!matches)
@@ -79,11 +76,10 @@ char	**fill_matches(char *pattern, int count)
 	return (matches);
 }
 
-// Expanse les wildcards dans un token
-char	**expand_wildcard(char *pattern)
+char **expand_wildcard(char *pattern)
 {
-	int		count;
-	char	**matches;
+	int count;
+	char **matches;
 
 	if (!ft_strchr(pattern, '*'))
 		return (NULL);

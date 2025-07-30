@@ -6,7 +6,7 @@
 /*   By: bozil <bozil@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 12:15:32 by bozil             #+#    #+#             */
-/*   Updated: 2025/07/29 19:17:43 by bozil            ###   ########.fr       */
+/*   Updated: 2025/07/30 09:58:09 by bozil            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,6 @@ char *handle_single_quote(t_lexer *lexer, char *result)
 	return (result);
 }
 
-// Gérer le $ isolé
 char *handle_variable2(t_lexer *lexer, char *result)
 {
 	char *var_name;
