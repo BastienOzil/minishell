@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   prompt_utils.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: bozil <bozil@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/07/30 10:09:34 by bozil             #+#    #+#             */
+/*   Updated: 2025/07/30 10:09:38 by bozil            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/animation.h"
 
-void	slow_type_prompt(const char *str)
+void slow_type_prompt(const char *str)
 {
 	while (*str)
 	{

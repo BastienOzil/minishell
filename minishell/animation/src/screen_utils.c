@@ -1,15 +1,27 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   screen_utils.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: bozil <bozil@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/07/30 10:09:53 by bozil             #+#    #+#             */
+/*   Updated: 2025/07/30 10:09:55 by bozil            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/animation.h"
 
-void	clear_screen(void)
+void clear_screen(void)
 {
 	write(1, "\033[2J", 4);
 	move_cursor(1, 1);
 }
 
-void	move_cursor(int row, int col)
+void move_cursor(int row, int col)
 {
-	char	buf[32];
-	int		i;
+	char buf[32];
+	int i;
 
 	i = 0;
 	buf[i++] = 27;
@@ -21,12 +33,12 @@ void	move_cursor(int row, int col)
 	write(1, buf, i);
 }
 
-int	int_to_str(int n, char *str)
+int int_to_str(int n, char *str)
 {
-	int		len;
-	int		temp;
-	char	reverse[10];
-	int		i;
+	int len;
+	int temp;
+	char reverse[10];
+	int i;
 
 	len = 0;
 	temp = n;
@@ -50,11 +62,17 @@ int	int_to_str(int n, char *str)
 	return (len);
 }
 
-void	get_terminal_size(int *rows, int *cols)
+void get_terminal_size(int *rows, int *cols)
 {
-	struct winsize	w;
+	struct winsize w;
 
 	ioctl(1, TIOCGWINSZ, &w);
-	*rows = (w.ws_row < MAX_ROWS) ? w.ws_row : MAX_ROWS;
-	*cols = (w.ws_col < MAX_COLS) ? w.ws_col : MAX_COLS;
+	if (w.ws_row < MAX_ROWS)
+		*rows = w.ws_row;
+	else
+		*rows = MAX_ROWS;
+	if (w.ws_col < MAX_COLS)
+		*cols = w.ws_col;
+	else
+		*cols = MAX_COLS;
 }

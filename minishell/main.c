@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aurelia <aurelia@student.42.fr>            +#+  +:+       +#+        */
+/*   By: bozil <bozil@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 14:14:44 by bozil             #+#    #+#             */
-/*   Updated: 2025/07/26 10:25:09 by aurelia          ###   ########.fr       */
+/*   Updated: 2025/07/30 10:13:12 by bozil            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ int	main(int argc, char **argv, char **envp)
 	(void)argc;
 	(void)argv;
 	my_env = dup_env(envp);
-	//launch_animation();
+	launch_animation();
 	if (!my_env)
 	{
 		perror("minishell: dup_env failed");
