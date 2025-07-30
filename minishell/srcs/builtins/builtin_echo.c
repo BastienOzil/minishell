@@ -3,38 +3,71 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_echo.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bozil <bozil@student.42.fr>                +#+  +:+       +#+        */
+/*   By: aurelia <aurelia@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 14:58:39 by bozil             #+#    #+#             */
-/*   Updated: 2025/07/24 14:58:40 by bozil            ###   ########.fr       */
+/*   Updated: 2025/07/30 16:44:49 by aurelia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
+static int	parse_options(char **args, int *newline, int *interpret_escapes)
+{
+	int	i;
+
+	i = 1;
+	while (args[i] && args[i][0] == '-')
+	{
+		if (ft_strcmp(args[i], "-e") == 0)
+		{
+			*interpret_escapes = 1;
+			i++;
+		}
+		else if (is_valid_n_option(args[i]))
+		{
+			*newline = 0;
+			i++;
+		}
+		else
+			break ;
+	}
+	return (i);
+}
+
+static void	print_with_escapes(char *arg)
+{
+	char	*temp;
+
+	temp = ft_strdup(arg);
+	if (temp)
+	{
+		process_escape_sequences(temp);
+		write(1, temp, ft_strlen(temp));
+		free(temp);
+	}
+	else
+		write(1, arg, ft_strlen(arg));
+}
+
 int	echo_builtin(char **args)
 {
 	int	i;
-	int	j;
 	int	newline;
+	int	interpret_escapes;
 
-	i = 1;
 	newline = 1;
-	while (args[i] && args[i][0] == '-' && args[i][1] == 'n')
-	{
-		j = 1;
-		while (args[i][j] == 'n')
-			j++;
-		if (args[i][j])
-			break ;
-		newline = 0;
-		i++;
-	}
+	interpret_escapes = 0;
+	i = parse_options(args, &newline, &interpret_escapes);
 	while (args[i])
 	{
-		write(1, args[i], ft_strlen(args[i]));
-		if (args[i++ + 1])
+		if (interpret_escapes)
+			print_with_escapes(args[i]);
+		else
+			write(1, args[i], ft_strlen(args[i]));
+		if (args[i + 1])
 			write(1, " ", 1);
+		i++;
 	}
 	if (newline)
 		write(1, "\n", 1);

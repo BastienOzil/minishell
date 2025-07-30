@@ -6,7 +6,7 @@
 /*   By: aurelia <aurelia@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 19:28:10 by bozil             #+#    #+#             */
-/*   Updated: 2025/07/30 09:11:53 by aurelia          ###   ########.fr       */
+/*   Updated: 2025/07/30 16:29:31 by aurelia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,11 @@ char	*join_path(char *dir, char *cmd)
 	char	*tmp;
 	char	*full;
 
+	if (ft_strcmp(dir, ".") == 0)
+	{
+		tmp = ft_strjoin("./", cmd);
+		return (tmp);
+	}
 	tmp = ft_strjoin(dir, "/");
 	if (!tmp)
 		return (NULL);

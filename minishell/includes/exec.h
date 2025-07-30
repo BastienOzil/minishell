@@ -6,7 +6,7 @@
 /*   By: aurelia <aurelia@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 15:00:22 by bozil             #+#    #+#             */
-/*   Updated: 2025/07/30 09:33:09 by aurelia          ###   ########.fr       */
+/*   Updated: 2025/07/30 16:42:16 by aurelia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,11 @@
 #define EXEC_H
 
 #include "shared.h"
+
+//echo_utils.c
+char	process_escape_char(char c);
+void	process_escape_sequences(char *str);
+int		is_valid_n_option(char *arg);
 
 // run_execve.c
 void exec_path(t_cmd *cmd, char **envp);

@@ -58,6 +58,7 @@ SRCS = main.c \
 	srcs/builtins/cd_utils.c \
 	srcs/builtins/builtin_cd.c \
 	srcs/builtins/builtin_echo.c \
+	srcs/builtins/echo_utils.c \
 	srcs/builtins/builtin_env.c \
 	srcs/builtins/builtin_exit.c \
 	srcs/builtins/export_utils.c \
