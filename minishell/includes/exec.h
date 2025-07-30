@@ -6,7 +6,7 @@
 /*   By: bozil <bozil@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 15:00:22 by bozil             #+#    #+#             */
-/*   Updated: 2025/07/28 11:26:36 by bozil            ###   ########.fr       */
+/*   Updated: 2025/07/30 22:40:06 by bozil            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,46 +15,56 @@
 
 #include "shared.h"
 
-// exec_utils.c
-void ft_free_split(char **split);
+/* echo_utils.c */
+char process_escape_char(char c);
+void process_escape_sequences(char *str);
+int is_valid_n_option(char *arg);
+
+/* run_execve.c */
+void exec_path(t_cmd *cmd, char **envp);
+
+/* path_utils.c */
 char *get_path_var(char **envp);
 char *join_path(char *dir, char *cmd);
+
+/* exec_path.c */
+void ft_free_split(char **split);
 char *find_path(char *cmd, char **envp);
 
-// executor.c
+/* executor.c */
 void execute_builtin_with_redirs(t_cmd *cmd, char ***envp);
 void execute_external_cmd(t_cmd *cmd, char ***envp);
 void execute_cmd(t_cmd *cmd, char ***envp);
 void execute_all(t_cmd *cmd, char ***envp);
 
-// redirect.c
+/* redirect.c */
 int exec_output_redirection(t_cmd *cmd);
 int exec_input_redirection(t_cmd *cmd);
 int exec_append_redirection(t_cmd *cmd);
+void handle_output_error(t_cmd *cmd, const char *file);
 
-//______pipe_____
-// pipe_utils.c
+/*______pipe_____*/
+/* pipe_utils.c */
 int create_pipe(int pipefd[2]);
 pid_t create_child_process(void);
 int redirect_fd(int input_fd, int output_fd);
 void close_unused_fds(int pipefd[2]);
 
-// pipe_exec.c
-void execute_command(t_cmd *cmd, char **envp);
+/* pipe_exec.c */
 void run_child_process(t_cmd *cmd, int in_fd, int pipefd[2], char **envp);
 
-// pipe_redir.c
+/* pipe_redir.c */
 int handle_redirections(t_cmd *cmd);
 
-// pipe_run.c
+/* pipe_run.c */
 void child_exec(t_cmd *cmd, int in_fd, int pipefd[2], char ***envp);
 void handle_parent(t_cmd *cmd, int *in_fd, int pipefd[2]);
 void wait_and_set_exit_status(pid_t last_pid);
 
-// pipe.c
+/* pipe.c */
 void execute_pipeline(t_cmd *cmd_list, char ***envp);
 
-// builtins
+/* builtins */
 int echo_builtin(char **args);
 void print_cd_error(char *path);
 int is_directory(char *path);
@@ -80,14 +90,22 @@ int is_directory(char *path);
 void print_cd_error(char *path);
 int count_args_cd(char **args);
 
-// exec_builtin.c
+/* exec_builtin.c */
 int is_builtin(const char *cmd);
 int exec_builtin(t_cmd *cmd, char ***envp);
 
-// heredoc.c
+/* heredoc.c */
 int open_tmp_heredoc(char *template_path);
 int write_heredoc_lines(int fd, const char *delimiter);
 int redirect_stdin_from_tmp(const char *path);
 void exec_heredoc(t_cmd *cmd);
+
+/* multi_heredoc.c */
+void exec_multiple_heredocs(t_cmd *cmd);
+
+/* heredoc_utils.c */
+t_heredoc *create_heredoc_node(const char *delimiter);
+void free_heredoc_list(t_heredoc *list);
+void add_heredoc_to_list(t_cmd *node, const char *delimiter);
 
 #endif

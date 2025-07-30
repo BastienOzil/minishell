@@ -6,7 +6,7 @@
 /*   By: bozil <bozil@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 10:11:17 by bozil             #+#    #+#             */
-/*   Updated: 2025/07/30 10:11:36 by bozil            ###   ########.fr       */
+/*   Updated: 2025/07/30 18:07:03 by bozil            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,7 @@ static void	draw_row_chars(t_animation *anim, int i)
 	j = 0;
 	while (j < anim->cols)
 	{
-		title_displayed = display_title_char(TITLE, anim->frame, i, j,
-				&anim->last_sound_index);
+		title_displayed = display_title_char(*anim);
 		if (!title_displayed)
 		{
 			draw_matrix_char(anim->screen[i][j], 1, anim->frame,

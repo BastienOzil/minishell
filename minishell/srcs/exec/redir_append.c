@@ -1,27 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   redirect2.c                                        :+:      :+:    :+:   */
+/*   redir_append.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bozil <bozil@student.42.fr>                +#+  +:+       +#+        */
+/*   By: aurelia <aurelia@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/26 19:55:58 by bozil             #+#    #+#             */
-/*   Updated: 2025/07/28 11:21:02 by bozil            ###   ########.fr       */
+/*   Created: 2025/07/26 20:01:55 by bozil             #+#    #+#             */
+/*   Updated: 2025/07/30 09:33:37 by aurelia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-static void	handle_input_error(t_cmd *cmd, const char *file)
+static int	is_cmd_valid(t_cmd *cmd)
 {
-	ft_putstr_fd("minishell: ", 2);
-	perror(file);
-	if (is_builtin(cmd->args[0]))
+	if (!cmd)
 	{
-		g_exit_status = 1;
-		return ;
+		puppetmaster_perror("cmd is NULL");
+		return (0);
 	}
-	exit(EXIT_FAILURE);
+	return (1);
 }
 
 static void	handle_dup2_error(t_cmd *cmd, int fd)
@@ -37,17 +35,27 @@ static void	handle_dup2_error(t_cmd *cmd, int fd)
 	exit(EXIT_FAILURE);
 }
 
-int	exec_input_redirection(t_cmd *cmd)
+int	exec_append_redirection(t_cmd *cmd)
 {
 	int	fd;
 
-	fd = open(cmd->infile, O_RDONLY);
+	if (!is_cmd_valid(cmd) || !cmd->outfile)
+	{
+		if (is_builtin(cmd->args[0]))
+		{
+			g_exit_status = 1;
+			return (-1);
+		}
+		puppetmaster_perror("invalid command or outfile for append");
+		exit(EXIT_FAILURE);
+	}
+	fd = open(cmd->outfile, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	if (fd == -1)
 	{
-		handle_input_error(cmd, cmd->infile);
+		handle_output_error(cmd, cmd->outfile);
 		return (-1);
 	}
-	if (dup2(fd, STDIN_FILENO) == -1)
+	if (dup2(fd, STDOUT_FILENO) == -1)
 	{
 		handle_dup2_error(cmd, fd);
 		return (-1);

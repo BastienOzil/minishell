@@ -6,15 +6,15 @@
 /*   By: bozil <bozil@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 11:44:21 by bozil             #+#    #+#             */
-/*   Updated: 2025/07/30 09:56:17 by bozil            ###   ########.fr       */
+/*   Updated: 2025/07/30 16:31:57 by bozil            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void free_redir(t_redir *redir)
+void	free_redir(t_redir *redir)
 {
-	t_redir *tmp;
+	t_redir	*tmp;
 
 	while (redir)
 	{
@@ -26,10 +26,10 @@ void free_redir(t_redir *redir)
 	}
 }
 
-void free_tokens(t_token *tokens)
+void	free_tokens(t_token *tokens)
 {
-	t_token *current;
-	t_token *next;
+	t_token	*current;
+	t_token	*next;
 
 	current = tokens;
 	while (current)
@@ -42,12 +42,12 @@ void free_tokens(t_token *tokens)
 	}
 }
 
-void free_args(char **args)
+void	free_args(char **args)
 {
-	int i;
+	int	i;
 
 	if (!args)
-		return;
+		return ;
 	i = 0;
 	while (args[i])
 	{
@@ -57,12 +57,12 @@ void free_args(char **args)
 	free(args);
 }
 
-void free_array(char **arr)
+void	free_array(char **arr)
 {
-	int i;
+	int	i;
 
 	if (!arr)
-		return;
+		return ;
 	i = 0;
 	while (arr[i])
 	{
@@ -72,7 +72,7 @@ void free_array(char **arr)
 	free(arr);
 }
 
-void cleanup_all(t_token *tokens, t_cmd *ast, char **env_copy)
+void	cleanup_all(t_token *tokens, t_cmd *ast, char **env_copy)
 {
 	if (tokens)
 		free_tokens(tokens);

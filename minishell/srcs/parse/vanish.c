@@ -6,37 +6,32 @@
 /*   By: bozil <bozil@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 14:11:00 by bozil             #+#    #+#             */
-/*   Updated: 2025/07/30 10:01:44 by bozil            ###   ########.fr       */
+/*   Updated: 2025/07/30 17:02:31 by bozil            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void vanish_effect(char *temp, const char *ref)
+void	vanish_effect(char *temp, const char *ref)
 {
-	int step;
-	int len;
-	int total;
-	int prefix_len;
-	int l;
-	int r;
+	t_vanish	vanish;
 
-	len = strlen(ref);
-	total = strlen(temp);
-	prefix_len = strlen("\033[38;5;208m[?] ");
-	step = 0;
-	while (step <= len / 2)
+	vanish.len = ft_strlen(ref);
+	vanish.total = ft_strlen(temp);
+	vanish.prefix_len = ft_strlen("\033[38;5;208m[?] ");
+	vanish.step = 0;
+	while (vanish.step <= vanish.len / 2)
 	{
-		l = prefix_len + step;
-		r = prefix_len + len - step - 1;
-		vanish_blank(temp, l, r);
-		vanish_write(temp, total);
-		step++;
+		vanish.l = vanish.prefix_len + vanish.step;
+		vanish.r = vanish.prefix_len + vanish.len - vanish.step - 1;
+		vanish_blank(temp, vanish.l, vanish.r);
+		vanish_write(temp, vanish.total);
+		vanish.step++;
 	}
 	vanish_write("", 0);
 }
 
-void vanish_blank(char *temp, int l, int r)
+void	vanish_blank(char *temp, int l, int r)
 {
 	if (l < r)
 	{
@@ -47,10 +42,10 @@ void vanish_blank(char *temp, int l, int r)
 		temp[l] = ' ';
 }
 
-void vanish_write(const char *str, int len)
+void	vanish_write(const char *str, int len)
 {
-	const char *clear = "\033[K";
-	const char *carriage = "\r";
+	const char	*clear = "\033[K";
+	const char	*carriage = "\r";
 
 	write(2, clear, strlen(clear));
 	if (len > 0)

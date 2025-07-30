@@ -6,13 +6,13 @@
 /*   By: bozil <bozil@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 14:11:10 by bozil             #+#    #+#             */
-/*   Updated: 2025/07/30 10:02:00 by bozil            ###   ########.fr       */
+/*   Updated: 2025/07/30 15:14:03 by bozil            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-int match_pattern(char *pattern, char *str)
+int	match_pattern(char *pattern, char *str)
 {
 	if (!*pattern && !*str)
 		return (1);
@@ -29,11 +29,11 @@ int match_pattern(char *pattern, char *str)
 	return (0);
 }
 
-int count_matches(char *pattern)
+int	count_matches(char *pattern)
 {
-	DIR *dir;
-	struct dirent *entry;
-	int count;
+	DIR				*dir;
+	struct dirent	*entry;
+	int				count;
 
 	dir = opendir(".");
 	if (!dir)
@@ -50,12 +50,12 @@ int count_matches(char *pattern)
 	return (count);
 }
 
-char **fill_matches(char *pattern, int count)
+char	**fill_matches(char *pattern, int count)
 {
-	DIR *dir;
-	struct dirent *entry;
-	char **matches;
-	int i;
+	DIR				*dir;
+	struct dirent	*entry;
+	char			**matches;
+	int				i;
 
 	matches = malloc(sizeof(char *) * (count + 1));
 	if (!matches)
@@ -76,10 +76,10 @@ char **fill_matches(char *pattern, int count)
 	return (matches);
 }
 
-char **expand_wildcard(char *pattern)
+char	**expand_wildcard(char *pattern)
 {
-	int count;
-	char **matches;
+	int		count;
+	char	**matches;
 
 	if (!ft_strchr(pattern, '*'))
 		return (NULL);

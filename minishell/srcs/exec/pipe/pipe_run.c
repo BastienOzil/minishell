@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe_run.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bozil <bozil@student.42.fr>                +#+  +:+       +#+        */
+/*   By: aurelia <aurelia@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 14:58:15 by bozil             #+#    #+#             */
-/*   Updated: 2025/07/28 11:25:31 by bozil            ###   ########.fr       */
+/*   Updated: 2025/07/29 23:10:06 by aurelia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,13 +27,12 @@ void	child_exec(t_cmd *cmd, int in_fd, int pipefd[2], char ***envp)
 	}
 	if (handle_redirections(cmd) == -1)
 		exit(1);
-	
 	if (is_builtin(cmd->args[0]))
 	{
 		code = exec_builtin(cmd, envp);
 		exit(code);
 	}
-	execute_command(cmd, *envp);
+	exec_path(cmd, *envp);
 	puppetmaster_perror(cmd->args[0]);
 	exit(127);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expansion2.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aurelia <aurelia@student.42.fr>            +#+  +:+       +#+        */
+/*   By: bozil <bozil@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/24 11:46:06 by bozil             #+#    #+#             */
-/*   Updated: 2025/07/26 13:03:53 y aurelia          ###   ########.fr       */
+/*   Created: 2025/07/30 17:05:04 by bozil             #+#    #+#             */
+/*   Updated: 2025/07/30 19:52:40 by bozil            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,11 @@ static char *process_character(char *str, int *i, char *result)
 	return (result);
 }
 
+static int is_expandable_char(char c)
+{
+	return (ft_isalnum(c) || c == '_' || c == '?');
+}
+
 char *expand_string(char *str)
 {
 	char *result;
@@ -69,8 +74,7 @@ char *expand_string(char *str)
 	i = 0;
 	while (str[i])
 	{
-		if (str[i] == '$' && str[i + 1] &&
-			(ft_isalnum(str[i + 1]) || str[i + 1] == '_' || str[i + 1] == '?'))
+		if (str[i] == '$' && str[i + 1] && is_expandable_char(str[i + 1]))
 			result = process_variable(str, &i, result);
 		else
 			result = process_character(str, &i, result);

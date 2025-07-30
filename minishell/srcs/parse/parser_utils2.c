@@ -6,15 +6,15 @@
 /*   By: bozil <bozil@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 13:22:48 by bozil             #+#    #+#             */
-/*   Updated: 2025/07/30 09:59:11 by bozil            ###   ########.fr       */
+/*   Updated: 2025/07/30 16:31:17 by bozil            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-static int count_args(char **args)
+static int	count_args(char **args)
 {
-	int count;
+	int	count;
 
 	count = 0;
 	if (args)
@@ -25,12 +25,12 @@ static int count_args(char **args)
 	return (count);
 }
 
-static void free_arg_array(char **args)
+static void	free_arg_array(char **args)
 {
-	int i;
+	int	i;
 
 	if (!args)
-		return;
+		return ;
 	i = 0;
 	while (args[i])
 	{
@@ -40,9 +40,9 @@ static void free_arg_array(char **args)
 	free(args);
 }
 
-static char **alloc_new_args(int count)
+static char	**alloc_new_args(int count)
 {
-	char **new_args;
+	char	**new_args;
 
 	new_args = malloc(sizeof(char *) * (count + 2));
 	if (!new_args)
@@ -50,9 +50,9 @@ static char **alloc_new_args(int count)
 	return (new_args);
 }
 
-static char **copy_existing_args(char **args, char **new_args, int count)
+static char	**copy_existing_args(char **args, char **new_args, int count)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (i < count)
@@ -70,10 +70,10 @@ static char **copy_existing_args(char **args, char **new_args, int count)
 	return (new_args);
 }
 
-char **add_arg(char **args, char *new_arg)
+char	**add_arg(char **args, char *new_arg)
 {
-	int count;
-	char **new_args;
+	int		count;
+	char	**new_args;
 
 	if (!new_arg)
 		return (args);

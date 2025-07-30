@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_unset.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bozil <bozil@student.42.fr>                +#+  +:+       +#+        */
+/*   By: aurelia <aurelia@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 14:59:19 by bozil             #+#    #+#             */
-/*   Updated: 2025/07/29 19:04:33 by bozil            ###   ########.fr       */
+/*   Updated: 2025/07/30 09:50:06 by aurelia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,4 +81,3 @@ int	unset_builtin(char **args, char ***envp)
 	}
 	return (0);
 }
-

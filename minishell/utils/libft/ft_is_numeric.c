@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_is_numeric.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aurelia <aurelia@student.42.fr>            +#+  +:+       +#+        */
+/*   By: bozil <bozil@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 11:11:20 by bozil             #+#    #+#             */
-/*   Updated: 2025/06/27 00:20:29 by aurelia          ###   ########.fr       */
+/*   Updated: 2025/07/30 15:04:02 by bozil            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,9 @@
 
 int	ft_is_numeric(const char *str)
 {
-	int i = 0;
+	int	i;
+
+	i = 0;
 	if (str[0] == '-' || str[0] == '+')
 		i++;
 	while (str[i])

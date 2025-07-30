@@ -6,13 +6,13 @@
 /*   By: bozil <bozil@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 14:14:44 by bozil             #+#    #+#             */
-/*   Updated: 2025/07/30 10:13:12 by bozil            ###   ########.fr       */
+/*   Updated: 2025/07/30 17:22:28 by bozil            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/minishell.h"
 
-int		g_exit_status = 0;
+int			g_exit_status = 0;
 
 void	init_readline(void)
 {

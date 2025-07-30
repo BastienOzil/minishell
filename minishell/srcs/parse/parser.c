@@ -6,15 +6,16 @@
 /*   By: bozil <bozil@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 13:54:43 by bozil             #+#    #+#             */
-/*   Updated: 2025/07/30 10:07:16 by bozil            ###   ########.fr       */
+/*   Updated: 2025/07/30 16:31:06 by bozil            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-static int validate_pipe_syntax(t_parser *parser)
+static int	validate_pipe_syntax(t_parser *parser)
 {
-	if (!parser->current || parser->current->type == TOKEN_EOF || parser->current->type == TOKEN_PIPE)
+	if (!parser->current || parser->current->type == TOKEN_EOF
+		|| parser->current->type == TOKEN_PIPE)
 	{
 		ft_putstr_fd("minishell: syntax error near unexpected token `|'\n", 2);
 		parser->error = 1;
@@ -23,9 +24,9 @@ static int validate_pipe_syntax(t_parser *parser)
 	return (1);
 }
 
-static t_cmd *create_pipeline_node(t_cmd *left, t_cmd *right)
+static t_cmd	*create_pipeline_node(t_cmd *left, t_cmd *right)
 {
-	t_cmd *pipeline;
+	t_cmd	*pipeline;
 
 	pipeline = new_node(NODE_PIPELINE);
 	if (!pipeline)
@@ -35,10 +36,10 @@ static t_cmd *create_pipeline_node(t_cmd *left, t_cmd *right)
 	return (pipeline);
 }
 
-static t_cmd *handle_pipe_creation(t_parser *parser, t_cmd *left)
+static t_cmd	*handle_pipe_creation(t_parser *parser, t_cmd *left)
 {
-	t_cmd *right;
-	t_cmd *pipeline;
+	t_cmd	*right;
+	t_cmd	*pipeline;
 
 	advance_token(parser);
 	if (!validate_pipe_syntax(parser))
@@ -62,10 +63,10 @@ static t_cmd *handle_pipe_creation(t_parser *parser, t_cmd *left)
 	return (pipeline);
 }
 
-t_cmd *parse_pipeline(t_parser *parser)
+t_cmd	*parse_pipeline(t_parser *parser)
 {
-	t_cmd *left;
-	t_cmd *result;
+	t_cmd	*left;
+	t_cmd	*result;
 
 	if (!parser || !parser->current)
 		return (NULL);
@@ -82,9 +83,9 @@ t_cmd *parse_pipeline(t_parser *parser)
 	return (left);
 }
 
-t_cmd *parse(t_token *tokens)
+t_cmd	*parse(t_token *tokens)
 {
-	t_parser parser;
+	t_parser	parser;
 
 	if (!tokens)
 		return (NULL);

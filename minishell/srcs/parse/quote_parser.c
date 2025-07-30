@@ -6,17 +6,17 @@
 /*   By: bozil <bozil@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 14:10:41 by bozil             #+#    #+#             */
-/*   Updated: 2025/07/30 10:01:16 by bozil            ###   ########.fr       */
+/*   Updated: 2025/07/30 16:25:08 by bozil            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-char *get_double_quoted_string(t_lexer *lexer)
+char	*get_double_quoted_string(t_lexer *lexer)
 {
-	int start;
-	char *raw_content;
-	char *expanded_content;
+	int		start;
+	char	*raw_content;
+	char	*expanded_content;
 
 	lexer->i++;
 	start = lexer->i;
@@ -30,19 +30,20 @@ char *get_double_quoted_string(t_lexer *lexer)
 		return (NULL);
 	raw_content = ft_substr(lexer->input, start, lexer->i - start);
 	lexer->i++;
-
 	if (!raw_content)
 		return (NULL);
 	expanded_content = expand_string(raw_content);
 	free(raw_content);
-
-	return (expanded_content ? expanded_content : ft_strdup(""));
+	if (expanded_content)
+		return (expanded_content);
+	else
+		return (ft_strdup(""));
 }
 
-char *get_single_quoted_string(t_lexer *lexer)
+char	*get_single_quoted_string(t_lexer *lexer)
 {
-	int start;
-	char *result;
+	int		start;
+	char	*result;
 
 	lexer->i++;
 	start = lexer->i;
@@ -55,9 +56,9 @@ char *get_single_quoted_string(t_lexer *lexer)
 	return (result);
 }
 
-t_token *handle_quotes(t_lexer *lexer)
+t_token	*handle_quotes(t_lexer *lexer)
 {
-	char *value;
+	char	*value;
 
 	if (lexer->input[lexer->i] == '"')
 	{
@@ -76,7 +77,7 @@ t_token *handle_quotes(t_lexer *lexer)
 	return (NULL);
 }
 
-int is_quote(char c)
+int	is_quote(char c)
 {
 	return (c == '"' || c == '\'');
 }

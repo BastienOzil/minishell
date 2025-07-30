@@ -10,21 +10,23 @@ CC = cc
 CFLAGS = -Wall -Wextra -Werror
 LFLAGS = -lreadline
 
-# Répertoires
 OBJ_DIR = objs
 LIBFT_DIR = utils/libft
 ANIMATION_DIR = animation
 
 SRCS = main.c \
 	srcs/exec/executor.c \
-	srcs/exec/exec_utils.c \
-	srcs/exec/exec_utils2.c \
-	srcs/exec/redirect.c \
-	srcs/exec/redirect2.c \
-	srcs/exec/redirect3.c \
+	srcs/exec/exec_path.c \
+	srcs/exec/path_utils.c \
+	srcs/exec/run_execve.c \
+	srcs/exec/redir_output.c \
+	srcs/exec/redir_input.c \
+	srcs/exec/redir_append.c \
 	srcs/exec/pipe.c \
 	srcs/exec/exec_builtins.c \
 	srcs/exec/heredoc.c \
+	srcs/exec/mult_heredoc.c \
+	srcs/exec/heredoc_utils.c \
 	srcs/exec/pipe/pipe_exec.c \
 	srcs/exec/pipe/pipe_redir.c \
 	srcs/exec/pipe/pipe_run.c \
@@ -54,36 +56,33 @@ SRCS = main.c \
 	srcs/parse/utils.c \
 	srcs/parse/vanish.c \
 	srcs/parse/wildcard.c \
+	srcs/builtins/cd_utils.c \
 	srcs/builtins/builtin_cd.c \
-	srcs/builtins/builtin_cd2.c \
 	srcs/builtins/builtin_echo.c \
+	srcs/builtins/echo_utils.c \
 	srcs/builtins/builtin_env.c \
 	srcs/builtins/builtin_exit.c \
+	srcs/builtins/export_utils.c \
 	srcs/builtins/builtin_export.c \
-	srcs/builtins/builtin_export2.c \
 	srcs/builtins/builtin_pwd.c \
 	srcs/builtins/builtin_unset.c \
-	srcs/builtins/builtin_utils.c \
-	srcs/builtins/builtin_utils2.c \
+	srcs/builtins/env_util.c \
+	srcs/builtins/env_dup.c \
 	srcs/signals/signal_handler.c \
 	srcs/signals/signal_setup.c \
 	srcs/signals/signal_setup2.c \
 	srcs/signals/signal_utils.c \
 	srcs/signals/signal_utils2.c 
 
-# On garde juste les noms des fichiers pour les .o
 OBJ_FILES = $(notdir $(SRCS:.c=.o))
 OBJS = $(addprefix $(OBJ_DIR)/, $(OBJ_FILES))
-	
-# OBJS = $(SRCS:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
+
 
 LIBFT = $(LIBFT_DIR)/libft.a
 ANIMATION_LIB = $(ANIMATION_DIR)/animation.a
 
-# Cible principale
 all: $(NAME)
 
-# Link final
 $(NAME): $(OBJS) $(LIBFT) $(ANIMATION_LIB)
 	$(CC) $(CFLAGS) $(OBJS) $(LIBFT) $(ANIMATION_LIB) -o $(NAME) $(LFLAGS)
 	echo "$(GREEN)"
@@ -91,7 +90,6 @@ $(NAME): $(OBJS) $(LIBFT) $(ANIMATION_LIB)
 	echo "      G H O S T   /in\\   M I N I S H E L L"
 	echo "                 / The\\                   "
 
-# Création du dossier objs/ si nécessaire
 $(OBJ_DIR):
 	@mkdir -p $@
 
@@ -113,14 +111,12 @@ $(OBJ_DIR)/%.o: srcs/signals/%.c | $(OBJ_DIR)
 $(OBJ_DIR)/%.o: %.c | $(OBJ_DIR)
 	$(CC) $(CFLAGS) -Iincludes -I$(LIBFT_DIR) -I$(ANIMATION_DIR)/includes -c $< -o $@
 
-# Compilation des dépendances
 $(LIBFT):
 	@make -s -C $(LIBFT_DIR)
 
 $(ANIMATION_LIB):
 	@make -s -C $(ANIMATION_DIR)
 
-# Nettoyage
 clean:
 	@rm -rf $(OBJ_DIR)
 	@make clean -s -C $(LIBFT_DIR)

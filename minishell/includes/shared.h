@@ -3,17 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   shared.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aurelia <aurelia@student.42.fr>            +#+  +:+       +#+        */
+/*   By: bozil <bozil@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 15:00:02 by bozil             #+#    #+#             */
-/*   Updated: 2025/07/26 17:09:39 by aurelia          ###   ########.fr       */
+/*   Updated: 2025/07/30 22:26:03 by bozil            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef SHARED_H
-# define SHARED_H
+#define SHARED_H
 
-// Types de tokens
 typedef enum e_token_type
 {
 	TOKEN_WORD,
@@ -29,7 +28,7 @@ typedef enum e_token_type
 	TOKEN_RPAREN,
 	TOKEN_DQUOTE,
 	TOKEN_SQUOTE
-}						t_token_type;
+} t_token_type;
 
 typedef enum e_node_type
 {
@@ -39,38 +38,43 @@ typedef enum e_node_type
 	NODE_AND,
 	NODE_OR,
 	NODE_SUBSHELL
-}						t_node_type;
+} t_node_type;
 
-// modification du nom cmd pour la fonction free_ast
+typedef struct s_heredoc
+{
+	char *delimiter;
+	struct s_heredoc *next;
+} t_heredoc;
+
 typedef struct s_cmd
 {
-	t_node_type			type;
-	char				**args;
-	char				*infile;
-	char				*outfile;
-	int					append;
-	char				*heredoc;
-	int					freed;
-	struct s_cmd		*left;
-	struct s_cmd		*right;
-	struct s_cmd		*next;
-}						t_cmd;
+	t_node_type type;
+	char **args;
+	char *infile;
+	char *outfile;
+	int append;
+	char *heredoc;
+	t_heredoc *heredoc_list;
+	int freed;
+	struct s_cmd *left;
+	struct s_cmd *right;
+	struct s_cmd *next;
+} t_cmd;
 
-// Structures partagées
 typedef struct s_redir
 {
-	t_token_type		type;
-	char				*file;
-	struct s_redir		*next;
-}						t_redir;
+	t_token_type type;
+	char *file;
+	struct s_redir *next;
+} t_redir;
 
 typedef struct s_ast_node
 {
-	t_node_type			type;
-	char				**args;
-	t_redir				*redirs;
-	struct s_ast_node	*left;
-	struct s_ast_node	*right;
-}						t_ast_node;
+	t_node_type type;
+	char **args;
+	t_redir *redirs;
+	struct s_ast_node *left;
+	struct s_ast_node *right;
+} t_ast_node;
 
 #endif

@@ -6,24 +6,24 @@
 /*   By: bozil <bozil@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 12:15:32 by bozil             #+#    #+#             */
-/*   Updated: 2025/07/30 09:58:09 by bozil            ###   ########.fr       */
+/*   Updated: 2025/07/30 16:58:36 by bozil            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-char *join_and_update(char *result, char *new_str)
+char	*join_and_update(char *result, char *new_str)
 {
-	char *temp;
+	char	*temp;
 
 	temp = ft_strjoin(result, new_str);
 	free(result);
 	return (temp);
 }
 
-char *handle_double_quote(t_lexer *lexer, char *result)
+char	*handle_double_quote(t_lexer *lexer, char *result)
 {
-	char *quoted;
+	char	*quoted;
 
 	quoted = get_double_quoted_string(lexer);
 	if (!quoted)
@@ -33,9 +33,9 @@ char *handle_double_quote(t_lexer *lexer, char *result)
 	return (result);
 }
 
-char *handle_single_quote(t_lexer *lexer, char *result)
+char	*handle_single_quote(t_lexer *lexer, char *result)
 {
-	char *quoted;
+	char	*quoted;
 
 	quoted = get_single_quoted_string(lexer);
 	if (!quoted)
@@ -45,15 +45,14 @@ char *handle_single_quote(t_lexer *lexer, char *result)
 	return (result);
 }
 
-char *handle_variable2(t_lexer *lexer, char *result)
+char	*handle_variable2(t_lexer *lexer, char *result)
 {
-	char *var_name;
-	char *var_value;
+	char	*var_name;
+	char	*var_value;
 
-	if (!lexer->input[lexer->i + 1] ||
-		(!ft_isalnum(lexer->input[lexer->i + 1]) &&
-		 lexer->input[lexer->i + 1] != '_' &&
-		 lexer->input[lexer->i + 1] != '?'))
+	if (!lexer->input[lexer->i + 1] || (!ft_isalnum(lexer->input[lexer->i + 1])
+			&& lexer->input[lexer->i + 1] != '_' && lexer->input[lexer->i
+			+ 1] != '?'))
 	{
 		return (handle_regular_char(lexer, result));
 	}
@@ -68,9 +67,9 @@ char *handle_variable2(t_lexer *lexer, char *result)
 	return (result);
 }
 
-char *handle_regular_char(t_lexer *lexer, char *result)
+char	*handle_regular_char(t_lexer *lexer, char *result)
 {
-	char char_str[2];
+	char	char_str[2];
 
 	char_str[0] = lexer->input[lexer->i];
 	char_str[1] = '\0';
