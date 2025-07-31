@@ -6,13 +6,14 @@
 /*   By: bozil <bozil@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 22:28:31 by bozil             #+#    #+#             */
-/*   Updated: 2025/07/30 22:52:24 by bozil            ###   ########.fr       */
+/*   Updated: 2025/07/31 10:38:17 by bozil            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-static int	process_single_heredoc(t_heredoc *current, char *tmp_file, int count, char *pid_str)
+static int	process_single_heredoc(t_heredoc *current, char *tmp_file,
+		int count, char *pid_str)
 {
 	int	fd;
 

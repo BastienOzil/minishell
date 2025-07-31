@@ -6,7 +6,7 @@
 /*   By: bozil <bozil@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 15:00:17 by bozil             #+#    #+#             */
-/*   Updated: 2025/07/30 22:15:37 by bozil            ###   ########.fr       */
+/*   Updated: 2025/07/31 10:37:57 by bozil            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,6 @@
 # include <sys/wait.h>
 # include <termios.h>
 # include <unistd.h>
-
-extern int			g_exit_status;
 
 typedef struct s_env
 {

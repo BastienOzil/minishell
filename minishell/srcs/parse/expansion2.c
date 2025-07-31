@@ -6,15 +6,15 @@
 /*   By: bozil <bozil@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 17:05:04 by bozil             #+#    #+#             */
-/*   Updated: 2025/07/30 19:52:40 by bozil            ###   ########.fr       */
+/*   Updated: 2025/07/31 10:34:50 by bozil            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-static char *join_and_free(char *old_str, char *to_add)
+static char	*join_and_free(char *old_str, char *to_add)
 {
-	char *new_str;
+	char	*new_str;
 
 	if (!old_str || !to_add)
 		return (NULL);
@@ -24,10 +24,10 @@ static char *join_and_free(char *old_str, char *to_add)
 	return (new_str);
 }
 
-static char *process_variable(char *str, int *i, char *result)
+static char	*process_variable(char *str, int *i, char *result)
 {
-	char *temp;
-	int local_i;
+	char	*temp;
+	int		local_i;
 
 	local_i = 0;
 	temp = handle_var_expansion(&str[*i], &local_i);
@@ -41,9 +41,9 @@ static char *process_variable(char *str, int *i, char *result)
 	return (result);
 }
 
-static char *process_character(char *str, int *i, char *result)
+static char	*process_character(char *str, int *i, char *result)
 {
-	char *temp;
+	char	*temp;
 
 	temp = ft_substr(str, *i, 1);
 	if (!temp)
@@ -56,15 +56,15 @@ static char *process_character(char *str, int *i, char *result)
 	return (result);
 }
 
-static int is_expandable_char(char c)
+static int	is_expandable_char(char c)
 {
 	return (ft_isalnum(c) || c == '_' || c == '?');
 }
 
-char *expand_string(char *str)
+char	*expand_string(char *str)
 {
-	char *result;
-	int i;
+	char	*result;
+	int		i;
 
 	if (!str)
 		return (NULL);

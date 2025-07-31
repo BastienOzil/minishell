@@ -6,7 +6,7 @@
 /*   By: bozil <bozil@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 13:21:59 by bozil             #+#    #+#             */
-/*   Updated: 2025/07/30 22:52:52 by bozil            ###   ########.fr       */
+/*   Updated: 2025/07/31 10:35:07 by bozil            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,6 @@ static void	handle_heredoc_redir(t_parser *parser, t_cmd *node)
 
 	if (!parser || !parser->current || !node)
 		return ;
-	
 	delimiter = parser->current->value;
 	if (!delimiter)
 		delimiter = parser->tokens->value;
