@@ -6,7 +6,7 @@
 /*   By: bozil <bozil@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 17:05:04 by bozil             #+#    #+#             */
-/*   Updated: 2025/08/04 13:50:26 by bozil            ###   ########.fr       */
+/*   Updated: 2025/08/04 14:59:53 by bozil            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,11 +64,18 @@ int	is_expandable_char(char c)
 char	*expand_string(char *str)
 {
 	char	*result;
+	int		len;
 
 	if (!str)
 		return (NULL);
-	if (str[0] == '\'' && str[ft_strlen(str) - 1] == '"')
-		return (ft_strdup(str));
+	len = ft_strlen(str);
+	if (len >= 2 && str[0] == '\'' && str[len - 1] == '\'')
+	{
+		result = ft_strdup(str + 1);
+		if (result)
+			result[len - 2] = '\0';
+		return (result);
+	}
 	result = ft_strdup("");
 	if (!result)
 		return (NULL);

@@ -6,7 +6,7 @@
 /*   By: bozil <bozil@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 14:58:39 by bozil             #+#    #+#             */
-/*   Updated: 2025/08/04 11:12:07 by bozil            ###   ########.fr       */
+/*   Updated: 2025/08/04 15:10:19 by bozil            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,16 +52,10 @@ static void	print_with_escapes(char *arg)
 
 static int	print_echo_arg(char *arg, int interpret)
 {
-	char	*expanded;
-
-	expanded = expand_string(arg);
-	if (!expanded)
-		return (0);
 	if (interpret)
-		print_with_escapes(expanded);
+		print_with_escapes(arg);
 	else
-		write(1, expanded, ft_strlen(expanded));
-	free(expanded);
+		write(1, arg, ft_strlen(arg));
 	return (1);
 }
 
