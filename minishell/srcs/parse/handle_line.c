@@ -6,7 +6,7 @@
 /*   By: bozil <bozil@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 11:53:36 by bozil             #+#    #+#             */
-/*   Updated: 2025/08/04 15:47:27 by bozil            ###   ########.fr       */
+/*   Updated: 2025/08/04 15:57:22 by bozil            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,22 @@ t_token	*tokenize(char *input)
 	return (tokens);
 }
 
+static t_cmd	*prepare_ast(char *line, t_token **tokens)
+{
+	t_cmd	*ast;
+
+	*tokens = tokenize(line);
+	if (!*tokens)
+		return (NULL);
+	ast = parse(*tokens);
+	if (!ast)
+	{
+		free_tokens(*tokens);
+		return (NULL);
+	}
+	return (ast);
+}
+
 void	handle_line(char *line, char ***envp)
 {
 	t_token	*tokens;
@@ -69,21 +85,20 @@ void	handle_line(char *line, char ***envp)
 	if (!line || !*line)
 		return ;
 	ignore_signals();
-	tokens = tokenize(line);
-	if (!tokens)
-	{
-		setup_signals_interactive();
-		return ;
-	}
-	ast = parse(tokens);
+	ast = prepare_ast(line, &tokens);
 	if (!ast)
 	{
-		free_tokens(tokens);
 		setup_signals_interactive();
 		return ;
 	}
 	execute_all(ast, envp);
 	free_tokens(tokens);
 	free_ast(ast);
+	if (g_exit_status == SIGINT_CODE)
+	{
+		write(STDOUT_FILENO, "\n", 1);
+		g_exit_status = 0;
+	}
+	setup_signals_interactive();
 	rl_on_new_line();
 }
