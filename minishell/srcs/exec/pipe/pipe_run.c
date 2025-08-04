@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe_run.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aurelia <aurelia@student.42.fr>            +#+  +:+       +#+        */
+/*   By: bozil <bozil@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 14:58:15 by bozil             #+#    #+#             */
-/*   Updated: 2025/07/29 23:10:06 by aurelia          ###   ########.fr       */
+/*   Updated: 2025/08/04 10:30:13 by bozil            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ void	child_exec(t_cmd *cmd, int in_fd, int pipefd[2], char ***envp)
 {
 	int	code;
 
+	setup_signals_child();
 	if (!cmd || !cmd->args || !cmd->args[0])
 		exit(127);
 	if (in_fd != 0)
@@ -55,15 +56,21 @@ void	handle_parent(t_cmd *cmd, int *in_fd, int pipefd[2])
 
 void	wait_and_set_exit_status(pid_t last_pid)
 {
-	int	status;
+	int		status;
+	pid_t	pid;
 
-	if (waitpid(last_pid, &status, 0) != -1)
+	while ((pid = wait(&status)) > 0)
 	{
-		if (WIFEXITED(status))
-			g_exit_status = WEXITSTATUS(status);
-		else if (WIFSIGNALED(status))
-			g_exit_status = 128 + WTERMSIG(status);
+		if (pid == last_pid)
+		{
+			if (WIFEXITED(status))
+				g_exit_status = WEXITSTATUS(status);
+			else if (WIFSIGNALED(status))
+			{
+				g_exit_status = 128 + WTERMSIG(status);
+				if (WTERMSIG(status) == SIGQUIT)
+					write(STDERR_FILENO, "Quit: 3\n", 8);
+			}
+		}
 	}
-	while (wait(NULL) > 0)
-		;
 }

@@ -6,7 +6,7 @@
 /*   By: bozil <bozil@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 14:57:28 by bozil             #+#    #+#             */
-/*   Updated: 2025/07/31 10:34:17 by bozil            ###   ########.fr       */
+/*   Updated: 2025/08/04 13:07:43 by bozil            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,12 +72,19 @@ void	execute_fork_and_wait(t_cmd *cmd, char ***envp)
 	if (pid == -1)
 		return ;
 	if (pid == 0)
+	{
+		setup_signals_child();
 		execute_external_cmd(cmd, envp);
+	}
 	waitpid(pid, &status, 0);
 	if (WIFEXITED(status))
 		g_exit_status = WEXITSTATUS(status);
 	else if (WIFSIGNALED(status))
+	{
 		g_exit_status = 128 + WTERMSIG(status);
+		if (WTERMSIG(status) == SIGQUIT)
+			write(STDERR_FILENO, "Quit: 3\n", 8);
+	}
 }
 
 void	execute_cmd(t_cmd *cmd, char ***envp)

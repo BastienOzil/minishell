@@ -6,7 +6,7 @@
 /*   By: bozil <bozil@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 17:05:04 by bozil             #+#    #+#             */
-/*   Updated: 2025/07/31 18:56:33 by bozil            ###   ########.fr       */
+/*   Updated: 2025/08/04 13:50:26 by bozil            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ char	*expand_string(char *str)
 
 	if (!str)
 		return (NULL);
-	if (str[0] == '"' && str[ft_strlen(str) - 1] == '"')
+	if (str[0] == '\'' && str[ft_strlen(str) - 1] == '"')
 		return (ft_strdup(str));
 	result = ft_strdup("");
 	if (!result)
