@@ -6,7 +6,7 @@
 /*   By: bozil <bozil@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 11:53:36 by bozil             #+#    #+#             */
-/*   Updated: 2025/07/30 16:31:44 by bozil            ###   ########.fr       */
+/*   Updated: 2025/08/04 15:47:27 by bozil            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,16 +68,22 @@ void	handle_line(char *line, char ***envp)
 
 	if (!line || !*line)
 		return ;
+	ignore_signals();
 	tokens = tokenize(line);
 	if (!tokens)
+	{
+		setup_signals_interactive();
 		return ;
+	}
 	ast = parse(tokens);
 	if (!ast)
 	{
 		free_tokens(tokens);
+		setup_signals_interactive();
 		return ;
 	}
 	execute_all(ast, envp);
 	free_tokens(tokens);
 	free_ast(ast);
+	rl_on_new_line();
 }

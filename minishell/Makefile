@@ -70,8 +70,7 @@ SRCS = main.c \
 	srcs/signals/signal_handler.c \
 	srcs/signals/signal_setup.c \
 	srcs/signals/signal_setup2.c \
-	srcs/signals/signal_utils.c \
-	srcs/signals/signal_utils2.c 
+	srcs/signals/signal_utils.c 
 
 OBJ_FILES = $(notdir $(SRCS:.c=.o))
 OBJS = $(addprefix $(OBJ_DIR)/, $(OBJ_FILES))

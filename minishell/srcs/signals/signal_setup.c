@@ -6,25 +6,11 @@
 /*   By: bozil <bozil@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 14:11:41 by bozil             #+#    #+#             */
-/*   Updated: 2025/08/04 12:30:49 by bozil            ###   ########.fr       */
+/*   Updated: 2025/08/04 15:25:55 by bozil            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-
-void	setup_signals_exec(char *cmd)
-{
-	if (cmd && (strcmp(cmd, "cat") == 0 || strcmp(cmd, "grep") == 0))
-	{
-		signal(SIGINT, SIG_DFL);
-		signal(SIGQUIT, SIG_DFL);
-	}
-	else
-	{
-		signal(SIGINT, SIG_DFL);
-		signal(SIGQUIT, SIG_IGN);
-	}
-}
 
 void	setup_signals_interactive(void)
 {
