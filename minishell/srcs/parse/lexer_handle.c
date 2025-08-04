@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lexer2.c                                           :+:      :+:    :+:   */
+/*   lexer_handle.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bozil <bozil@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 12:15:32 by bozil             #+#    #+#             */
-/*   Updated: 2025/07/31 10:46:11 by bozil            ###   ########.fr       */
+/*   Updated: 2025/07/31 17:55:58 by bozil            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ char	*handle_single_quote(t_lexer *lexer, char *result)
 	return (result);
 }
 
-char	*handle_variable2(t_lexer *lexer, char *result)
+char	*handle_variable_utils(t_lexer *lexer, char *result)
 {
 	char	*var_name;
 	char	*var_value;

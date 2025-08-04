@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   expansion2.c                                       :+:      :+:    :+:   */
+/*   expansion_string.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bozil <bozil@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 17:05:04 by bozil             #+#    #+#             */
-/*   Updated: 2025/07/31 10:34:50 by bozil            ###   ########.fr       */
+/*   Updated: 2025/07/31 18:56:33 by bozil            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static char	*join_and_free(char *old_str, char *to_add)
 	return (new_str);
 }
 
-static char	*process_variable(char *str, int *i, char *result)
+char	*process_variable(char *str, int *i, char *result)
 {
 	char	*temp;
 	int		local_i;
@@ -41,7 +41,7 @@ static char	*process_variable(char *str, int *i, char *result)
 	return (result);
 }
 
-static char	*process_character(char *str, int *i, char *result)
+char	*process_character(char *str, int *i, char *result)
 {
 	char	*temp;
 
@@ -56,7 +56,7 @@ static char	*process_character(char *str, int *i, char *result)
 	return (result);
 }
 
-static int	is_expandable_char(char c)
+int	is_expandable_char(char c)
 {
 	return (ft_isalnum(c) || c == '_' || c == '?');
 }
@@ -64,22 +64,14 @@ static int	is_expandable_char(char c)
 char	*expand_string(char *str)
 {
 	char	*result;
-	int		i;
 
 	if (!str)
 		return (NULL);
+	if (str[0] == '"' && str[ft_strlen(str) - 1] == '"')
+		return (ft_strdup(str));
 	result = ft_strdup("");
 	if (!result)
 		return (NULL);
-	i = 0;
-	while (str[i])
-	{
-		if (str[i] == '$' && str[i + 1] && is_expandable_char(str[i + 1]))
-			result = process_variable(str, &i, result);
-		else
-			result = process_character(str, &i, result);
-		if (!result)
-			return (NULL);
-	}
+	return (expand_loop(str, result, 0, 0));
 	return (result);
 }

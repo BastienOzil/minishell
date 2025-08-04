@@ -6,7 +6,7 @@
 /*   By: bozil <bozil@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 15:00:10 by bozil             #+#    #+#             */
-/*   Updated: 2025/07/30 17:13:49 by bozil            ###   ########.fr       */
+/*   Updated: 2025/07/31 17:59:58 by bozil            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ t_token				*handle_output_redirection(t_lexer *lexer);
 t_token				*handle_and(t_lexer *lexer);
 t_token				*handle_or(t_lexer *lexer);
 t_token				*handle_parentheses(t_lexer *lexer);
-char				*handle_variable2(t_lexer *lexer, char *result);
+char				*handle_variable_utils(t_lexer *lexer, char *result);
 char				*handle_double_quote(t_lexer *lexer, char *result);
 char				*handle_single_quote(t_lexer *lexer, char *result);
 char				*handle_regular_char(t_lexer *lexer, char *result);
@@ -87,6 +87,10 @@ char				*expand_string(char *str);
 char				*get_env_value(char *var_name);
 char				*get_var_name(t_lexer *lexer);
 char				*handle_var_expansion(char *str, int *i);
+char				*expand_loop(char *str, char *result, int i, int quote);
+char				*process_variable(char *str, int *i, char *result);
+int					is_expandable_char(char c);
+char				*process_character(char *str, int *i, char *result);
 
 /* logical_ops.c */
 t_cmd				*parse_logical(t_parser *parser);
@@ -134,8 +138,6 @@ void				print_token(t_token *token);
 /* error_msg.c */
 int					get_random_index(int max);
 void				puppetmaster_perror(const char *context);
-void				print_loop(const char *quote);
-void				format_line(char *dst, const char *quote);
 
 /* ANIMATION */
 /* vanish.c */
