@@ -34,6 +34,7 @@ SRCS = main.c \
 	srcs/parse/cleanup_ast.c \
 	srcs/parse/error_messages.c \
 	srcs/parse/expansion.c \
+	srcs/parse/expansion_env.c \
 	srcs/parse/expansion_string.c \
 	srcs/parse/expansion_loop.c \
 	srcs/parse/handle_line.c \

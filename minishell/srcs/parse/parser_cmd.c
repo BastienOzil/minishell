@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_cmd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aurgeorg <aurgeorg@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bozil <bozil@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 13:57:21 by bozil             #+#    #+#             */
-/*   Updated: 2025/08/05 12:19:25 by aurgeorg         ###   ########.fr       */
+/*   Updated: 2025/08/05 13:39:15 by bozil            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ static int	is_end_of_command(t_token_type type)
 		|| type == TOKEN_OR);
 }
 
-t_cmd	*parse_command(t_parser *parser, char ** envp)
+t_cmd	*parse_command(t_parser *parser, char **envp)
 {
 	t_cmd	*node;
 

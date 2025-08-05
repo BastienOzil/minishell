@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expansion_string.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aurgeorg <aurgeorg@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bozil <bozil@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 17:05:04 by bozil             #+#    #+#             */
-/*   Updated: 2025/08/05 12:05:12 by aurgeorg         ###   ########.fr       */
+/*   Updated: 2025/08/05 17:14:43 by bozil            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,8 +63,9 @@ int	is_expandable_char(char c)
 
 char	*expand_string(char *str, char **envp)
 {
-	char	*result;
-	int		len;
+	char			*result;
+	int				len;
+	t_expand_loop	ctx;
 
 	if (!str)
 		return (NULL);
@@ -79,6 +80,7 @@ char	*expand_string(char *str, char **envp)
 	result = ft_strdup("");
 	if (!result)
 		return (NULL);
-	return (expand_loop(str, result, 0, 0, envp));
+	ctx = init_expand_loop(0, 0, envp);
+	result = expand_loop(str, result, &ctx);
 	return (result);
 }

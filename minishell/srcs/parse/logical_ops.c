@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   logical_ops.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aurgeorg <aurgeorg@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bozil <bozil@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 13:03:58 by bozil             #+#    #+#             */
-/*   Updated: 2025/08/05 12:27:43 by aurgeorg         ###   ########.fr       */
+/*   Updated: 2025/08/05 13:39:46 by bozil            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
 static t_cmd	*create_logical_node(t_cmd *left, t_token_type op_type,
-		t_parser *parser, char ** envp)
+		t_parser *parser, char **envp)
 {
 	t_cmd	*logical;
 

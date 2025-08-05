@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expansion.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aurgeorg <aurgeorg@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bozil <bozil@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 11:45:28 by bozil             #+#    #+#             */
-/*   Updated: 2025/08/05 11:57:24 by aurgeorg         ###   ########.fr       */
+/*   Updated: 2025/08/05 13:42:30 by bozil            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,8 @@
 
 static char	*my_getenv(const char *name, char **envp)
 {
-	int		i, len;
+	int	i;
+	int	len;
 
 	len = ft_strlen(name);
 	i = 0;
@@ -38,7 +39,6 @@ char	*get_env_value(char *var_name, char **envp)
 		return (ft_strdup(""));
 	return (ft_strdup(value));
 }
-
 
 char	*get_var_name(t_lexer *lexer)
 {
@@ -88,29 +88,4 @@ char	*get_expansion_name(char *str, int *i)
 	while (str[*i] && (ft_isalnum(str[*i]) || str[*i] == '_'))
 		(*i)++;
 	return (ft_substr(str, start, *i - start));
-}
-
-char	*handle_var_expansion(char *str, int *i, char **envp)
-{
-	char	*name;
-	char	*value;
-
-	name = get_expansion_name(str, i);
-	if (!name)
-		return (ft_strdup(""));
-	if (name[0] == '\0')
-	{
-		free(name);
-		return (ft_strdup("$"));
-	}
-	if (name[0] == '?' && name[1] == '\0')
-	{
-		free(name);
-		return (ft_itoa(g_exit_status));
-	}
-	value = get_env_value(name, envp);
-	free(name);
-	if (!value)
-		return (ft_strdup(""));
-	return (value);
 }
