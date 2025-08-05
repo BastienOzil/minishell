@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lexer2.c                                           :+:      :+:    :+:   */
+/*   lexer_handle.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bozil <bozil@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 12:15:32 by bozil             #+#    #+#             */
-/*   Updated: 2025/07/30 16:58:36 by bozil            ###   ########.fr       */
+/*   Updated: 2025/07/31 17:55:58 by bozil            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,17 +45,16 @@ char	*handle_single_quote(t_lexer *lexer, char *result)
 	return (result);
 }
 
-char	*handle_variable2(t_lexer *lexer, char *result)
+char	*handle_variable_utils(t_lexer *lexer, char *result)
 {
 	char	*var_name;
 	char	*var_value;
+	char	next_char;
 
-	if (!lexer->input[lexer->i + 1] || (!ft_isalnum(lexer->input[lexer->i + 1])
-			&& lexer->input[lexer->i + 1] != '_' && lexer->input[lexer->i
-			+ 1] != '?'))
-	{
+	next_char = lexer->input[lexer->i + 1];
+	if (!next_char || (!ft_isalnum(next_char) && next_char != '_'
+			&& next_char != '?'))
 		return (handle_regular_char(lexer, result));
-	}
 	lexer->i++;
 	var_name = get_var_name(lexer);
 	if (!var_name)

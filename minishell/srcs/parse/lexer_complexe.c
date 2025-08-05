@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lexer3.c                                           :+:      :+:    :+:   */
+/*   lexer_complexe.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bozil <bozil@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 12:52:56 by bozil             #+#    #+#             */
-/*   Updated: 2025/07/30 16:31:28 by bozil            ###   ########.fr       */
+/*   Updated: 2025/07/31 17:55:55 by bozil            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static char	*handle_char(t_lexer *lexer, char *result)
 	else if (lexer->input[lexer->i] == '\'')
 		result = handle_single_quote(lexer, result);
 	else if (lexer->input[lexer->i] == '$')
-		result = handle_variable2(lexer, result);
+		result = handle_variable_utils(lexer, result);
 	else
 		result = handle_regular_char(lexer, result);
 	return (result);

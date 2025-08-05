@@ -6,7 +6,7 @@
 /*   By: bozil <bozil@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 14:59:53 by bozil             #+#    #+#             */
-/*   Updated: 2025/07/30 17:11:46 by bozil            ###   ########.fr       */
+/*   Updated: 2025/08/04 15:23:30 by bozil            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ void		sigint_child_handler(int sig);
 void		sigquit_child_handler(int sig);
 
 /* signal_setup.c */
+void		setup_signals_exec(void);
 void		setup_signals_interactive(void);
 void		setup_signals_non_interactive(void);
 void		setup_signals_heredoc(void);

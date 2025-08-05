@@ -1,20 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   expansion2.c                                       :+:      :+:    :+:   */
+/*   expansion_string.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bozil <bozil@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 17:05:04 by bozil             #+#    #+#             */
-/*   Updated: 2025/07/30 19:52:40 by bozil            ###   ########.fr       */
+/*   Updated: 2025/08/04 14:59:53 by bozil            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-static char *join_and_free(char *old_str, char *to_add)
+static char	*join_and_free(char *old_str, char *to_add)
 {
-	char *new_str;
+	char	*new_str;
 
 	if (!old_str || !to_add)
 		return (NULL);
@@ -24,10 +24,10 @@ static char *join_and_free(char *old_str, char *to_add)
 	return (new_str);
 }
 
-static char *process_variable(char *str, int *i, char *result)
+char	*process_variable(char *str, int *i, char *result)
 {
-	char *temp;
-	int local_i;
+	char	*temp;
+	int		local_i;
 
 	local_i = 0;
 	temp = handle_var_expansion(&str[*i], &local_i);
@@ -41,9 +41,9 @@ static char *process_variable(char *str, int *i, char *result)
 	return (result);
 }
 
-static char *process_character(char *str, int *i, char *result)
+char	*process_character(char *str, int *i, char *result)
 {
-	char *temp;
+	char	*temp;
 
 	temp = ft_substr(str, *i, 1);
 	if (!temp)
@@ -56,30 +56,29 @@ static char *process_character(char *str, int *i, char *result)
 	return (result);
 }
 
-static int is_expandable_char(char c)
+int	is_expandable_char(char c)
 {
 	return (ft_isalnum(c) || c == '_' || c == '?');
 }
 
-char *expand_string(char *str)
+char	*expand_string(char *str)
 {
-	char *result;
-	int i;
+	char	*result;
+	int		len;
 
 	if (!str)
 		return (NULL);
+	len = ft_strlen(str);
+	if (len >= 2 && str[0] == '\'' && str[len - 1] == '\'')
+	{
+		result = ft_strdup(str + 1);
+		if (result)
+			result[len - 2] = '\0';
+		return (result);
+	}
 	result = ft_strdup("");
 	if (!result)
 		return (NULL);
-	i = 0;
-	while (str[i])
-	{
-		if (str[i] == '$' && str[i + 1] && is_expandable_char(str[i + 1]))
-			result = process_variable(str, &i, result);
-		else
-			result = process_character(str, &i, result);
-		if (!result)
-			return (NULL);
-	}
+	return (expand_loop(str, result, 0, 0));
 	return (result);
 }

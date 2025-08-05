@@ -6,7 +6,7 @@
 /*   By: bozil <bozil@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 14:11:26 by bozil             #+#    #+#             */
-/*   Updated: 2025/07/30 22:22:35 by bozil            ###   ########.fr       */
+/*   Updated: 2025/08/04 09:42:57 by bozil            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,6 @@ void	sigint_child_handler(int sig)
 void	sigquit_child_handler(int sig)
 {
 	(void)sig;
-	write(STDOUT_FILENO, "Quit (core dumped)\n", 19);
+	write(STDOUT_FILENO, "Quit: 3\n", 8);
 	exit(SIGQUIT_CODE);
 }

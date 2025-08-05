@@ -1,25 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   prompt_utils.c                                     :+:      :+:    :+:   */
+/*   cleanup_ast.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bozil <bozil@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/30 10:09:34 by bozil             #+#    #+#             */
-/*   Updated: 2025/07/30 17:23:04 by bozil            ###   ########.fr       */
+/*   Created: 2025/07/24 11:43:44 by bozil             #+#    #+#             */
+/*   Updated: 2025/07/31 17:56:17 by bozil            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/animation.h"
+#include "../includes/minishell.h"
 
-void	slow_type_prompt(const char *str)
+void	free_ast(t_cmd *ast)
 {
-	while (*str)
+	t_cmd	*next;
+	int		i;
+
+	while (ast)
 	{
-		write(1, str, 1);
-		write(1, "\a", 1);
-		usleep(10000);
-		str++;
+		if (ast->args)
+		{
+			i = 0;
+			while (ast->args[i])
+				free(ast->args[i++]);
+			free(ast->args);
+		}
+		free(ast->infile);
+		free(ast->outfile);
+		free(ast->heredoc);
+		if (ast->heredoc_list)
+			free_heredoc_list(ast->heredoc_list);
+		free_ast(ast->left);
+		next = ast->next;
+		free(ast);
+		ast = next;
 	}
-	write(1, "\r\033[K", 5);
 }

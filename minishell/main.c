@@ -6,7 +6,7 @@
 /*   By: bozil <bozil@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 14:14:44 by bozil             #+#    #+#             */
-/*   Updated: 2025/07/30 17:22:28 by bozil            ###   ########.fr       */
+/*   Updated: 2025/08/04 15:37:13 by bozil            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ static void	run_minishell(char **my_env)
 		}
 		if (*line)
 			add_history(line);
+		ignore_signals();
 		handle_line(line, &my_env);
 		free(line);
 	}
@@ -49,7 +50,6 @@ int	main(int argc, char **argv, char **envp)
 	(void)argc;
 	(void)argv;
 	my_env = dup_env(envp);
-	launch_animation();
 	if (!my_env)
 	{
 		perror("minishell: dup_env failed");

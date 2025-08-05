@@ -6,7 +6,7 @@
 /*   By: bozil <bozil@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 15:00:17 by bozil             #+#    #+#             */
-/*   Updated: 2025/07/30 22:15:37 by bozil            ###   ########.fr       */
+/*   Updated: 2025/07/31 14:56:50 by bozil            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@
 # define EXIT_CANNOT_EXECUTE 126
 # define EXIT_COMMAND_NOT_FOUND 127
 
-# include "../animation/includes/animation.h"
 # include "../utils/libft/libft.h"
 # include "exec.h"
 # include "parse.h"
@@ -50,8 +49,6 @@
 # include <termios.h>
 # include <unistd.h>
 
-extern int			g_exit_status;
-
 typedef struct s_env
 {
 	char			*key;
@@ -65,13 +62,6 @@ typedef struct s_shell
 	char			***envp;
 	int				exit_status;
 }					t_shell;
-
-/* error_message.c */
-void				print_loop(const char *quote);
-void				format_line(char *line, const char *quote);
-
-/* vanish.c */
-void				vanish_effect(char *temp, const char *ref);
 
 /* error_message.c */
 void				puppetmaster_perror(const char *context);

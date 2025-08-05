@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parser_utils3.c                                    :+:      :+:    :+:   */
+/*   parser_utils_redir.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bozil <bozil@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 13:21:59 by bozil             #+#    #+#             */
-/*   Updated: 2025/07/30 22:52:52 by bozil            ###   ########.fr       */
+/*   Updated: 2025/07/31 17:56:11 by bozil            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,6 @@ static void	handle_heredoc_redir(t_parser *parser, t_cmd *node)
 
 	if (!parser || !parser->current || !node)
 		return ;
-	
 	delimiter = parser->current->value;
 	if (!delimiter)
 		delimiter = parser->tokens->value;

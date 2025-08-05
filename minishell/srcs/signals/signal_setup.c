@@ -6,7 +6,7 @@
 /*   By: bozil <bozil@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 14:11:41 by bozil             #+#    #+#             */
-/*   Updated: 2025/07/30 15:13:44 by bozil            ###   ########.fr       */
+/*   Updated: 2025/08/04 15:25:55 by bozil            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,6 @@ void	setup_signals_heredoc(void)
 
 void	setup_signals_child(void)
 {
-	signal(SIGINT, sigint_child_handler);
-	signal(SIGQUIT, sigquit_child_handler);
+	signal(SIGINT, SIG_DFL);
+	signal(SIGQUIT, SIG_IGN);
 }

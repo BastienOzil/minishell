@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_echo.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aurelia <aurelia@student.42.fr>            +#+  +:+       +#+        */
+/*   By: bozil <bozil@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 14:58:39 by bozil             #+#    #+#             */
-/*   Updated: 2025/07/30 16:44:49 by aurelia          ###   ########.fr       */
+/*   Updated: 2025/08/04 15:10:19 by bozil            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,15 @@ static void	print_with_escapes(char *arg)
 		write(1, arg, ft_strlen(arg));
 }
 
+static int	print_echo_arg(char *arg, int interpret)
+{
+	if (interpret)
+		print_with_escapes(arg);
+	else
+		write(1, arg, ft_strlen(arg));
+	return (1);
+}
+
 int	echo_builtin(char **args)
 {
 	int	i;
@@ -61,10 +70,8 @@ int	echo_builtin(char **args)
 	i = parse_options(args, &newline, &interpret_escapes);
 	while (args[i])
 	{
-		if (interpret_escapes)
-			print_with_escapes(args[i]);
-		else
-			write(1, args[i], ft_strlen(args[i]));
+		if (!print_echo_arg(args[i], interpret_escapes))
+			return (1);
 		if (args[i + 1])
 			write(1, " ", 1);
 		i++;
