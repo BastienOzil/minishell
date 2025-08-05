@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expansion_loop.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bozil <bozil@student.42.fr>                +#+  +:+       +#+        */
+/*   By: aurgeorg <aurgeorg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/31 17:41:35 by bozil             #+#    #+#             */
-/*   Updated: 2025/07/31 18:39:15 by bozil            ###   ########.fr       */
+/*   Updated: 2025/08/05 12:02:55 by aurgeorg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static int	handle_quotes_loop(char c, int quote)
 	return (quote);
 }
 
-char	*expand_loop(char *str, char *result, int i, int quote)
+char	*expand_loop(char *str, char *result, int i, int quote, char **envp)
 {
 	while (str[i])
 	{
@@ -43,7 +43,7 @@ char	*expand_loop(char *str, char *result, int i, int quote)
 		else if (str[i] == '$' && str[i + 1] && is_expandable_char(str[i + 1])
 			&& quote != 1)
 		{
-			result = process_variable(str, &i, result);
+			result = process_variable(str, &i, result, envp);
 			if (!result)
 				return (NULL);
 		}

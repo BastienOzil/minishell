@@ -6,7 +6,7 @@
 /*   By: bozil <bozil@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 14:58:15 by bozil             #+#    #+#             */
-/*   Updated: 2025/08/04 10:30:13 by bozil            ###   ########.fr       */
+/*   Updated: 2025/08/05 10:02:05 by bozil            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,8 @@ void	wait_and_set_exit_status(pid_t last_pid)
 	int		status;
 	pid_t	pid;
 
-	while ((pid = wait(&status)) > 0)
+	pid = wait(&status);
+	while (pid > 0)
 	{
 		if (pid == last_pid)
 		{
@@ -72,5 +73,6 @@ void	wait_and_set_exit_status(pid_t last_pid)
 					write(STDERR_FILENO, "Quit: 3\n", 8);
 			}
 		}
+		pid = wait(&status);
 	}
 }

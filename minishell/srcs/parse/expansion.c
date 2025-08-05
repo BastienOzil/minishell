@@ -3,26 +3,42 @@
 /*                                                        :::      ::::::::   */
 /*   expansion.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bozil <bozil@student.42.fr>                +#+  +:+       +#+        */
+/*   By: aurgeorg <aurgeorg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 11:45:28 by bozil             #+#    #+#             */
-/*   Updated: 2025/08/04 10:52:56 by bozil            ###   ########.fr       */
+/*   Updated: 2025/08/05 11:57:24 by aurgeorg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-char	*get_env_value(char *var_name)
+static char	*my_getenv(const char *name, char **envp)
+{
+	int		i, len;
+
+	len = ft_strlen(name);
+	i = 0;
+	while (envp && envp[i])
+	{
+		if (!ft_strncmp(envp[i], name, len) && envp[i][len] == '=')
+			return (envp[i] + len + 1);
+		i++;
+	}
+	return (NULL);
+}
+
+char	*get_env_value(char *var_name, char **envp)
 {
 	char	*value;
 
 	if (ft_strcmp(var_name, "?") == 0)
 		return (ft_itoa(g_exit_status));
-	value = getenv(var_name);
+	value = my_getenv(var_name, envp);
 	if (!value)
 		return (ft_strdup(""));
 	return (ft_strdup(value));
 }
+
 
 char	*get_var_name(t_lexer *lexer)
 {
@@ -40,7 +56,7 @@ char	*get_var_name(t_lexer *lexer)
 	return (ft_substr(lexer->input, start, lexer->i - start));
 }
 
-t_token	*handle_variable(t_lexer *lexer)
+t_token	*handle_variable(t_lexer *lexer, char **envp)
 {
 	char	*var_name;
 	char	*value;
@@ -49,7 +65,7 @@ t_token	*handle_variable(t_lexer *lexer)
 	var_name = get_var_name(lexer);
 	if (!var_name)
 		return (NULL);
-	value = get_env_value(var_name);
+	value = get_env_value(var_name, envp);
 	free(var_name);
 	return (new_token(TOKEN_WORD, value));
 }
@@ -74,7 +90,7 @@ char	*get_expansion_name(char *str, int *i)
 	return (ft_substr(str, start, *i - start));
 }
 
-char	*handle_var_expansion(char *str, int *i)
+char	*handle_var_expansion(char *str, int *i, char **envp)
 {
 	char	*name;
 	char	*value;
@@ -92,7 +108,7 @@ char	*handle_var_expansion(char *str, int *i)
 		free(name);
 		return (ft_itoa(g_exit_status));
 	}
-	value = get_env_value(name);
+	value = get_env_value(name, envp);
 	free(name);
 	if (!value)
 		return (ft_strdup(""));

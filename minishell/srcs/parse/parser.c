@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bozil <bozil@student.42.fr>                +#+  +:+       +#+        */
+/*   By: aurgeorg <aurgeorg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 13:54:43 by bozil             #+#    #+#             */
-/*   Updated: 2025/07/30 16:31:06 by bozil            ###   ########.fr       */
+/*   Updated: 2025/08/05 12:28:15 by aurgeorg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ static t_cmd	*create_pipeline_node(t_cmd *left, t_cmd *right)
 	return (pipeline);
 }
 
-static t_cmd	*handle_pipe_creation(t_parser *parser, t_cmd *left)
+static t_cmd	*handle_pipe_creation(t_parser *parser, t_cmd *left, char **envp)
 {
 	t_cmd	*right;
 	t_cmd	*pipeline;
@@ -47,7 +47,7 @@ static t_cmd	*handle_pipe_creation(t_parser *parser, t_cmd *left)
 		free_ast(left);
 		return (NULL);
 	}
-	right = parse_command(parser);
+	right = parse_command(parser, envp);
 	if (!right)
 	{
 		free_ast(left);
@@ -63,19 +63,19 @@ static t_cmd	*handle_pipe_creation(t_parser *parser, t_cmd *left)
 	return (pipeline);
 }
 
-t_cmd	*parse_pipeline(t_parser *parser)
+t_cmd	*parse_pipeline(t_parser *parser, char ** envp)
 {
 	t_cmd	*left;
 	t_cmd	*result;
 
 	if (!parser || !parser->current)
 		return (NULL);
-	left = parse_command(parser);
+	left = parse_command(parser, envp);
 	if (!left)
 		return (NULL);
 	while (match_token(parser, TOKEN_PIPE))
 	{
-		result = handle_pipe_creation(parser, left);
+		result = handle_pipe_creation(parser, left, envp);
 		if (!result)
 			return (NULL);
 		left = result;
@@ -83,7 +83,7 @@ t_cmd	*parse_pipeline(t_parser *parser)
 	return (left);
 }
 
-t_cmd	*parse(t_token *tokens)
+t_cmd	*parse(t_token *tokens, char **envp)
 {
 	t_parser	parser;
 
@@ -92,5 +92,5 @@ t_cmd	*parse(t_token *tokens)
 	parser.tokens = tokens;
 	parser.current = tokens;
 	parser.error = 0;
-	return (parse_logical(&parser));
+	return (parse_logical(&parser, envp));
 }

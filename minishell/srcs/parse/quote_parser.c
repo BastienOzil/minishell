@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   quote_parser.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bozil <bozil@student.42.fr>                +#+  +:+       +#+        */
+/*   By: aurgeorg <aurgeorg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 14:10:41 by bozil             #+#    #+#             */
-/*   Updated: 2025/08/04 13:56:35 by bozil            ###   ########.fr       */
+/*   Updated: 2025/08/05 12:48:26 by aurgeorg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-char	*get_double_quoted_string(t_lexer *lexer)
+char	*get_double_quoted_string(t_lexer *lexer, char **envp)
 {
 	int		start;
 	char	*raw_content;
@@ -32,7 +32,7 @@ char	*get_double_quoted_string(t_lexer *lexer)
 	lexer->i++;
 	if (!raw_content)
 		return (NULL);
-	expanded_content = expand_string(raw_content);
+	expanded_content = expand_string(raw_content, envp);
 	free(raw_content);
 	if (expanded_content)
 		return (expanded_content);
@@ -56,13 +56,13 @@ char	*get_single_quoted_string(t_lexer *lexer)
 	return (result);
 }
 
-t_token	*handle_quotes(t_lexer *lexer)
+t_token	*handle_quotes(t_lexer *lexer, char **envp)
 {
 	char	*value;
 
 	if (lexer->input[lexer->i] == '"')
 	{
-		value = get_double_quoted_string(lexer);
+		value = get_double_quoted_string(lexer, envp);
 		if (!value)
 			return (NULL);
 		return (new_token(TOKEN_DQUOTE, value));

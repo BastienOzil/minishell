@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bozil <bozil@student.42.fr>                +#+  +:+       +#+        */
+/*   By: aurgeorg <aurgeorg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 15:00:10 by bozil             #+#    #+#             */
-/*   Updated: 2025/07/31 17:59:58 by bozil            ###   ########.fr       */
+/*   Updated: 2025/08/05 12:51:05 by aurgeorg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ typedef struct s_error
 
 /* handle_line.c */
 void				init_lexer(t_lexer *lexer, char *input);
-t_token				*tokenize(char *input);
+t_token				*tokenize(char *input, char **envp);
 void				print_ast(t_cmd *node, int depth);
 void				handle_line(char *line, char ***envp);
 
@@ -59,8 +59,8 @@ int					is_special_except_quotes_and_dollar(char c);
 int					is_space(char c);
 int					is_special(char c);
 int					is_special_except_quotes_and_dollar(char c);
-t_token				*get_complex_word(t_lexer *lexer);
-t_token				*get_next_token(t_lexer *lexer);
+t_token				*get_complex_word(t_lexer *lexer, char **envp);
+t_token				*get_next_token(t_lexer *lexer, char **envp);
 
 /* lexer_cmd.c */
 t_token				*handle_pipe(t_lexer *lexer);
@@ -69,31 +69,31 @@ t_token				*handle_output_redirection(t_lexer *lexer);
 t_token				*handle_and(t_lexer *lexer);
 t_token				*handle_or(t_lexer *lexer);
 t_token				*handle_parentheses(t_lexer *lexer);
-char				*handle_variable_utils(t_lexer *lexer, char *result);
-char				*handle_double_quote(t_lexer *lexer, char *result);
+char				*handle_variable_utils(t_lexer *lexer, char *result, char **envp);
+char				*handle_double_quote(t_lexer *lexer, char *result, char **envp);
 char				*handle_single_quote(t_lexer *lexer, char *result);
 char				*handle_regular_char(t_lexer *lexer, char *result);
 t_token				*handle_or(t_lexer *lexer);
 
 /* quote_parser.c */
-t_token				*handle_quotes(t_lexer *lexer);
-char				*get_double_quoted_string(t_lexer *lexer);
+t_token				*handle_quotes(t_lexer *lexer, char **envp);
+char				*get_double_quoted_string(t_lexer *lexer, char **envp);
 char				*get_single_quoted_string(t_lexer *lexer);
 int					is_quote(char c);
 
 /* expansion.c */
-t_token				*handle_variable(t_lexer *lexer);
-char				*expand_string(char *str);
-char				*get_env_value(char *var_name);
+t_token				*handle_variable(t_lexer *lexer, char **envp);
+char				*expand_string(char *str, char **envp);
+char				*get_env_value(char *var_name, char **envp);
 char				*get_var_name(t_lexer *lexer);
-char				*handle_var_expansion(char *str, int *i);
-char				*expand_loop(char *str, char *result, int i, int quote);
-char				*process_variable(char *str, int *i, char *result);
+char				*handle_var_expansion(char *str, int *i, char **envp);
+char				*expand_loop(char *str, char *result, int i, int quote, char **envp);
+char				*process_variable(char *str, int *i, char *result, char **envp);
 int					is_expandable_char(char c);
 char				*process_character(char *str, int *i, char *result);
 
 /* logical_ops.c */
-t_cmd				*parse_logical(t_parser *parser);
+t_cmd				*parse_logical(t_parser *parser, char **envp);
 
 /* wildcards.c */
 char				**expand_wildcard(char *pattern);
@@ -101,9 +101,9 @@ int					match_pattern(char *pattern, char *str);
 int					count_matches(char *pattern);
 char				**fill_matches(char *pattern, int count);
 /* parser.c */
-t_cmd				*parse_command(t_parser *parser);
-t_cmd				*parse_pipeline(t_parser *parser);
-t_cmd				*parse(t_token *tokens);
+t_cmd				*parse_command(t_parser *parser, char ** envp);
+t_cmd				*parse_pipeline(t_parser *parser, char ** envp);
+t_cmd				*parse(t_token *tokens, char **envp);
 
 /* parser_utils.c */
 t_cmd				*new_node(t_node_type type);

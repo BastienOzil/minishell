@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expansion_string.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bozil <bozil@student.42.fr>                +#+  +:+       +#+        */
+/*   By: aurgeorg <aurgeorg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 17:05:04 by bozil             #+#    #+#             */
-/*   Updated: 2025/08/04 14:59:53 by bozil            ###   ########.fr       */
+/*   Updated: 2025/08/05 12:05:12 by aurgeorg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +24,13 @@ static char	*join_and_free(char *old_str, char *to_add)
 	return (new_str);
 }
 
-char	*process_variable(char *str, int *i, char *result)
+char	*process_variable(char *str, int *i, char *result, char **envp)
 {
 	char	*temp;
 	int		local_i;
 
 	local_i = 0;
-	temp = handle_var_expansion(&str[*i], &local_i);
+	temp = handle_var_expansion(&str[*i], &local_i, envp);
 	if (!temp)
 	{
 		free(result);
@@ -61,7 +61,7 @@ int	is_expandable_char(char c)
 	return (ft_isalnum(c) || c == '_' || c == '?');
 }
 
-char	*expand_string(char *str)
+char	*expand_string(char *str, char **envp)
 {
 	char	*result;
 	int		len;
@@ -79,6 +79,6 @@ char	*expand_string(char *str)
 	result = ft_strdup("");
 	if (!result)
 		return (NULL);
-	return (expand_loop(str, result, 0, 0));
+	return (expand_loop(str, result, 0, 0, envp));
 	return (result);
 }

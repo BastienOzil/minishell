@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   parser_cmd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bozil <bozil@student.42.fr>                +#+  +:+       +#+        */
+/*   By: aurgeorg <aurgeorg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 13:57:21 by bozil             #+#    #+#             */
-/*   Updated: 2025/07/31 17:56:02 by bozil            ###   ########.fr       */
+/*   Updated: 2025/08/05 12:19:25 by aurgeorg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-static void	handle_quoted_token(t_parser *parser, t_cmd *node)
+static void	handle_quoted_token(t_parser *parser, t_cmd *node, char **envp)
 {
 	char	*value;
 	char	*arg;
@@ -21,7 +21,7 @@ static void	handle_quoted_token(t_parser *parser, t_cmd *node)
 		return ;
 	if (parser->current->type == TOKEN_DQUOTE)
 	{
-		value = expand_string(parser->current->value);
+		value = expand_string(parser->current->value, envp);
 		if (value)
 		{
 			node->args = add_arg(node->args, value);
@@ -56,11 +56,11 @@ static void	handle_word_token(t_parser *parser, t_cmd *node)
 	advance_token(parser);
 }
 
-static void	handle_quote_or_redir(t_parser *parser, t_cmd *node)
+static void	handle_quote_or_redir(t_parser *parser, t_cmd *node, char **envp)
 {
 	if (parser->current->type == TOKEN_DQUOTE
 		|| parser->current->type == TOKEN_SQUOTE)
-		handle_quoted_token(parser, node);
+		handle_quoted_token(parser, node, envp);
 	else if (is_redir_token(parser->current->type))
 		parse_redir(parser, node);
 	else
@@ -73,7 +73,7 @@ static int	is_end_of_command(t_token_type type)
 		|| type == TOKEN_OR);
 }
 
-t_cmd	*parse_command(t_parser *parser)
+t_cmd	*parse_command(t_parser *parser, char ** envp)
 {
 	t_cmd	*node;
 
@@ -89,7 +89,7 @@ t_cmd	*parse_command(t_parser *parser)
 		if (parser->current->type == TOKEN_WORD)
 			handle_word_token(parser, node);
 		else
-			handle_quote_or_redir(parser, node);
+			handle_quote_or_redir(parser, node, envp);
 	}
 	return (node);
 }

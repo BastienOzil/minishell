@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bozil <bozil@student.42.fr>                +#+  +:+       +#+        */
+/*   By: aurgeorg <aurgeorg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 12:12:47 by bozil             #+#    #+#             */
-/*   Updated: 2025/07/30 16:31:33 by bozil            ###   ########.fr       */
+/*   Updated: 2025/08/05 12:11:42 by aurgeorg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ t_token	*new_token(t_token_type type, char *value)
 	return (token);
 }
 
-t_token	*get_next_token(t_lexer *lexer)
+t_token	*get_next_token(t_lexer *lexer, char **envp)
 {
 	skip_spaces(lexer);
 	if (!lexer->input[lexer->i])
@@ -63,5 +63,5 @@ t_token	*get_next_token(t_lexer *lexer)
 		return (handle_and(lexer));
 	if (lexer->input[lexer->i] == '(' || lexer->input[lexer->i] == ')')
 		return (handle_parentheses(lexer));
-	return (get_complex_word(lexer));
+	return (get_complex_word(lexer, envp));
 }

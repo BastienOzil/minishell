@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_handle.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bozil <bozil@student.42.fr>                +#+  +:+       +#+        */
+/*   By: aurgeorg <aurgeorg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 12:15:32 by bozil             #+#    #+#             */
-/*   Updated: 2025/07/31 17:55:58 by bozil            ###   ########.fr       */
+/*   Updated: 2025/08/05 12:50:02 by aurgeorg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,11 @@ char	*join_and_update(char *result, char *new_str)
 	return (temp);
 }
 
-char	*handle_double_quote(t_lexer *lexer, char *result)
+char	*handle_double_quote(t_lexer *lexer, char *result, char **envp)
 {
 	char	*quoted;
 
-	quoted = get_double_quoted_string(lexer);
+	quoted = get_double_quoted_string(lexer, envp);
 	if (!quoted)
 		return (NULL);
 	result = join_and_update(result, quoted);
@@ -45,7 +45,7 @@ char	*handle_single_quote(t_lexer *lexer, char *result)
 	return (result);
 }
 
-char	*handle_variable_utils(t_lexer *lexer, char *result)
+char	*handle_variable_utils(t_lexer *lexer, char *result, char **envp)
 {
 	char	*var_name;
 	char	*var_value;
@@ -59,7 +59,7 @@ char	*handle_variable_utils(t_lexer *lexer, char *result)
 	var_name = get_var_name(lexer);
 	if (!var_name)
 		return (NULL);
-	var_value = get_env_value(var_name);
+	var_value = get_env_value(var_name, envp);
 	result = join_and_update(result, var_value);
 	free(var_name);
 	free(var_value);

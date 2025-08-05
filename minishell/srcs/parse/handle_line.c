@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_line.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bozil <bozil@student.42.fr>                +#+  +:+       +#+        */
+/*   By: aurgeorg <aurgeorg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 11:53:36 by bozil             #+#    #+#             */
-/*   Updated: 2025/08/04 15:57:22 by bozil            ###   ########.fr       */
+/*   Updated: 2025/08/05 12:29:05 by aurgeorg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static void	add_token_to_list(t_token **tokens, t_token **current,
 	}
 }
 
-t_token	*tokenize(char *input)
+t_token	*tokenize(char *input, char **envp)
 {
 	t_lexer	lexer;
 	t_token	*tokens;
@@ -45,7 +45,7 @@ t_token	*tokenize(char *input)
 	current = NULL;
 	while (1)
 	{
-		new_tok = get_next_token(&lexer);
+		new_tok = get_next_token(&lexer, envp);
 		if (!new_tok)
 		{
 			free_tokens(tokens);
@@ -61,14 +61,14 @@ t_token	*tokenize(char *input)
 	return (tokens);
 }
 
-static t_cmd	*prepare_ast(char *line, t_token **tokens)
+static t_cmd	*prepare_ast(char *line, t_token **tokens, char **envp)
 {
 	t_cmd	*ast;
 
-	*tokens = tokenize(line);
+	*tokens = tokenize(line, envp);
 	if (!*tokens)
 		return (NULL);
-	ast = parse(*tokens);
+	ast = parse(*tokens, envp);
 	if (!ast)
 	{
 		free_tokens(*tokens);
@@ -85,7 +85,7 @@ void	handle_line(char *line, char ***envp)
 	if (!line || !*line)
 		return ;
 	ignore_signals();
-	ast = prepare_ast(line, &tokens);
+	ast = prepare_ast(line, &tokens, *envp);
 	if (!ast)
 	{
 		setup_signals_interactive();

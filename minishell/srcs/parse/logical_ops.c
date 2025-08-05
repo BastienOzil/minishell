@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   logical_ops.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bozil <bozil@student.42.fr>                +#+  +:+       +#+        */
+/*   By: aurgeorg <aurgeorg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 13:03:58 by bozil             #+#    #+#             */
-/*   Updated: 2025/07/30 16:57:25 by bozil            ###   ########.fr       */
+/*   Updated: 2025/08/05 12:27:43 by aurgeorg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
 static t_cmd	*create_logical_node(t_cmd *left, t_token_type op_type,
-		t_parser *parser)
+		t_parser *parser, char ** envp)
 {
 	t_cmd	*logical;
 
@@ -27,7 +27,7 @@ static t_cmd	*create_logical_node(t_cmd *left, t_token_type op_type,
 		return (NULL);
 	}
 	logical->left = left;
-	logical->right = parse_pipeline(parser);
+	logical->right = parse_pipeline(parser, envp);
 	if (!logical->right)
 	{
 		free_ast(logical);
@@ -36,14 +36,14 @@ static t_cmd	*create_logical_node(t_cmd *left, t_token_type op_type,
 	return (logical);
 }
 
-t_cmd	*parse_logical(t_parser *parser)
+t_cmd	*parse_logical(t_parser *parser, char **envp)
 {
 	t_cmd			*left;
 	t_token_type	op_type;
 
 	if (!parser || !parser->current)
 		return (NULL);
-	left = parse_pipeline(parser);
+	left = parse_pipeline(parser, envp);
 	if (!left)
 		return (NULL);
 	while (parser->current && (parser->current->type == TOKEN_AND
@@ -51,7 +51,7 @@ t_cmd	*parse_logical(t_parser *parser)
 	{
 		op_type = parser->current->type;
 		advance_token(parser);
-		left = create_logical_node(left, op_type, parser);
+		left = create_logical_node(left, op_type, parser, envp);
 		if (!left)
 			return (NULL);
 	}
